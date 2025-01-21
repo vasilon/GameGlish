@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:67159819302:android:9709ab799ff0e74c8112e7",
+        "mobilesdk_app_id": "1:67159819302:android:4f5258e2787db4688112e7",
         "android_client_info": {
-          "package_name": "com.example.engliquest"
+          "package_name": "com.example.gameglish"
         }
       },
       "oauth_client": [],

@@ -1,3 +1,4 @@
+// EntityEstadistica.kt
 package com.example.gameglish.data.model
 
 import androidx.room.Entity
@@ -6,11 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "estadisticas")
 data class EntityEstadistica(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val enunciado: String,
-    val opcionA: String,
-    val opcionB: String,
-    val opcionC: String,
-    val opcionCorrecta: String,
-    val tema: String,
-    val nivel: Int
+    val userId: String,
+    val fecha: Long,
+    val aciertos: Int,
+    val errores: Int,
+    val puntos: Int
 )

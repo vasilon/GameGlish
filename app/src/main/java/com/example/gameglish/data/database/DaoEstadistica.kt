@@ -1,3 +1,4 @@
+// DaoEstadistica.kt
 package com.example.gameglish.data.database
 
 import androidx.room.Dao
@@ -6,12 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.gameglish.data.model.EntityEstadistica
 
-
 @Dao
-interface EstadisticaDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEstadistica(estadistica: EntityEstadistica)
+interface DaoEstadistica {
 
-    @Query("SELECT * FROM estadisticas WHERE id = :userId")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEstadistica(est: EntityEstadistica): Long
+
+    @Query("SELECT * FROM estadisticas WHERE userId = :userId")
     suspend fun getEstadisticasByUser(userId: String): List<EntityEstadistica>
+
+    @Query("SELECT * FROM estadisticas")
+    suspend fun getAllEstadisticas(): List<EntityEstadistica>
 }
