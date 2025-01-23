@@ -35,11 +35,14 @@ fun GameGlishNavHost(navController: NavHostController) {
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = {
-                    navController.popBackStack() // Volver a la pantalla de login
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
                 }
             )
         }
         composable(Screen.Home.route) {
+
             HomeScreen(navController = navController)
         }
         composable(Screen.ModoIndividual.route) {
