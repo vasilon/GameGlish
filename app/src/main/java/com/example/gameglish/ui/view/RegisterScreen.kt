@@ -16,9 +16,8 @@ import com.example.gameglish.ui.viewmodel.LoginState
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    onNavigateToRegister: () -> Unit,
+fun RegisterScreen(
+    onRegisterSuccess: () -> Unit,
     loginViewModel: LoginViewModel = viewModel()
 ) {
     var email by remember { mutableStateOf("") }
@@ -44,7 +43,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "GameGlish",
+                text = "Registro en GameGlish",
                 style = MaterialTheme.typography.headlineSmall,
                 color = Color(0xFF243484)
             )
@@ -70,25 +69,25 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { loginViewModel.iniciarSesion(email, password) },
+                onClick = { loginViewModel.registrarUsuario(email, password) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Iniciar Sesión")
+                Text("Registrar")
             }
             Spacer(modifier = Modifier.height(8.dp))
 
             TextButton(
-                onClick = { onNavigateToRegister() },
+                onClick = onRegisterSuccess,  // Volver al login
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("¿No tienes cuenta? Regístrate")
+                Text("¿Ya tienes cuenta? Inicia sesión")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             when (loginState) {
-                LoginState.Success -> onLoginSuccess()
-                LoginState.Error -> Text("Error al iniciar sesión", color = Color.Red)
+                LoginState.Success -> onRegisterSuccess()
+                LoginState.Error -> Text("Error al registrar usuario", color = Color.Red)
                 LoginState.Loading -> CircularProgressIndicator()
                 else -> {}
             }

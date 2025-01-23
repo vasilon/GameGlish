@@ -32,9 +32,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             val exito = usuarioRepository.registrarUsuarioCorreo(email, password)
-            Toast.makeText(getApplication(), "Usuario registrado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getApplication(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
             _loginState.value = if (exito) LoginState.Success else LoginState.Error
         }
     }
 
+    fun resetState() {
+        _loginState.value = LoginState.Idle
+    }
 }
+
