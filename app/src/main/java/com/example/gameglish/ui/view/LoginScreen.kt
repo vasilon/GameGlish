@@ -44,7 +44,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "GameGlish",
+                text = "Inicia sesión",
                 style = MaterialTheme.typography.headlineSmall,
                 color = Color(0xFF243484)
             )

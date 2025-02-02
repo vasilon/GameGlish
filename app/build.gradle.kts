@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
+    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:31.1.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
@@ -53,6 +53,8 @@ dependencies {
     // Room / SQLite
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.animation.core.lint)
     ksp("androidx.room:room-compiler:2.6.1")
 
     // Other necessary libraries (ViewModel, LiveData, etc.)

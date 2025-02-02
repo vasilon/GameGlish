@@ -1,6 +1,7 @@
 package com.example.gameglish.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import kotlinx.coroutines.launch
@@ -28,18 +29,28 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun registrarUsuario(email: String, password: String) {
+    fun registrarUsuario(email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
-            val exito = usuarioRepository.registrarUsuarioCorreo(email, password)
-            Toast.makeText(getApplication(), "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-            _loginState.value = if (exito) LoginState.Success else LoginState.Error
+            Log.d("LoginViewModel", "Attempting to register user: $email")
+
+            val exito = usuarioRepository.registrarUsuarioCorreo(email, password, confirmPassword)
+            Log.d("LoginViewModel", "Registration success: $exito")
+
+            if (exito) {
+                _loginState.value = LoginState.Success
+                Log.d("LoginViewModel", "State updated to SUCCESS")
+            } else {
+                _loginState.value = LoginState.Error
+                Log.d("LoginViewModel", "State updated to ERROR")
+            }
         }
     }
+
+
+
 
     fun resetState() {
         _loginState.value = LoginState.Idle
     }
 }
-
-

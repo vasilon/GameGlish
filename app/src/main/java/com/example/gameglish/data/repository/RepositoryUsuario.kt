@@ -1,5 +1,6 @@
 package com.example.gameglish.data.repository
 
+import android.util.Log
 import com.example.gameglish.data.database.DaoUsuario
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityUsuario
@@ -22,8 +23,12 @@ class RepositoryUsuario(
         }
     }
 
-    suspend fun registrarUsuarioCorreo(email: String, password: String): Boolean {
+    suspend fun registrarUsuarioCorreo(email: String, password: String, confirmpassword: String): Boolean {
         return try {
+            if (password != confirmpassword) {
+                return false
+            }
+            Log.d("RepositoryUsuario", "Creating user with email: $email")
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val userId = result.user?.uid ?: return false
 
@@ -32,12 +37,20 @@ class RepositoryUsuario(
                 "puntos" to 0,
                 "nivel" to 1
             )
-            remoteDb.child("usuarios").child(userId).setValue(usuarioData).await()
-            true
+            Log.d("RepositoryUsuario", "Saving user data to remote database for userId: $userId")
+
+            // 🔹 Realizar setValue() sin bloquear el flujo
+            remoteDb.child("usuarios").child(userId).setValue(usuarioData)
+
+            Log.d("RepositoryUsuario", "User data saved successfully")
+            return true
         } catch (e: Exception) {
-            false
+            Log.e("RepositoryUsuario", "Error registering user: ${e.message}")
+            e.printStackTrace()
+            return false
         }
     }
+
 
     suspend fun guardarUsuarioLocal(usuario: EntityUsuario) {
         db.usuarioDao().insertarUsuario(usuario)
