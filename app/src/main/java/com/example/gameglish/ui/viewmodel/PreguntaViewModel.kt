@@ -1,41 +1,66 @@
+// Kotlin
 package com.example.gameglish.ui.viewmodel
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.launch
 import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.database.GameGlishDatabase
+import com.example.gameglish.data.model.EntityEstadistica
 import com.example.gameglish.data.model.EntityPregunta
+import com.example.gameglish.data.model.EntityUsuario
+import com.example.gameglish.data.repository.RepositoryEstadistica
 import com.example.gameglish.data.repository.RepositoryPregunta
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import com.example.gameglish.data.repository.RepositoryUsuario
-
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 class PreguntaViewModel(application: Application) : AndroidViewModel(application) {
+    private val db = GameGlishDatabase.getDatabase(application)
+    private val repository = RepositoryPregunta(db)
+    private val repositoryEstadistica = RepositoryEstadistica(db)
+    private val repositoryUsuario = RepositoryUsuario(db)
 
-    private val preguntaRepository: RepositoryPregunta
+    // StateFlow for questions
+    val preguntas = MutableStateFlow<List<EntityPregunta>>(emptyList())
 
-    init {
-        val db = GameGlishDatabase.getDatabase(application)
-        preguntaRepository = RepositoryPregunta(db)
+    fun cargarPreguntasGramatica(context: Context) {
+        viewModelScope.launch {
+            if (repository.getPreguntasPorTema("Gramatica").isEmpty()) {
+                repository.insertarPreguntasGramaticaDesdeJson(context)
+            }
+            preguntas.value = repository.getPreguntasPorTema("Gramatica")
+        }
     }
 
-//    fun cargarPreguntas(context: Context) {
-//        viewModelScope.launch {
-//            preguntaRepository.insertarPreguntasDesdeJson(context)
-//        }
-//    }
-
-    fun obtenerPreguntasPorTema(tema: String): LiveData<List<EntityPregunta>> {
-        val preguntasLiveData = MutableLiveData<List<EntityPregunta>>()
+    // Function to submit statistics after test is finished.
+    fun submitEstadistica(correctCount: Int, total: Int) {
         viewModelScope.launch {
-            preguntasLiveData.postValue(preguntaRepository.getPreguntasPorTema(tema))
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
+            val errores = total - correctCount
+            val puntos = correctCount * 10  // Example: 10 points per correct answer.
+            val estadistica = EntityEstadistica(
+                userId = userId,
+                fecha = System.currentTimeMillis(),
+                aciertos = correctCount,
+                errores = errores,
+                puntos = puntos
+            )
+            repositoryEstadistica.insertEstadistica(estadistica)
         }
-        return preguntasLiveData
+    }
+
+    // New function to update the user's points.
+    fun addPuntosToUsuario(nuevosPuntos: Int) {
+        viewModelScope.launch {
+            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            val usuario: EntityUsuario? = repositoryUsuario.obtenerUsuarioLocal(uid)
+            if (usuario != null) {
+                val updatedUsuario = usuario.copy(puntos = usuario.puntos + nuevosPuntos)
+                repositoryUsuario.guardarUsuarioLocal(updatedUsuario)
+                repositoryUsuario.guardarUsuarioRemoto(updatedUsuario)
+            }
+        }
     }
 }

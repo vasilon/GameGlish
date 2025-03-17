@@ -1,7 +1,6 @@
+// Kotlin
 package com.example.gameglish.data.repository
 
-import android.util.Log
-import com.example.gameglish.data.database.DaoUsuario
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityUsuario
 import com.google.firebase.auth.FirebaseAuth
@@ -23,34 +22,73 @@ class RepositoryUsuario(
         }
     }
 
-    suspend fun registrarUsuarioCorreo(email: String, password: String, confirmpassword: String): Boolean {
-        return try {
-            if (password != confirmpassword) {
-                return false
-            }
-            Log.d("RepositoryUsuario", "Creating user with email: $email")
+    suspend fun registrarUsuarioCorreo(
+        email: String,
+        password: String,
+        confirmPassword: String,
+        nombre: String,
+        nivelSeleccionado: String
+    ): Boolean {
+        if (password != confirmPassword) {
+            return false
+        }
+        try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
-            val userId = result.user?.uid ?: return false
+            val uid = result.user?.uid ?: return false
 
+            val nivelMap = mapOf(
+                "A1" to 1,
+                "A2" to 2,
+                "B1" to 3,
+                "B2" to 4,
+                "C1" to 5,
+                "C2" to 6,
+                "NATIVE" to 7
+            )
+            val nivelInt = nivelMap[nivelSeleccionado] ?: 1
+
+            val usuario = EntityUsuario(
+                uidFirebase = uid,
+                email = email,
+                nombre = nombre,
+                puntos = 0,
+                nivel = nivelInt
+            )
+            guardarUsuarioLocal(usuario)
+            guardarUsuarioRemoto(usuario)
             val usuarioData = mapOf(
                 "email" to email,
+                "nombre" to nombre,
                 "puntos" to 0,
-                "nivel" to 1
+                "nivel" to nivelSeleccionado
             )
-            Log.d("RepositoryUsuario", "Saving user data to remote database for userId: $userId")
-
-            // 🔹 Realizar setValue() sin bloquear el flujo
-            remoteDb.child("usuarios").child(userId).setValue(usuarioData)
-
-            Log.d("RepositoryUsuario", "User data saved successfully")
+            remoteDb.child("usuarios").child(uid).setValue(usuarioData).await()
             return true
         } catch (e: Exception) {
-            Log.e("RepositoryUsuario", "Error registering user: ${e.message}")
             e.printStackTrace()
             return false
         }
     }
 
+    // New function to update user profile details.
+    suspend fun actualizarUsuarioProfile(uid: String, nombre: String, nivelSeleccionado: String) {
+        val usuario = obtenerUsuarioLocal(uid)
+        if (usuario != null) {
+            val nivelMap = mapOf(
+                "A1" to 1,
+                "A2" to 2,
+                "B1" to 3,
+                "B2" to 4,
+                "C1" to 5,
+                "C2" to 6,
+                "NATIVE" to 7
+            )
+            val nivelInt = nivelMap[nivelSeleccionado] ?: usuario.nivel
+            val updatedUsuario = usuario.copy(nombre = nombre, nivel = nivelInt)
+            guardarUsuarioLocal(updatedUsuario)
+            guardarUsuarioRemoto(updatedUsuario)
+        }
+    }
 
     suspend fun guardarUsuarioLocal(usuario: EntityUsuario) {
         db.usuarioDao().insertarUsuario(usuario)
@@ -64,8 +102,4 @@ class RepositoryUsuario(
         val uid = auth.currentUser?.uid ?: return
         remoteDb.child("usuarios").child(uid).setValue(usuario).await()
     }
-
-
-
-
 }
