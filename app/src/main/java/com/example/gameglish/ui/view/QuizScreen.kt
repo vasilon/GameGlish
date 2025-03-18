@@ -26,8 +26,8 @@ fun QuizScreen(onComplete: (Int) -> Unit) {
     var selectedAnswer by remember { mutableStateOf("") }
 
     val preguntas = listOf(
-        EntityPregunta(enunciado = "What is the capital of France?", opcionA = "Paris", opcionB = "London", opcionC = "Rome", opcionCorrecta = "A", tema = "General", nivel = 1),
-        EntityPregunta(enunciado = "What is 2+2?", opcionA = "3", opcionB = "4", opcionC = "5", opcionCorrecta = "B", tema = "Math", nivel = 1)
+        EntityPregunta(enunciado = "What is the capital of France?", opcionA = "Paris", opcionB = "London", opcionC = "Rome", opcionD = "Madrid",opcionCorrecta = "A", tema = "General", nivel = 1),
+        EntityPregunta(enunciado = "What is 2+2?", opcionA = "3", opcionB = "4", opcionC = "5", opcionCorrecta = "B", tema = "Math", opcionD = "3", nivel = 1)
     )
 
     if (currentQuestionIndex < preguntas.size) {

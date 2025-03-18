@@ -40,6 +40,7 @@ class RepositoryPregunta(private val db: GameGlishDatabase) {
             val opcionA = answersArray.getJSONObject(0).getString("text")
             val opcionB = answersArray.getJSONObject(1).getString("text")
             val opcionC = answersArray.getJSONObject(2).getString("text")
+            val opcionD = answersArray.getJSONObject(3).getString("text")
             val opcionCorrecta = questionObj.getString("correctAnswerId")
             // Asignamos "Gramatica" como tema para estas preguntas
             val tema = "Gramatica"
@@ -49,6 +50,9 @@ class RepositoryPregunta(private val db: GameGlishDatabase) {
                 "A2" -> 2
                 "B1" -> 3
                 "B2" -> 4
+                "C1" -> 5
+                "C2" -> 6
+                "NATIVE" -> 7
                 else -> 1
             }
             questionsList.add(
@@ -57,6 +61,7 @@ class RepositoryPregunta(private val db: GameGlishDatabase) {
                     opcionA = opcionA,
                     opcionB = opcionB,
                     opcionC = opcionC,
+                    opcionD = opcionD,
                     opcionCorrecta = opcionCorrecta,
                     tema = tema,
                     nivel = nivel

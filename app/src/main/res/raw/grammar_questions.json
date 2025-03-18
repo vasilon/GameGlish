@@ -24,119 +24,464 @@
       "level": "A1"
     },
     {
-      "question": "Choose the correct preposition: 'I am interested ____ learning languages.'",
+      "question": "Complete the sentence: 'They ____ in the park every Sunday.'",
       "answers": [
         {
           "id": "a",
-          "text": "on"
+          "text": "play"
         },
         {
           "id": "b",
-          "text": "in"
+          "text": "plays"
         },
         {
           "id": "c",
-          "text": "at"
+          "text": "playing"
         },
         {
           "id": "d",
-          "text": "with"
+          "text": "played"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "Fill in the blank: 'I ____ a book every night.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "read"
+        },
+        {
+          "id": "b",
+          "text": "reads"
+        },
+        {
+          "id": "c",
+          "text": "reading"
+        },
+        {
+          "id": "d",
+          "text": "readd"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "Choose the correct option: 'He ____ his homework before dinner.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "do"
+        },
+        {
+          "id": "b",
+          "text": "does"
+        },
+        {
+          "id": "c",
+          "text": "did"
+        },
+        {
+          "id": "d",
+          "text": "doing"
         }
       ],
       "correctAnswerId": "b",
       "level": "A2"
     },
     {
-      "question": "What does 'break the ice' mean?",
+      "question": "Fill in the blank: 'We ____ to the market on weekends.'",
       "answers": [
         {
           "id": "a",
-          "text": "To physically break ice"
+          "text": "go"
         },
         {
           "id": "b",
-          "text": "To make people feel more comfortable"
+          "text": "went"
         },
         {
           "id": "c",
-          "text": "To have a cold drink"
+          "text": "goes"
         },
         {
           "id": "d",
-          "text": "To be late to an event"
+          "text": "gone"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "What is the correct word? 'They ____ happy with their results.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "is"
+        },
+        {
+          "id": "b",
+          "text": "are"
+        },
+        {
+          "id": "c",
+          "text": "am"
+        },
+        {
+          "id": "d",
+          "text": "be"
+        }
+      ],
+      "correctAnswerId": "b",
+      "level": "A2"
+    },
+    {
+      "question": "Select the correct sentence: 'I ____ my keys yesterday.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "lose"
+        },
+        {
+          "id": "b",
+          "text": "lost"
+        },
+        {
+          "id": "c",
+          "text": "loses"
+        },
+        {
+          "id": "d",
+          "text": "losing"
         }
       ],
       "correctAnswerId": "b",
       "level": "B1"
     },
     {
-      "question": "Choose the correct sentence:",
+      "question": "Fill in the blank: 'If it ____ tomorrow, we will cancel the picnic.'",
       "answers": [
         {
           "id": "a",
-          "text": "I have seen her yesterday."
+          "text": "rains"
         },
         {
           "id": "b",
-          "text": "I saw her yesterday."
+          "text": "rain"
         },
         {
           "id": "c",
-          "text": "I seen her yesterday."
+          "text": "rained"
         },
         {
           "id": "d",
-          "text": "I see her yesterday."
+          "text": "will rain"
         }
       ],
-      "correctAnswerId": "b",
+      "correctAnswerId": "a",
       "level": "B1"
     },
     {
-      "question": "What is the passive voice of the sentence 'They will complete the project next month.'?",
+      "question": "Complete the sentence: 'She ____ French, but she wants to learn Spanish.'",
       "answers": [
         {
           "id": "a",
-          "text": "The project will be completed next month."
+          "text": "speaks"
         },
         {
           "id": "b",
-          "text": "The project will completed next month."
+          "text": "speak"
         },
         {
           "id": "c",
-          "text": "The project is completed next month."
+          "text": "spoke"
         },
         {
           "id": "d",
-          "text": "The project is going to completed next month."
+          "text": "speaked"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "Choose the right option: 'They ____ finished their work when I arrived.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "had"
+        },
+        {
+          "id": "b",
+          "text": "have"
+        },
+        {
+          "id": "c",
+          "text": "has"
+        },
+        {
+          "id": "d",
+          "text": "did"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "Fill in the blank: 'By the time we arrived, the film ____ already started.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "had"
+        },
+        {
+          "id": "b",
+          "text": "has"
+        },
+        {
+          "id": "c",
+          "text": "have"
+        },
+        {
+          "id": "d",
+          "text": "was"
         }
       ],
       "correctAnswerId": "a",
       "level": "B2"
     },
     {
-      "question": "Which of the following is an example of a conditional sentence?",
+      "question": "Choose the correct sentence: 'He ____ to work by bus every day.'",
       "answers": [
         {
           "id": "a",
-          "text": "She goes to school every day."
+          "text": "used go"
         },
         {
           "id": "b",
-          "text": "If it rains, we will stay inside."
+          "text": "used to go"
         },
         {
           "id": "c",
-          "text": "I am watching a movie now."
+          "text": "use to go"
         },
         {
           "id": "d",
-          "text": "They left an hour ago."
+          "text": "used to went"
         }
       ],
       "correctAnswerId": "b",
       "level": "B2"
+    },
+    {
+      "question": "Complete the sentence: 'They will ____ the meeting if the manager approves.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "cancel"
+        },
+        {
+          "id": "b",
+          "text": "cancelling"
+        },
+        {
+          "id": "c",
+          "text": "canceled"
+        },
+        {
+          "id": "d",
+          "text": "cancelled"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "B2"
+    },
+    {
+      "question": "Select the correct form: 'It is essential that every student ____ the guidelines carefully.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "follows"
+        },
+        {
+          "id": "b",
+          "text": "follow"
+        },
+        {
+          "id": "c",
+          "text": "followed"
+        },
+        {
+          "id": "d",
+          "text": "following"
+        }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Fill in the blank: 'I suggest that he ____ his work before submitting it.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "revises"
+        },
+        {
+          "id": "b",
+          "text": "revise"
+        },
+        {
+          "id": "c",
+          "text": "revised"
+        },
+        {
+          "id": "d",
+          "text": "revising"
+        }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Choose the best option: 'It is crucial that she ____ informed about the changes.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "is"
+        },
+        {
+          "id": "b",
+          "text": "be"
+        },
+        {
+          "id": "c",
+          "text": "are"
+        },
+        {
+          "id": "d",
+          "text": "being"
+        }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Fill in the blank: 'Had I ____ the instructions, I would not have made that mistake.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "read"
+        },
+        {
+          "id": "b",
+          "text": "readed"
+        },
+        {
+          "id": "c",
+          "text": "reads"
+        },
+        {
+          "id": "d",
+          "text": "reading"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "Choose the correct form: 'It is imperative that he ____ the proposal thoroughly before submission.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "reviews"
+        },
+        {
+          "id": "b",
+          "text": "review"
+        },
+        {
+          "id": "c",
+          "text": "reviewed"
+        },
+        {
+          "id": "d",
+          "text": "reviewing"
+        }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Fill in the blank: 'No sooner ____ the meeting than the alarm rang.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "had"
+        },
+        {
+          "id": "b",
+          "text": "has"
+        },
+        {
+          "id": "c",
+          "text": "have"
+        },
+        {
+          "id": "d",
+          "text": "did"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Select the correct option: 'Hardly ____ I arrived when the conversation started.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "had"
+        },
+        {
+          "id": "b",
+          "text": "has"
+        },
+        {
+          "id": "c",
+          "text": "have"
+        },
+        {
+          "id": "d",
+          "text": "did"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Complete the sentence: 'Not only ____ she an expert, but she is also an influential leader.'",
+      "answers": [
+        {
+          "id": "a",
+          "text": "is"
+        },
+        {
+          "id": "b",
+          "text": "was"
+        },
+        {
+          "id": "c",
+          "text": "has been"
+        },
+        {
+          "id": "d",
+          "text": "are"
+        }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
     }
   ]
 }
