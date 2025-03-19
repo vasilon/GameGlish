@@ -20,6 +20,7 @@ import com.example.gameglish.data.model.EntityEstadistica
 import com.example.gameglish.data.model.EntityUsuario
 import com.example.gameglish.data.repository.RepositoryEstadistica
 import com.example.gameglish.data.repository.RepositoryUsuario
+import com.example.gameglish.ui.navigation.Screen
 import com.example.gameglish.ui.viewmodel.StatsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -73,6 +74,14 @@ fun StatsScreen(navController: NavController) {
             ) {
                 // Tarjeta con la información del usuario.
                 if (usuario != null) {
+                    Button(
+                        onClick = { navController.navigate(Screen.Ranking.route) },
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        Text(text = "Global Ranking")
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = MaterialTheme.shapes.medium,

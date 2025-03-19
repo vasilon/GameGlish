@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "67159819302",
+    "firebase_url": "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "gameglish",
     "storage_bucket": "gameglish.firebasestorage.app"
   },

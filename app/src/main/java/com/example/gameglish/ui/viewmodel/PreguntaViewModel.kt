@@ -37,17 +37,20 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
     // Function to submit statistics after test is finished.
     fun submitEstadistica(correctCount: Int, total: Int) {
         viewModelScope.launch {
-            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
-            val errores = total - correctCount
-            val puntos = correctCount * 10  // Example: 10 points per correct answer.
-            val estadistica = EntityEstadistica(
-                userId = userId,
-                fecha = System.currentTimeMillis(),
-                aciertos = correctCount,
-                errores = errores,
-                puntos = puntos
-            )
-            repositoryEstadistica.insertEstadistica(estadistica)
+            FirebaseAuth.getInstance().currentUser?.uid?.let { userId ->
+                val errores = total - correctCount
+                val puntos = correctCount * 10
+                val estadistica = EntityEstadistica(
+                    userId = userId,
+                    fecha = System.currentTimeMillis(),
+                    aciertos = correctCount,
+                    errores = errores,
+                    puntos = puntos
+                )
+                repositoryEstadistica.insertEstadistica(estadistica)
+            } ?: run {
+                // Log error or alert that the user is not authenticated.
+            }
         }
     }
 

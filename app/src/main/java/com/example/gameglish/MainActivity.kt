@@ -13,11 +13,13 @@ import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.navigation.GameGlishNavHost
 import com.example.gameglish.ui.theme.GameGlishTheme
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             GameGlishApp()
         }

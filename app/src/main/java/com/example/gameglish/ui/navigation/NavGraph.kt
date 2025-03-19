@@ -23,6 +23,7 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object Register : Screen("register")
     object Statistics : Screen("stats")
+    object Ranking : Screen("ranking")
     object Vocabulario : Screen("vocabulario")
     object Gramatica : Screen("gramatica")
     object GramaticaQuestions : Screen("gramatica_questions")
@@ -90,6 +91,9 @@ fun GameGlishNavHost(
         }
         composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)
+        }
+        composable(Screen.Ranking.route) {
+            GlobalRankingScreen(navController = navController)
         }
         composable(Screen.ModoIndividual.route) {
             ModoIndividualScreen(
