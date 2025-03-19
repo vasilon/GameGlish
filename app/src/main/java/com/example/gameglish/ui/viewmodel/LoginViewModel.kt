@@ -6,9 +6,9 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.database.GameGlishDatabase
+import com.example.gameglish.data.repository.RepositoryUsuario
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.example.gameglish.data.repository.RepositoryUsuario
 import kotlinx.coroutines.launch
 
 enum class LoginState { Idle, Loading, Success, Error }
@@ -24,8 +24,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun iniciarSesion(email: String, password: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
-            val exito = usuarioRepository.iniciarSesionCorreo(email, password)
-            _loginState.value = if (exito) LoginState.Success else LoginState.Error
+            try {
+                val exito = usuarioRepository.iniciarSesionCorreo(email, password)
+                _loginState.value = if (exito) LoginState.Success else LoginState.Error
+            } catch (e: Exception) {
+                Log.e("LoginViewModel", "Error during login", e)
+                _loginState.value = LoginState.Error
+            }
         }
     }
 
@@ -40,11 +45,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             Log.d("LoginViewModel", "Attempting to register user: $email")
-            val exito = usuarioRepository.registrarUsuarioCorreo(
-                email, password, confirmPassword, nombre, nivelSeleccionado
-            )
-            Log.d("LoginViewModel", "Registration success: $exito")
-            _loginState.value = if (exito) LoginState.Success else LoginState.Error
+            try {
+                val exito = usuarioRepository.registrarUsuarioCorreo(
+                    email, password, confirmPassword, nombre, nivelSeleccionado
+                )
+                Log.d("LoginViewModel", "Registration success: $exito")
+                _loginState.value = if (exito) LoginState.Success else LoginState.Error
+            } catch (e: Exception) {
+                Log.e("LoginViewModel", "Error during registration", e)
+                _loginState.value = LoginState.Error
+            }
         }
     }
 

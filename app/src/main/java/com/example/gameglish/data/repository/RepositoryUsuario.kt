@@ -6,6 +6,7 @@ import com.example.gameglish.data.model.EntityUsuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 
 class RepositoryUsuario(
     private val db: GameGlishDatabase
@@ -55,14 +56,10 @@ class RepositoryUsuario(
                 nivel = nivelInt
             )
             guardarUsuarioLocal(usuario)
-            guardarUsuarioRemoto(usuario)
-            val usuarioData = mapOf(
-                "email" to email,
-                "nombre" to nombre,
-                "puntos" to 0,
-                "nivel" to nivelSeleccionado
-            )
-            remoteDb.child("usuarios").child(uid).setValue(usuarioData).await()
+            // Wrap remote update in a timeout to prevent an infinite wait.
+            withTimeoutOrNull(3000L) {
+                guardarUsuarioRemoto(usuario)
+            }
             return true
         } catch (e: Exception) {
             e.printStackTrace()
