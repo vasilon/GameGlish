@@ -20,6 +20,9 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object ModoIndividual : Screen("modo_individual")
     object ModoCompetitivo : Screen("modo_competitivo")
+    object HostGame : Screen("host_game")
+    object JoinGame : Screen("join_game")
+    object CompetitiveGame : Screen("competitive_game")
     object Settings : Screen("settings")
     object Register : Screen("register")
     object Statistics : Screen("stats")
@@ -81,7 +84,22 @@ fun GameGlishNavHost(
             HomeScreen(navController = navController)
         }
         composable(Screen.ModoCompetitivo.route) {
-            ModoCompetitivoScreen()
+            ModoCompetitivoScreen(
+                navController = navController,
+                onHostGame = { navController.navigate(Screen.HostGame.route) },
+                onJoinGame = { navController.navigate(Screen.JoinGame.route) }
+            )
+        }
+        composable(Screen.HostGame.route) {
+            // Pantalla para crear la partida, donde se invoca RepositoryCompetitivo.createGame
+            HostGameScreen(navController = navController)
+        }
+        composable(Screen.JoinGame.route) {
+            // Pantalla para unirse a una partida, por ejemplo, con un campo para ingresar el código de partida
+            JoinGameScreen(navController = navController)
+        }
+        composable(Screen.CompetitiveGame.route) {
+            CompetitiveGameScreen(navController = navController)
         }
         composable(Screen.Settings.route) {
             SettingsScreen()
