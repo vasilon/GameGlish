@@ -1,18 +1,18 @@
-// Kotlin
 package com.example.gameglish.ui.navigation
 
 import StatsScreen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.gameglish.ui.components.BackTopAppBar
 import com.example.gameglish.ui.view.*
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 
 sealed class Screen(val route: String) {
@@ -22,7 +22,9 @@ sealed class Screen(val route: String) {
     object ModoCompetitivo : Screen("modo_competitivo")
     object HostGame : Screen("host_game")
     object JoinGame : Screen("join_game")
-    object CompetitiveGame : Screen("competitive_game")
+    object CompetitiveGame : Screen("competitive_game/{gameId}") {
+        fun createRoute(gameId: String) = "competitive_game/$gameId"
+    }
     object Settings : Screen("settings")
     object Register : Screen("register")
     object Statistics : Screen("stats")
@@ -44,9 +46,7 @@ fun GameGlishNavHost(
         composable(Screen.Login.route) {
             LoginScreen(
                 navController = navController,
-                onNavigateToRegister = {
-                    navController.navigate(Screen.Register.route)
-                }
+                onNavigateToRegister = { navController.navigate(Screen.Register.route) }
             )
         }
         composable(Screen.Register.route) {
@@ -58,7 +58,6 @@ fun GameGlishNavHost(
                 }
             )
         }
-        // First time registration composable.
         composable(Screen.FirstTimeRegistration.route) {
             val context = androidx.compose.ui.platform.LocalContext.current
             val scope = rememberCoroutineScope()
@@ -91,15 +90,17 @@ fun GameGlishNavHost(
             )
         }
         composable(Screen.HostGame.route) {
-            // Pantalla para crear la partida, donde se invoca RepositoryCompetitivo.createGame
             HostGameScreen(navController = navController)
         }
         composable(Screen.JoinGame.route) {
-            // Pantalla para unirse a una partida, por ejemplo, con un campo para ingresar el código de partida
             JoinGameScreen(navController = navController)
         }
-        composable(Screen.CompetitiveGame.route) {
-            CompetitiveGameScreen(navController = navController)
+        composable(
+            route = Screen.CompetitiveGame.route,
+            arguments = listOf(navArgument("gameId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val gameId = backStackEntry.arguments?.getString("gameId") ?: ""
+            CompetitiveGameScreen(navController = navController, gameId = gameId)
         }
         composable(Screen.Settings.route) {
             SettingsScreen()
@@ -150,5 +151,3 @@ fun GameGlishNavHost(
         }
     }
 }
-
-

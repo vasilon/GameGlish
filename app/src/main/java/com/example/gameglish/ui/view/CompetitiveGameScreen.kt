@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun CompetitiveGameScreen(navController: NavController) {
+fun CompetitiveGameScreen(navController: NavController, gameId: String) {
     // Aquí obtendrías el estado del juego desde el ViewModel que escucha Firebase.
     // Por simplicidad, mostramos un texto de ejemplo:
     Column(

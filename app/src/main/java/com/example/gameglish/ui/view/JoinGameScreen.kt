@@ -46,7 +46,7 @@ fun JoinGameScreen(
                 onClick = {
                     viewModel.joinGame(gameCode) { success ->
                         if (success) {
-                            navController.navigate(Screen.CompetitiveGame.route + "/$gameCode")
+                            navController.navigate(Screen.CompetitiveGame.createRoute(gameCode))
                         } else {
                             Toast.makeText(context, "Error al unirse a la partida", Toast.LENGTH_SHORT).show()
                         }
