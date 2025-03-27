@@ -7,16 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.model.CompetitiveGame
 import com.example.gameglish.data.repository.RepositoryCompetitivo
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CompetitiveGameViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = RepositoryCompetitivo()
-    // Obtén el UID del usuario actual.
+
     val currentUserId: String = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
+
+    private val _gameState = MutableStateFlow(CompetitiveGame())
+    val gameState: StateFlow<CompetitiveGame> = _gameState
+
+    private val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
+    private val dbRef = FirebaseDatabase.getInstance(firebaseUrl).getReference("competitivo/games")
 
     fun createGame(onResult: (String) -> Unit) {
         viewModelScope.launch {
@@ -24,7 +29,6 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
                 val gameId = repository.createGame(currentUserId)
                 onResult(gameId)
             } catch (e: Exception) {
-                Log.e("CompetitiveGameVM", "Error creating game: ${e.message}")
                 onResult("")
             }
         }
@@ -36,30 +40,55 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
                 repository.joinGame(gameId, currentUserId)
                 onResult(true)
             } catch (e: Exception) {
-                Log.e("CompetitiveGameVM", "Error joining game: ${e.message}")
                 onResult(false)
             }
         }
     }
 
-    fun observeGameStatus(gameId: String, onGameStarted: () -> Unit) {
-        val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
-        val remoteDb = FirebaseDatabase.getInstance(firebaseUrl)
-            .getReference("competitivo/games")
-            .child(gameId)
-        remoteDb.addValueEventListener(object : ValueEventListener {
+    fun observeGame(gameId: String) {
+        dbRef.child(gameId).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val game = snapshot.getValue(CompetitiveGame::class.java)
-                if (game != null && game.state == "inProgress" && game.joinerId != null) {
-                    onGameStarted()
-                    // Una vez detectado el cambio, puedes remover el listener.
-                    remoteDb.removeEventListener(this)
-                }
+                val game = snapshot.getValue(CompetitiveGame::class.java) ?: return
+                _gameState.value = game
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("CompetitiveGameVM", "observeGameStatus cancelled: ${error.message}")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    fun observeGameStatus(gameId: String, onGameStarted: () -> Unit) {
+        val gameRef = dbRef.child(gameId)
+        gameRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val game = snapshot.getValue(CompetitiveGame::class.java) ?: return
+                if (game.state == "inProgress" && !game.joinerId.isNullOrEmpty()) {
+                    onGameStarted()
+                    gameRef.removeEventListener(this)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    fun sendAnswer(gameId: String, answer: String) {
+        // ...
+    }
+
+
+    fun handleTimeUp(gameId: String) {
+        viewModelScope.launch {
+            // Ejemplo: restar una vida al jugador que no ha respondido.
+            // Podrías leer el game actual, identificar al host/joiner y actualizar.
+            val currentGame = _gameState.value
+            val isHost = (currentUserId == currentGame.hostId)
+            val newLives = if (isHost) currentGame.hostLives - 1 else currentGame.joinerLives - 1
+
+            // Actualizar en DB
+            if (isHost) {
+                dbRef.child(gameId).child("hostLives").setValue(newLives)
+            } else {
+                dbRef.child(gameId).child("joinerLives").setValue(newLives)
+            }
+        }
     }
 }

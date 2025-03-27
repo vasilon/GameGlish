@@ -1,5 +1,6 @@
 package com.example.gameglish.ui.view
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -44,8 +45,10 @@ fun JoinGameScreen(
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
+                    Log.d("JoinGameScreen", "El usuario introdujo: '$gameCode'")
                     viewModel.joinGame(gameCode) { success ->
                         if (success) {
+                            // Navegamos a la misma partida
                             navController.navigate(Screen.CompetitiveGame.createRoute(gameCode))
                         } else {
                             Toast.makeText(context, "Error al unirse a la partida", Toast.LENGTH_SHORT).show()
