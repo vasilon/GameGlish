@@ -67,10 +67,11 @@ class RepositoryUsuario(
         }
     }
 
-    // New function to update user profile details.
     suspend fun actualizarUsuarioProfile(uid: String, nombre: String, nivelSeleccionado: String) {
+        // Obtiene el usuario localmente
         val usuario = obtenerUsuarioLocal(uid)
         if (usuario != null) {
+            // Mapeo de niveles de texto a enteros
             val nivelMap = mapOf(
                 "A1" to 1,
                 "A2" to 2,
@@ -81,11 +82,17 @@ class RepositoryUsuario(
                 "NATIVE" to 7
             )
             val nivelInt = nivelMap[nivelSeleccionado] ?: usuario.nivel
+
+            // Crea un usuario actualizado con el nuevo nombre y nivel
             val updatedUsuario = usuario.copy(nombre = nombre, nivel = nivelInt)
+
+            // Guarda el usuario actualizado en la base de datos local
             guardarUsuarioLocal(updatedUsuario)
+            // Y en la base de datos remota (Firebase)
             guardarUsuarioRemoto(updatedUsuario)
         }
     }
+
 
     suspend fun guardarUsuarioLocal(usuario: EntityUsuario) {
         db.usuarioDao().insertarUsuario(usuario)
