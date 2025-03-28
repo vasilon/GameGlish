@@ -24,6 +24,21 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     private val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
     private val dbRef = FirebaseDatabase.getInstance(firebaseUrl).getReference("competitivo/games")
 
+    // StateFlow para exponer la lista de juegos disponibles
+    private val _availableGames = MutableStateFlow<List<CompetitiveGame>>(emptyList())
+    val availableGames: StateFlow<List<CompetitiveGame>> = _availableGames
+
+    // Mapa de niveles de idioma
+    private val levelMap = mapOf(
+        1 to "A1",
+        2 to "A2",
+        3 to "B1",
+        4 to "B2",
+        5 to "C1",
+        6 to "C2",
+        7 to "NATIVE"
+    )
+
     fun createGame(onResult: (String) -> Unit) {
         viewModelScope.launch {
             try {
@@ -112,4 +127,48 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         }
     }
+
+    fun fetchAvailableGames() {
+        val query = FirebaseDatabase.getInstance(firebaseUrl)
+            .getReference("competitivo/games")
+            .orderByChild("state")
+            .equalTo("waiting")
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val games = mutableListOf<CompetitiveGame>()
+                for (child in snapshot.children) {
+                    val game = child.getValue(CompetitiveGame::class.java)
+                    if (game != null) games.add(game)
+                }
+                _availableGames.value = games
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("CompetitiveGameVM", "fetchAvailableGames cancelled: ${error.message}")
+            }
+        })
+    }
+    fun getUserProfile(uid: String, onResult: (UserProfile) -> Unit) {
+        val userRef = FirebaseDatabase.getInstance(firebaseUrl)
+            .getReference("usuarios")
+            .child(uid)
+
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val nombre = snapshot.child("nombre").getValue(String::class.java) ?: "Unknown"
+                val nivel = snapshot.child("nivel").getValue(Int::class.java) ?: 1
+                onResult(UserProfile(nombre, nivel))
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("CompetitiveGameVM", "getUserProfile cancelled: ${error.message}")
+                onResult(UserProfile()) // valores por defecto
+            }
+        })
+    }
+    fun intToLevelString(nivel: Int): String {
+        return levelMap[nivel] ?: "A1"
+    }
 }
+data class UserProfile(
+    val nombre: String = "Unknown",
+    val nivel: Int = 1
+)

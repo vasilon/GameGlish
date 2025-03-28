@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.gameglish.ui.components.BackTopAppBar
 
 @Composable
 fun ModoCompetitivoScreen(
@@ -14,9 +15,13 @@ fun ModoCompetitivoScreen(
     onHostGame: () -> Unit,
     onJoinGame: () -> Unit
 ) {
+    Scaffold(
+        topBar = { BackTopAppBar(navController = navController, title = "Modo Competitivo") }
+    ) { innerPadding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(innerPadding)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -39,4 +44,5 @@ fun ModoCompetitivoScreen(
             Text("Unirse a Partida")
         }
     }
+}
 }
