@@ -98,6 +98,7 @@ fun FirstTimeRegistrationScreen(
             Button(
                 onClick = {
                     registerUser(nombre, nivelSeleccionado)
+
                     onRegisterSuccess()
                 },
                 modifier = Modifier.fillMaxWidth()

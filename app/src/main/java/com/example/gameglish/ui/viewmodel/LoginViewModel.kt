@@ -7,11 +7,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-enum class LoginState { Idle, Loading, Success, Error }
+enum class LoginState { Idle, Loading, Success, Error, FirstLogin }
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,8 +26,20 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             try {
-                val exito = usuarioRepository.iniciarSesionCorreo(email, password)
-                _loginState.value = if (exito) LoginState.Success else LoginState.Error
+                val success = usuarioRepository.iniciarSesionCorreo(email, password)
+                if (success) {
+                    // Obtain the user's profile from the local DB.
+                    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                    val usuario = usuarioRepository.obtenerUsuarioLocal(uid)
+                    // If the user record is missing or their name is empty, assume it is their first login.
+                    _loginState.value = if (usuario == null || usuario.nombre.isEmpty()) {
+                        LoginState.FirstLogin
+                    } else {
+                        LoginState.Success
+                    }
+                } else {
+                    _loginState.value = LoginState.Error
+                }
             } catch (e: Exception) {
                 Log.e("LoginViewModel", "Error during login", e)
                 _loginState.value = LoginState.Error

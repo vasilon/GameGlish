@@ -68,29 +68,38 @@ class RepositoryUsuario(
     }
 
     suspend fun actualizarUsuarioProfile(uid: String, nombre: String, nivelSeleccionado: String) {
-        // Obtiene el usuario localmente
-        val usuario = obtenerUsuarioLocal(uid)
-        if (usuario != null) {
-            // Mapeo de niveles de texto a enteros
-            val nivelMap = mapOf(
-                "A1" to 1,
-                "A2" to 2,
-                "B1" to 3,
-                "B2" to 4,
-                "C1" to 5,
-                "C2" to 6,
-                "NATIVE" to 7
+        // Try to retrieve the user locally.
+        var usuario = obtenerUsuarioLocal(uid)
+
+        // Define the mapping from text levels to integers.
+        val nivelMap = mapOf(
+            "A1" to 1,
+            "A2" to 2,
+            "B1" to 3,
+            "B2" to 4,
+            "C1" to 5,
+            "C2" to 6,
+            "NATIVE" to 7
+        )
+        val nivelInt = nivelMap[nivelSeleccionado] ?: 1
+
+        // If the user doesn't exist locally, create a new instance.
+        if (usuario == null) {
+            usuario = EntityUsuario(
+                uidFirebase = uid,
+                email = "",  // If you have the email available, pass it here.
+                nombre = nombre,
+                puntos = 0,
+                nivel = nivelInt
             )
-            val nivelInt = nivelMap[nivelSeleccionado] ?: usuario.nivel
-
-            // Crea un usuario actualizado con el nuevo nombre y nivel
-            val updatedUsuario = usuario.copy(nombre = nombre, nivel = nivelInt)
-
-            // Guarda el usuario actualizado en la base de datos local
-            guardarUsuarioLocal(updatedUsuario)
-            // Y en la base de datos remota (Firebase)
-            guardarUsuarioRemoto(updatedUsuario)
+        } else {
+            // Otherwise, update the existing record.
+            usuario = usuario.copy(nombre = nombre, nivel = nivelInt)
         }
+
+        // Save the updated (or new) user data locally and remotely.
+        guardarUsuarioLocal(usuario)
+        guardarUsuarioRemoto(usuario)
     }
 
 

@@ -1,3 +1,5 @@
+package com.example.gameglish.ui.view
+
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

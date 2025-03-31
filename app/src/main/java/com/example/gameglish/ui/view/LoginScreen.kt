@@ -23,12 +23,15 @@ import androidx.navigation.NavHostController
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.navigation.Screen
+import com.example.gameglish.ui.viewmodel.LoginState
+import com.example.gameglish.ui.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    onNavigateToRegister: () -> Unit
+    onNavigateToRegister: () -> Unit,
+    onLoginSuccess: (Boolean) -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -39,6 +42,10 @@ fun LoginScreen(
     val gradientBackground = Brush.linearGradient(
         colors = listOf(Color(0xFF2be4dc), Color(0xFF243484))
     )
+
+    // Get the login state from the ViewModel.
+    val viewModel: LoginViewModel = viewModel()
+    val loginState by viewModel.loginState.collectAsState()
 
     Box(
         modifier = Modifier
@@ -88,25 +95,7 @@ fun LoginScreen(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        val repositoryUsuario = RepositoryUsuario(
-                            GameGlishDatabase.getDatabase(context)
-                        )
-                        val success = repositoryUsuario.iniciarSesionCorreo(email, password)
-                        if (success) {
-                            val uid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
-                            val usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
-                            if (usuario == null || usuario.nombre.isEmpty()) {
-                                navController.navigate(Screen.FirstTimeRegistration.route) {
-                                    popUpTo(Screen.Login.route) { inclusive = true }
-                                }
-                            } else {
-                                navController.navigate(Screen.Home.route) {
-                                    popUpTo(Screen.Login.route) { inclusive = true }
-                                }
-                            }
-                        } else {
-                            Toast.makeText(context, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
-                        }
+                        viewModel.iniciarSesion(email, password)
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
@@ -119,6 +108,28 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("¿No tienes cuenta? Regístrate", color = Color(0xFF243484))
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // When loginState changes, navigate accordingly.
+            when (loginState) {
+                LoginState.Success -> {
+                    // Profile exists → normal login success
+                    onLoginSuccess(true)
+                }
+                LoginState.FirstLogin -> {
+                    // Navigate to first-time registration to update profile details.
+                    navController.navigate(Screen.FirstTimeRegistration.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+                LoginState.Error -> {
+                    Toast.makeText(context, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+                }
+                LoginState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                else -> { /* Do nothing */ }
             }
         }
     }
