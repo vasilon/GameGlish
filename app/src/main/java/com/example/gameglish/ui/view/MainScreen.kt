@@ -12,7 +12,10 @@ import com.example.gameglish.ui.navigation.MainNavHost
 import androidx.navigation.NavHostController
 
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(
+    navController: NavHostController, // Agrega este parámetro a la firma
+    modifier: Modifier = Modifier
+) {
     // Create a nested NavController for main content.
     val mainNavController = rememberNavController()
     Scaffold(
@@ -20,8 +23,7 @@ fun MainScreen(navController: NavHostController) {
             val currentBackStackEntry = mainNavController.currentBackStackEntryAsState().value
             val currentRoute = currentBackStackEntry?.destination?.route
             CustomBottomNavigationBar(
-                navController = mainNavController,
-                currentRoute = currentRoute
+                navController = mainNavController
             )
         }
     ) { innerPadding ->

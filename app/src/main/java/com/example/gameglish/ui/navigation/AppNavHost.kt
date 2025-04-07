@@ -16,24 +16,23 @@ import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.components.BackTopAppBar
 import com.example.gameglish.ui.view.FirstTimeRegistrationScreen
-import com.example.gameglish.ui.view.LoginScreen
-import com.example.gameglish.ui.view.RegisterScreen
 import com.example.gameglish.ui.view.HomeScreen
-import com.example.gameglish.ui.view.ModoCompetitivoScreen
-import com.example.gameglish.ui.view.HostGameScreen
 import com.example.gameglish.ui.view.JoinGameScreen
-import com.example.gameglish.ui.view.CompetitiveGameScreen
+import com.example.gameglish.ui.view.LoginScreen
+import com.example.gameglish.ui.view.ModoCompetitivoMainScreen
+import com.example.gameglish.ui.view.ModoIndividualMainScreen
+import com.example.gameglish.ui.view.ProfileScreen
+import com.example.gameglish.ui.view.RegisterScreen
 import com.example.gameglish.ui.view.SettingsScreen
 import com.example.gameglish.ui.view.StatsScreen
-import com.example.gameglish.ui.view.ProfileScreen
 import com.example.gameglish.ui.view.GlobalRankingScreen
-import com.example.gameglish.ui.view.ModoIndividualScreen
 import com.example.gameglish.ui.view.VocabularioScreen
 import com.example.gameglish.ui.view.GramaticaScreen
 import com.example.gameglish.ui.view.GramaticaQuestionsScreen
+import com.example.gameglish.ui.view.HostGameScreen
+import com.example.gameglish.ui.view.CompetitiveGameScreen
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-
 
 sealed class Screen(val route: String) {
     // Auth Flow
@@ -64,10 +63,10 @@ fun AppNavHost(
     isUserLoggedIn: Boolean,
     isFirstLogin: Boolean
 ) {
-
+    // Contexto y scope
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    // Determine the starting destination based on login state:
+
     val startDestination = when {
         !isUserLoggedIn -> "authFlow"
         isFirstLogin -> Screen.FirstTimeRegistration.route
@@ -75,7 +74,7 @@ fun AppNavHost(
     }
 
     NavHost(navController = navController, startDestination = startDestination) {
-        // ---------- Auth Flow ----------
+        // ---------- Authentication Flow ----------
         navigation(
             startDestination = Screen.Login.route,
             route = "authFlow"
@@ -107,6 +106,7 @@ fun AppNavHost(
                 )
             }
         }
+
         // ---------- First Time Registration Flow ----------
         composable(Screen.FirstTimeRegistration.route) {
             FirstTimeRegistrationScreen(
@@ -117,80 +117,18 @@ fun AppNavHost(
                 },
                 registerUser = { nombre, nivelSeleccionado ->
                     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@FirstTimeRegistrationScreen
-                    // Create a RepositoryUsuario using the current context's database instance
                     val repositoryUsuario = RepositoryUsuario(GameGlishDatabase.getDatabase(context))
                     scope.launch {
                         repositoryUsuario.actualizarUsuarioProfile(uid, nombre, nivelSeleccionado)
                     }
-
                 }
             )
         }
-        // ---------- Main Flow (with Bottom Bar, etc.) ----------
-        navigation(
-            startDestination = Screen.Home.route,
-            route = "mainFlow"
-        ) {
-            composable(Screen.Home.route) {
-                HomeScreen(navController = navController)
-            }
-            composable(Screen.ModoCompetitivo.route) {
-                ModoCompetitivoScreen(
-                    navController = navController,
-                    onHostGame = { navController.navigate(Screen.HostGame.route) },
-                    onJoinGame = { navController.navigate(Screen.JoinGame.route) }
-                )
-            }
-            composable(Screen.HostGame.route) {
-                HostGameScreen(navController = navController)
-            }
-            composable(Screen.JoinGame.route) {
-                JoinGameScreen(navController = navController)
-            }
-            composable(
-                route = Screen.CompetitiveGame.route,
-                arguments = listOf(navArgument("gameId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val gameId = backStackEntry.arguments?.getString("gameId") ?: ""
-                CompetitiveGameScreen(navController = navController, gameId = gameId)
-            }
-            composable(Screen.Settings.route) { SettingsScreen() }
-            composable(Screen.Statistics.route) { StatsScreen(navController = navController) }
-            composable(Screen.Profile.route) { ProfileScreen(navController = navController) }
-            composable(Screen.Ranking.route) { GlobalRankingScreen(navController = navController) }
-            composable(Screen.ModoIndividual.route) {
-                ModoIndividualScreen(
-                    navController = navController,
-                    onVocabularioClick = { navController.navigate(Screen.Vocabulario.route) },
-                    onGramaticaClick = { navController.navigate(Screen.Gramatica.route) },
-                    onReadingClick = { /* Navigation code */ },
-                    onListeningClick = { /* Navigation code */ }
-                )
-            }
-            composable(Screen.Vocabulario.route) {
-                Scaffold(
-                    topBar = { BackTopAppBar(navController = navController, title = "Vocabulario") }
-                ) { innerPadding ->
-                    VocabularioScreen(
-                        navController = navController,
-                        onStartExercise = { /* Navigation code */ }
-                    )
-                }
-            }
-            composable(Screen.Gramatica.route) {
-                Scaffold(
-                    topBar = { BackTopAppBar(navController = navController, title = "Gramática") }
-                ) { innerPadding ->
-                    GramaticaScreen(
-                        navController = navController,
-                        onStartExercise = { navController.navigate(Screen.GramaticaQuestions.route) },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-            composable(Screen.GramaticaQuestions.route) {
-                GramaticaQuestionsScreen(navController = navController)
-            }
+
+        // ---------- Main Flow (with Bottom Navigation) ----------
+        // Aquí solo delegamos a MainFlowScreen, que gestiona internamente todas las rutas principales.
+        composable("mainFlow") {
+            MainFlowScreen()
         }
     }
 }

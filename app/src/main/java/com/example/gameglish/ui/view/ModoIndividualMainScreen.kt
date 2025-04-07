@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import com.example.gameglish.ui.components.BackTopAppBar
 
 @Composable
-fun ModoIndividualScreen(
+fun ModoIndividualMainScreen(
     navController: NavController,
     onVocabularioClick: () -> Unit,
     onGramaticaClick: () -> Unit,
