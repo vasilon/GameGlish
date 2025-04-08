@@ -24,7 +24,6 @@ import com.example.gameglish.ui.view.ModoIndividualMainScreen
 import com.example.gameglish.ui.view.ProfileScreen
 import com.example.gameglish.ui.view.RegisterScreen
 import com.example.gameglish.ui.view.SettingsScreen
-import com.example.gameglish.ui.view.StatsScreen
 import com.example.gameglish.ui.view.GlobalRankingScreen
 import com.example.gameglish.ui.view.VocabularioScreen
 import com.example.gameglish.ui.view.GramaticaScreen

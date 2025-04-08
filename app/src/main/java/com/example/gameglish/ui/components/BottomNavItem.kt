@@ -50,7 +50,7 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
             label = "Individual",
             route = "individual",
             icon = Icons.Filled.Person,
-            selectedBackgroundColor = Color(0xFF4298D3)
+            selectedBackgroundColor = Color(0xFF43A047)
         ),
         BottomNavItem(
             label = "Ranking",

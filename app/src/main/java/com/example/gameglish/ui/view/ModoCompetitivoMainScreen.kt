@@ -85,7 +85,15 @@ fun ModoCompetitivoMainScreen(
                     verticalArrangement = Arrangement.spacedBy(24.dp, alignment = Alignment.Top),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
+                    Text(
+                        text = "Modo Competitivo",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 28.sp
+                        ),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
                     CompetitiveOptionCard(
                         title = "Crear Partida",
                         description = "Inicia una nueva partida competitiva",
