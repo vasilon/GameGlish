@@ -12,8 +12,7 @@ import com.example.gameglish.ui.components.BackTopAppBar
 @Composable
 fun ModoCompetitivoMainScreen(
     onHostGame: () -> Unit,
-    onJoinGame: () -> Unit,
-    onRanking: () -> Unit
+    onJoinGame: () -> Unit
 ) {
     // Diseño moderno: se muestran tres botones o tarjetas para cada opción.
     Column(
@@ -35,12 +34,6 @@ fun ModoCompetitivoMainScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Unirse a Partida")
-        }
-        Button(
-            onClick = onRanking,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Ver Ranking Global")
         }
     }
 }

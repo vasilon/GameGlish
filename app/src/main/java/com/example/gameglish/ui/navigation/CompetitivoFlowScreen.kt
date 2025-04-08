@@ -20,12 +20,10 @@ fun CompetitivoFlowScreen(modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
         composable("competitivo_main") {
-            // Puedes crear un nuevo composable que muestre opciones:
-            // "Crear Partida", "Unirse a Partida" y "Ranking Global"
+
             ModoCompetitivoMainScreen(
                 onHostGame = { competitivoNavController.navigate("host_game") },
-                onJoinGame = { competitivoNavController.navigate("join_game") },
-                onRanking = { competitivoNavController.navigate("ranking") }
+                onJoinGame = { competitivoNavController.navigate("join_game") }
             )
         }
         composable("host_game") {

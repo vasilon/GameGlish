@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.gameglish.ui.components.CustomBottomNavigationBar
 import com.example.gameglish.ui.view.HomeScreen
 import com.example.gameglish.ui.view.ProfileScreen
-
+import com.example.gameglish.ui.view.GlobalRankingScreen
 @Composable
 fun MainFlowScreen() {
     // Creamos un navController local para el flujo principal
@@ -27,12 +27,13 @@ fun MainFlowScreen() {
                 HomeScreen(navController = bottomNavController)
             }
             composable("competitivo") {
-                // Este será el flujo Competitivo anidado
                 CompetitivoFlowScreen()
             }
             composable("individual") {
-                // Este será el flujo Individual anidado
                 IndividualFlowScreen()
+            }
+            composable("ranking") {
+                GlobalRankingScreen(navController = bottomNavController)
             }
             composable("profile") {
                 ProfileScreen(navController = bottomNavController)

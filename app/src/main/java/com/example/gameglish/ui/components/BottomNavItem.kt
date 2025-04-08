@@ -53,6 +53,12 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
             selectedBackgroundColor = Color(0xFF4298D3)
         ),
         BottomNavItem(
+            label = "Ranking",
+            route = "ranking",
+            icon = Icons.Filled.Star,
+            selectedBackgroundColor = Color(0xFFF39000)
+        ),
+        BottomNavItem(
             label = "Perfil",
             route = "profile",
             icon = Icons.Filled.AccountCircle,
@@ -75,7 +81,6 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(4.dp)
                     .background(if (selected) item.selectedBackgroundColor else Color.Transparent)
                     .clickable {
                         navController.navigate(item.route) {
