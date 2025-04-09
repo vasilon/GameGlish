@@ -89,7 +89,7 @@ class RepositoryUsuario(
             )
         } else {
             // Otherwise, update the existing record.
-            usuario = usuario.copy(nombre = nombre, nivel = nivelInt)
+            usuario = usuario.copy(nombre = nombre, nivel = nivelInt , firstLogin = false)
         }
 
         // Save the updated (or new) user data locally and remotely.
