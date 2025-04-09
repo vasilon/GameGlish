@@ -108,7 +108,7 @@ fun AppNavHost(
             }
         // Flujo principal (con Bottom Navigation)
         composable("mainFlow") {
-            MainFlowScreen()
+            MainFlowScreen(globalNavController = navController)
         }
     }
 }

@@ -19,16 +19,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.gameglish.R
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
+import com.example.gameglish.ui.navigation.Screen
+import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController,
+               loginViewModel: LoginViewModel = viewModel()
+) {
     // Estados para el menú y el diálogo de cierre de sesión
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -155,8 +160,6 @@ fun HomeScreen(navController: NavController) {
             }
         }
     )
-
-    // Diálogo de confirmación de cierre de sesión
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
@@ -166,8 +169,11 @@ fun HomeScreen(navController: NavController) {
                 TextButton(
                     onClick = {
                         showLogoutDialog = false
-                        navController.navigate("login") {
-                            popUpTo("home") { inclusive = true }
+                        // Cierra la sesión mediante el ViewModel.
+                        loginViewModel.cerrarSesion()
+                        // Navega a la pantalla de login y limpia la pila.
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         }
                     }
                 ) {
@@ -182,6 +188,7 @@ fun HomeScreen(navController: NavController) {
         )
     }
 }
+
 
 @Composable
 fun DashboardHeader(userLevel: String, userPoints: Int) {
@@ -270,7 +277,8 @@ fun AchievementsSection(achievements: List<String>) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
-            .padding(16.dp)
+            .padding(16.dp),
+
     ) {
         Text(
             text = "Logros Recientes",

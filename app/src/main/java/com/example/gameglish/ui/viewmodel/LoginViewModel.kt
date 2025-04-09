@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-enum class LoginState { Idle, Loading, Success, Error, FirstLogin }
+enum class LoginState { Idle, Loading, Success, Error }
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -117,7 +117,6 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     fun resetState() {
         _loginState.value = LoginState.Idle
     }
-
     fun cerrarSesion() {
         auth.signOut()
         _isUserLoggedIn.value = false

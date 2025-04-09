@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
@@ -12,8 +13,7 @@ import com.example.gameglish.ui.view.HomeScreen
 import com.example.gameglish.ui.view.ProfileScreen
 import com.example.gameglish.ui.view.GlobalRankingScreen
 @Composable
-fun MainFlowScreen() {
-    // Creamos un navController local para el flujo principal
+fun MainFlowScreen(globalNavController: NavHostController) {
     val bottomNavController = rememberNavController()
     Scaffold(
         bottomBar = { CustomBottomNavigationBar(navController = bottomNavController) }
@@ -24,7 +24,8 @@ fun MainFlowScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") {
-                HomeScreen(navController = bottomNavController)
+                // Usa el globalNavController, que conoce "login"
+                HomeScreen(navController = globalNavController)
             }
             composable("competitivo") {
                 CompetitivoFlowScreen()

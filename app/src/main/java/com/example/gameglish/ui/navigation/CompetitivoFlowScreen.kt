@@ -32,8 +32,5 @@ fun CompetitivoFlowScreen(modifier: Modifier = Modifier) {
         composable("join_game") {
             JoinGameScreen(navController = competitivoNavController)
         }
-        composable("ranking") {
-            GlobalRankingScreen(navController = competitivoNavController)
-        }
     }
 }
