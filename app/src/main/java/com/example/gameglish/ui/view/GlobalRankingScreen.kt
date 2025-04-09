@@ -14,29 +14,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.navigation.NavController
 import com.example.gameglish.R
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityRanking
 import com.example.gameglish.data.repository.RepositoryEstadistica
-import com.example.gameglish.ui.components.RankingCard
+import com.example.gameglish.ui.components.*
+import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalRankingScreen(navController: NavController) {
-    // Definimos el color temático principal para Ranking y una versión más clara para el fondo.
-    val rankingColor = Color(0xFFF39000)    // Color principal (naranja intenso)
-    val lightRankingColor = Color(0xFFFFE0B2) // Versión más clara para el fondo
+    // Definimos los colores temáticos para Ranking.
+    val rankingColor = Color(0xFFF39000)    // Naranja intenso
+    val lightRankingColor = Color(0xFFFFE0B2) // Naranja claro
 
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
     val db = GameGlishDatabase.getDatabase(context)
     val repositoryEstadistica = RepositoryEstadistica(db)
@@ -117,18 +113,40 @@ fun GlobalRankingScreen(navController: NavController) {
                         CircularProgressIndicator(color = rankingColor)
                     }
                 } else {
-                    LazyColumn(
+                    // Separamos el podio (primeros 3) y el resto
+                    val podiumList = rankingList.take(3)
+                    val restList = rankingList.drop(3)
+
+                    Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        itemsIndexed(rankingList) { index, ranking ->
-                            RankingCard(ranking = ranking, position = index)
+                        Text(
+                            text = "Ranking Global",
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 28.sp
+                            ),
+                            modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally)
+                        )
+                        // Podio: mostrar los 3 primeros puestos en una sección especial
+                        PodiumSection(podiumList)
+                        // Resto de posiciones (sin ícono de copa ni escalonamiento)
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            itemsIndexed(restList) { index, ranking ->
+                                StandardRankingCard(ranking = ranking, position = index + 3)
+                            }
                         }
                     }
                 }
             }
         }
     )
+
 }
