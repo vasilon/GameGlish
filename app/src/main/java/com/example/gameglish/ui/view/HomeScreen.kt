@@ -44,11 +44,17 @@ fun HomeScreen(navController: NavController) {
     // Datos de ejemplo para logros y recomendación
     val achievements = listOf("Primer Quiz", "5 Días Consecutivos", "Nivel A2")
     val recommendedLesson = "Gramática: Presente Simple"
-
-    // Cargar datos de usuario (simulado)
+// Cargar datos de usuario: primero se intenta con los datos locales,
+    // si son nulos se recuperan los datos de forma remota.
     LaunchedEffect(true) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@LaunchedEffect
-        val usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
+        var usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
+        if (usuario == null) {
+            // Si no hay datos locales, se obtiene de la base de datos remota.
+            usuario = repositoryUsuario.obtenerUsuarioRemoto(uid)
+            // Si se obtuvo remoto, guardarlo localmente para futuras consultas.
+            usuario?.let { repositoryUsuario.guardarUsuarioLocal(it) }
+        }
         if (usuario != null) {
             userPoints = usuario.puntos
             val nivelMap = mapOf(
