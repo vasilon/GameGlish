@@ -15,12 +15,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FirstTimeRegistrationScreen(
+fun FirstTimeLoginScreen(
     onRegisterSuccess: () -> Unit,
     registerUser: (nombre: String, nivelSeleccionado: String) -> Unit
 ) {
@@ -97,8 +95,9 @@ fun FirstTimeRegistrationScreen(
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
+                    // Llama a registerUser con el nombre y nivel seleccionados
                     registerUser(nombre, nivelSeleccionado)
-
+                    // Después de actualizar el perfil, se debería marcar el primer login completo.
                     onRegisterSuccess()
                 },
                 modifier = Modifier.fillMaxWidth()

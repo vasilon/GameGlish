@@ -18,25 +18,53 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db: GameGlishDatabase = GameGlishDatabase.getDatabase(application)
     private val usuarioRepository = RepositoryUsuario(db)
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _loginState = MutableStateFlow(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
+
+    private val _isUserLoggedIn = MutableStateFlow(auth.currentUser != null)
+    val isUserLoggedIn: StateFlow<Boolean> = _isUserLoggedIn
+
+    private val _isFirstLogin = MutableStateFlow<Boolean?>(null)
+    val isFirstLogin: StateFlow<Boolean?> = _isFirstLogin
+
+
+
+    init {
+        checkUserState()
+    }
+
+
+
+
+    private fun checkUserState() {
+        viewModelScope.launch {
+            val uid = auth.currentUser?.uid
+            _isUserLoggedIn.value = uid != null
+            if(uid != null){
+                var localUser = usuarioRepository.obtenerUsuarioLocal(uid)
+                if(localUser != null){
+                    localUser = usuarioRepository.obtenerUsuarioRemoto(uid)
+                    if(localUser != null){
+                        usuarioRepository.guardarUsuarioLocal(localUser)
+                    }
+                }
+                _isFirstLogin.value = localUser?.firstLogin ?: false
+            } else {
+                _isFirstLogin.value = false
+            }
+        }
+    }
 
     fun iniciarSesion(email: String, password: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
             try {
-                val success = usuarioRepository.iniciarSesionCorreo(email, password)
-                if (success) {
-                    // Obtain the user's profile from the local DB.
-                    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-                    val usuario = usuarioRepository.obtenerUsuarioLocal(uid)
-                    // If the user record is missing or their name is empty, assume it is their first login.
-                    _loginState.value = if (usuario == null || usuario.nombre.isEmpty()) {
-                        LoginState.FirstLogin
-                    } else {
-                        LoginState.Success
-                    }
+                val exito = usuarioRepository.iniciarSesionCorreo(email, password)
+                if (exito) {
+                    checkUserState() // Verifica el estado después del inicio de sesión
+                    _loginState.value = LoginState.Success
                 } else {
                     _loginState.value = LoginState.Error
                 }
@@ -48,22 +76,17 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Added default parameter values so that RegisterScreen does not need to pass name and level.
-    fun registrarUsuario(
-        email: String,
-        password: String,
-        confirmPassword: String,
-        nombre: String = "",
-        nivelSeleccionado: String = "A1"
-    ) {
+    fun registrarUsuario(email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
-            Log.d("LoginViewModel", "Attempting to register user: $email")
             try {
-                val exito = usuarioRepository.registrarUsuarioCorreo(
-                    email, password, confirmPassword, nombre, nivelSeleccionado
-                )
-                Log.d("LoginViewModel", "Registration success: $exito")
-                _loginState.value = if (exito) LoginState.Success else LoginState.Error
+                val exito = usuarioRepository.registrarUsuarioCorreo(email, password, confirmPassword)
+                if (exito) {
+                    checkUserState()
+                    _loginState.value = LoginState.Success
+                } else {
+                    _loginState.value = LoginState.Error
+                }
             } catch (e: Exception) {
                 Log.e("LoginViewModel", "Error during registration", e)
                 _loginState.value = LoginState.Error
@@ -71,7 +94,32 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Marca que el usuario ya completó el primer inicio de sesión y actualiza la base de datos.
+     */
+    fun marcarPrimerLoginCompleto() {
+        viewModelScope.launch {
+            val uid = auth.currentUser?.uid
+            if (uid != null) {
+                usuarioRepository.marcarPrimerLoginCompleto(uid)
+                _isFirstLogin.value = false
+            }
+        }
+    }
+
+    fun actualizarNombreUsuario(uid: String, nombre: String, nivel: String) {
+        viewModelScope.launch {
+            usuarioRepository.actualizarUsuarioProfile(uid, nombre, nivel)
+        }
+    }
+
+
     fun resetState() {
         _loginState.value = LoginState.Idle
+    }
+
+    fun cerrarSesion() {
+        auth.signOut()
+        _isUserLoggedIn.value = false
     }
 }

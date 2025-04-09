@@ -1,35 +1,20 @@
 package com.example.gameglish.ui.navigation
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import androidx.navigation.navArgument
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
-import com.example.gameglish.ui.components.BackTopAppBar
-import com.example.gameglish.ui.view.FirstTimeRegistrationScreen
-import com.example.gameglish.ui.view.HomeScreen
-import com.example.gameglish.ui.view.JoinGameScreen
+import com.example.gameglish.ui.view.FirstTimeLoginScreen
 import com.example.gameglish.ui.view.LoginScreen
-import com.example.gameglish.ui.view.ModoCompetitivoMainScreen
-import com.example.gameglish.ui.view.ModoIndividualMainScreen
-import com.example.gameglish.ui.view.ProfileScreen
 import com.example.gameglish.ui.view.RegisterScreen
-import com.example.gameglish.ui.view.SettingsScreen
-import com.example.gameglish.ui.view.GlobalRankingScreen
-import com.example.gameglish.ui.view.VocabularioScreen
-import com.example.gameglish.ui.view.GramaticaScreen
-import com.example.gameglish.ui.view.GramaticaQuestionsScreen
-import com.example.gameglish.ui.view.HostGameScreen
-import com.example.gameglish.ui.view.CompetitiveGameScreen
+import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -37,7 +22,7 @@ sealed class Screen(val route: String) {
     // Auth Flow
     object Login : Screen("login")
     object Register : Screen("register")
-    object FirstTimeRegistration : Screen("first_time_registration")
+    object FirstTimeLogin: Screen("first_time_login")
     // Main Flow
     object Home : Screen("home")
     object ModoCompetitivo : Screen("modo_competitivo")
@@ -59,73 +44,69 @@ sealed class Screen(val route: String) {
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    isUserLoggedIn: Boolean,
-    isFirstLogin: Boolean
+    loginViewModel: LoginViewModel
 ) {
-    // Contexto y scope
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val startDestination = when {
-        !isUserLoggedIn -> "authFlow"
-        isFirstLogin -> Screen.FirstTimeRegistration.route
-        else -> "mainFlow"
+    val isUserLoggedIn by loginViewModel.isUserLoggedIn.collectAsState()
+    val isFirstLogin by loginViewModel.isFirstLogin.collectAsState()
+
+    // Si el usuario está logueado:
+    //   - Si es primer login, queremos mostrar el flujo de autenticación (authFlow)
+    //   - Si no, mostramos mainFlow.
+    val startDestination = if (isUserLoggedIn == true) {
+        if (isFirstLogin == true) "authFlow" else "mainFlow"
+    } else {
+        "authFlow"
     }
 
     NavHost(navController = navController, startDestination = startDestination) {
-        // ---------- Authentication Flow ----------
+        // Flujo de autenticación (destino directo del NavHost principal)
         navigation(
-            startDestination = Screen.Login.route,
+            // Seleccionamos dinámicamente el startDestination según el flag firstLogin:
+            startDestination = if (isUserLoggedIn == true && isFirstLogin == true)
+                Screen.FirstTimeLogin.route
+            else
+                Screen.Login.route,
             route = "authFlow"
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(
                     navController = navController,
-                    onNavigateToRegister = { navController.navigate(Screen.Register.route) },
-                    onLoginSuccess = { userHasProfile ->
-                        if (userHasProfile) {
-                            navController.navigate("mainFlow") {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                        } else {
-                            navController.navigate(Screen.FirstTimeRegistration.route) {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                        }
-                    }
+                    onNavigateToRegister = { navController.navigate(Screen.Register.route) }
                 )
             }
             composable(Screen.Register.route) {
                 RegisterScreen(
                     onRegisterSuccess = {
-                        navController.navigate(Screen.Login.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
+                        navController.navigate("authFlow") {
+                            popUpTo("authFlow") { inclusive = true }
                         }
                     }
                 )
             }
-        }
-
-        // ---------- First Time Registration Flow ----------
-        composable(Screen.FirstTimeRegistration.route) {
-            FirstTimeRegistrationScreen(
-                onRegisterSuccess = {
-                    navController.navigate("mainFlow") {
-                        popUpTo(Screen.FirstTimeRegistration.route) { inclusive = true }
+            composable(Screen.FirstTimeLogin.route) {
+                FirstTimeLoginScreen(
+                    onRegisterSuccess = {
+                        navController.navigate("mainFlow") {
+                            popUpTo(Screen.FirstTimeLogin.route) { inclusive = true }
+                        }
+                    },
+                    registerUser = { nombre, nivelSeleccionado ->
+                        val uid = FirebaseAuth.getInstance().currentUser?.uid
+                        if (uid != null) {
+                            loginViewModel.actualizarNombreUsuario(uid, nombre, nivelSeleccionado)
+                            loginViewModel.marcarPrimerLoginCompleto()
+                            navController.navigate("mainFlow") {
+                                popUpTo(Screen.FirstTimeLogin.route) { inclusive = true }
+                            }
+                        }
                     }
-                },
-                registerUser = { nombre, nivelSeleccionado ->
-                    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@FirstTimeRegistrationScreen
-                    val repositoryUsuario = RepositoryUsuario(GameGlishDatabase.getDatabase(context))
-                    scope.launch {
-                        repositoryUsuario.actualizarUsuarioProfile(uid, nombre, nivelSeleccionado)
-                    }
-                }
-            )
-        }
-
-        // ---------- Main Flow (with Bottom Navigation) ----------
-        // Aquí solo delegamos a MainFlowScreen, que gestiona internamente todas las rutas principales.
+                )
+            }
+            }
+        // Flujo principal (con Bottom Navigation)
         composable("mainFlow") {
             MainFlowScreen()
         }

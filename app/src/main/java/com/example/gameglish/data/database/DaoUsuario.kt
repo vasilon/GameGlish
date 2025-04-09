@@ -15,4 +15,7 @@ interface DaoUsuario {
 
     @Query("SELECT * FROM usuarios WHERE uidFirebase = :uid")
     suspend fun getUsuarioPorUid(uid: String): EntityUsuario?
+
+    @Query("UPDATE usuarios SET firstLogin = :firstLogin WHERE uidFirebase = :uid")
+    suspend fun actualizarIsFirstLogin(uid: String, firstLogin: Boolean)
 }

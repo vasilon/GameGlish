@@ -1,14 +1,17 @@
 package com.example.gameglish
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.gameglish.ui.navigation.AppNavHost
 import com.example.gameglish.ui.theme.GameGlishTheme
+import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -33,8 +36,9 @@ fun GameGlishApp() {
         Surface(color = MaterialTheme.colorScheme.background) {
             AppNavHost(
                 navController = navController,
-                isUserLoggedIn = auth.currentUser != null,
-                isFirstLogin = false
+                loginViewModel = LoginViewModel(
+                    application = LocalContext.current.applicationContext as Application
+                ),
             )
         }
     }

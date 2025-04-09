@@ -1,4 +1,3 @@
-// Kotlin - app/src/main/java/com/example/gameglish/data/model/EntityUsuario.kt
 package com.example.gameglish.data.model
 
 import androidx.room.Entity
@@ -6,10 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "usuarios")
 data class EntityUsuario(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val uidFirebase: String = "",
+    @PrimaryKey val uidFirebase: String = "",  // Se utiliza uidFirebase como clave principal
     val email: String = "",
     val nombre: String = "",
     val puntos: Int = 0,
-    val nivel: Int = 0
+    val nivel: Int = 0,
+    var firstLogin: Boolean = true  // Nuevo campo para indicar el primer login
 )
