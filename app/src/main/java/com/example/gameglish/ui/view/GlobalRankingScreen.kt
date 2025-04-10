@@ -5,15 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -21,27 +27,32 @@ import com.example.gameglish.R
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityRanking
 import com.example.gameglish.data.repository.RepositoryEstadistica
-import com.example.gameglish.ui.components.*
-import androidx.compose.ui.text.font.FontWeight
+import com.example.gameglish.ui.components.LeaderboardTabs
+import com.example.gameglish.ui.components.RankingListItem
+import com.example.gameglish.ui.components.Top3Row
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalRankingScreen(navController: NavController) {
-    // Definimos los colores temáticos para Ranking.
-    val rankingColor = Color(0xFFF39000)    // Naranja intenso
-    val lightRankingColor = Color(0xFFFFE0B2) // Naranja claro
+    // Colores principales
+    val topBarColor = Color(0xFFF39000)        // Naranja principal
+    val darkBackgroundTop = Color(0xFF1D1F3E)  // Gradiente top
+    val darkBackgroundBottom = Color(0xFF25294E) // Gradiente bottom
 
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val db = GameGlishDatabase.getDatabase(context)
     val repositoryEstadistica = RepositoryEstadistica(db)
+
     var rankingList by remember { mutableStateOf<List<EntityRanking>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
+    // Carga de datos
     LaunchedEffect(Unit) {
         try {
             rankingList = repositoryEstadistica.obtenerRankingGlobal()
+            Log.d("GlobalRankingScreen", "Ranking loaded: ${rankingList.size}")
         } catch (e: Exception) {
             Log.e("GlobalRankingScreen", "Error loading ranking", e)
         } finally {
@@ -60,7 +71,7 @@ fun GlobalRankingScreen(navController: NavController) {
                         color = Color.White
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = rankingColor),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
@@ -92,55 +103,84 @@ fun GlobalRankingScreen(navController: NavController) {
             )
         },
         content = { paddingValues ->
+            // Fondo con gradiente oscuro
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
                         brush = Brush.verticalGradient(
-                            colors = listOf(
-                                lightRankingColor,
-                                Color.White
-                            )
+                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
                         )
                     )
                     .padding(paddingValues)
             ) {
                 if (isLoading) {
+                    // Indicador de carga
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(color = rankingColor)
+                        CircularProgressIndicator(color = topBarColor)
                     }
                 } else {
-                    // Separamos el podio (primeros 3) y el resto
-                    val podiumList = rankingList.take(3)
-                    val restList = rankingList.drop(3)
-
+                    // Layout principal
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
+                        // Pestañas de Region / National / Global
+                        LeaderboardTabs()
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Título "Leaderboard" (o “Ranking Global”)
                         Text(
                             text = "Ranking Global",
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 28.sp
+                            style = MaterialTheme.typography.headlineLarge.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White
                             ),
-                            modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally)
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(bottom = 8.dp)
                         )
-                        // Podio: mostrar los 3 primeros puestos en una sección especial
-                        PodiumSection(podiumList)
-                        // Resto de posiciones (sin ícono de copa ni escalonamiento)
-                        LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            itemsIndexed(restList) { index, ranking ->
-                                StandardRankingCard(ranking = ranking, position = index + 3)
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        // Top 3 (si hay al menos 3)
+                        val podiumList = rankingList.take(3)
+                        val restList = rankingList.drop(3)
+
+                        if (podiumList.size < 3) {
+                            Text(
+                                text = "No hay datos para mostrar el podio",
+                                style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        } else {
+                            Top3Row(podiumList)
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Lista del resto
+                        if (restList.isEmpty()) {
+                            Text(
+                                text = "No hay más usuarios en el ranking.",
+                                style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                itemsIndexed(restList) { index, ranking ->
+                                    RankingListItem(
+                                        ranking = ranking,
+                                        position = index + 4
+                                    )
+                                }
                             }
                         }
                     }
@@ -149,4 +189,5 @@ fun GlobalRankingScreen(navController: NavController) {
         }
     )
 
+    // Manejo de showLogoutDialog si lo deseas...
 }
