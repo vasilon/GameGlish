@@ -72,7 +72,7 @@ fun Top3Row(podiumList: List<EntityRanking>) {
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .width(280.dp)
+                .width(340.dp)
                 .height(100.dp)
                 .clip(MaterialTheme.shapes.large)
                 .background(colorBase2y3)
@@ -131,13 +131,14 @@ fun Top3CardWithCrown(
     position: Int,
     isCenter: Boolean
 ) {
-    // Avatar más grande si es el #1
+    // Avatar mayor para el centro (#1), 70.dp para 2 y 3.
     val avatarSize = if (isCenter) 90.dp else 70.dp
 
     Column(
+        modifier = if (!isCenter) Modifier.width(120.dp) else Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Contenedor principal del avatar y la corona (solo #1 la lleva)
+        // Contenedor del avatar y, para el centro (#1), la corona encima.
         Box(contentAlignment = Alignment.TopCenter) {
             // Avatar (placeholder)
             Image(
@@ -149,21 +150,19 @@ fun Top3CardWithCrown(
                 contentScale = ContentScale.Crop
             )
             if (position == 1) {
-                // Corona encima del avatar
+                // Corona encima del avatar para el puesto 1.
                 Image(
                     painter = painterResource(id = R.drawable.ic_crown),
                     colorFilter = ColorFilter.tint(Color(0xFFFFD700)),
                     contentDescription = "Crown",
                     modifier = Modifier
                         .size(32.dp)
-                        .offset(y = (-24).dp) // Súbelo encima
+                        .offset(y = (-24).dp)
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(6.dp))
-
-        // Nombre
+        // Nombre (se truncará en una sola línea si es muy largo)
         Text(
             text = ranking.nombre,
             style = MaterialTheme.typography.titleMedium.copy(
@@ -173,7 +172,6 @@ fun Top3CardWithCrown(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-
         // Puntos
         Text(
             text = "${ranking.puntos} pts",
