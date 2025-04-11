@@ -14,6 +14,7 @@ import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.view.FirstTimeLoginScreen
 import com.example.gameglish.ui.view.LoginScreen
 import com.example.gameglish.ui.view.RegisterScreen
+import com.example.gameglish.ui.view.SettingsScreen
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -46,9 +47,6 @@ fun AppNavHost(
     navController: NavHostController,
     loginViewModel: LoginViewModel
 ) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
     val isUserLoggedIn by loginViewModel.isUserLoggedIn.collectAsState()
     val isFirstLogin by loginViewModel.isFirstLogin.collectAsState()
 
@@ -110,5 +108,9 @@ fun AppNavHost(
         composable("mainFlow") {
             MainFlowScreen(globalNavController = navController)
         }
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController)  // Asegúrate de que exista tu SettingsScreen
+        }
     }
+
 }

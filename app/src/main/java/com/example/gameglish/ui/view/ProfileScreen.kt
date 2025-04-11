@@ -96,7 +96,7 @@ fun ProfileScreen(navController: NavController) {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_account_circle_24),
-                            contentDescription = "Perfil",
+                            contentDescription = "Ajustes",
                             tint = Color.White
                         )
                     }
@@ -105,7 +105,7 @@ fun ProfileScreen(navController: NavController) {
                         onDismissRequest = { menuExpanded = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Perfil") },
+                            text = { Text("Ajustes") },
                             onClick = {
                                 menuExpanded = false
                                 navController.navigate("profile")
