@@ -1,15 +1,15 @@
 package com.example.gameglish.ui.view
 
-import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Grade
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults.cardElevation
@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +33,6 @@ import com.example.gameglish.data.model.EntityEstadistica
 import com.example.gameglish.data.model.EntityUsuario
 import com.example.gameglish.data.repository.RepositoryEstadistica
 import com.example.gameglish.data.repository.RepositoryUsuario
-import com.example.gameglish.ui.components.BackTopAppBar
 import com.example.gameglish.ui.viewmodel.StatsViewModel
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
@@ -40,10 +41,13 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
-    // COLOR TEMÁTICO: Color(0xFF6A1B9A)
+    // Color principal (morado) y fondo oscuro degradado
     val themePrimary = Color(0xFF6A1B9A)
-    // Fondo suave para el contenido (degradado basado en el tema)
-    val lightTheme = Color(0xFFF3E5F5)
+    val darkBackgroundTop = Color(0xFF1D1F3E)
+    val darkBackgroundBottom = Color(0xFF25294E)
+    var menuExpanded by remember { mutableStateOf(false) }
+    var showLogoutDialog by remember { mutableStateOf(false) }
+    val topBarColor = Color(0xFF6A1B9A)
 
     val context = LocalContext.current
     val db = GameGlishDatabase.getDatabase(context)
@@ -61,26 +65,20 @@ fun ProfileScreen(navController: NavController) {
         7 to "NATIVE"
     )
 
-    // Cargamos la información del usuario
+    // Cargar datos de usuario
     LaunchedEffect(true) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@LaunchedEffect
         usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
     }
 
-    // Estados para el menú desplegable y diálogo de cierre de sesión
-    var menuExpanded by remember { mutableStateOf(false) }
-    var showLogoutDialog by remember { mutableStateOf(false) }
-
-    // Para la sección de estadísticas, creamos el repositorio de estadísticas y el ViewModel.
+    // Para el historial de estadísticas
     val repositoryEstadistica = RepositoryEstadistica(db)
-    // Nota: Este StatsViewModel se instancia de forma manual sin un Factory; por lo tanto, no sobrevivirá a cambios de configuración.
     val statsViewModel = remember { StatsViewModel(repositoryUsuario, repositoryEstadistica) }
-    // Observamos el listado de estadísticas.
     val estadisticas by statsViewModel.estadisticas
 
+    // Scaffold con TopBar de color morado (themePrimary)
     Scaffold(
         topBar = {
-
             TopAppBar(
                 title = {
                     Text(
@@ -90,13 +88,12 @@ fun ProfileScreen(navController: NavController) {
                         color = Color.White
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = themePrimary),
-
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_account_circle_24),
-                            contentDescription = "Ajustes",
+                            contentDescription = "Perfil",
                             tint = Color.White
                         )
                     }
@@ -105,7 +102,7 @@ fun ProfileScreen(navController: NavController) {
                         onDismissRequest = { menuExpanded = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Ajustes") },
+                            text = { Text("Perfil") },
                             onClick = {
                                 menuExpanded = false
                                 navController.navigate("profile")
@@ -128,71 +125,85 @@ fun ProfileScreen(navController: NavController) {
                     .fillMaxSize()
                     .background(
                         brush = Brush.verticalGradient(
-                            colors = listOf(lightTheme, Color.White)
+                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
                         )
                     )
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
+                // Si ya cargamos el usuario, mostramos la info
                 if (usuario != null) {
-                    // Usamos una LazyColumn para que el contenido sea scrollable.
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         item {
-                            // Tarjeta principal con la información del usuario
+                            // Tarjeta principal estilo oscuro
                             Card(
                                 shape = RoundedCornerShape(16.dp),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFF2F3256))
                             ) {
                                 Column(
                                     modifier = Modifier.padding(16.dp),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                                    horizontalAlignment = Alignment.CenterHorizontally  // Centramos horizontalmente todo el contenido
                                 ) {
-                                    // Avatar
+                                    // Avatar centrado en el Card
                                     Box(
                                         modifier = Modifier
-                                            .size(80.dp)
-                                            .clip(RoundedCornerShape(50))
-                                            .background(themePrimary),
-                                        contentAlignment = Alignment.Center
+                                            .size(90.dp)
+                                            .clip(CircleShape)
+                                            .background(themePrimary),  // Usamos el color temático
+                                        contentAlignment = Alignment.Center  // Esto centra el contenido dentro del Box
                                     ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Person,
+                                        // Imagen del avatar (placeholder)
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_placeholder),
                                             contentDescription = "Avatar",
-                                            tint = Color.White,
-                                            modifier = Modifier.size(40.dp)
+                                            modifier = Modifier
+                                                .size(80.dp)
+                                                .clip(CircleShape),
+                                            contentScale = ContentScale.Crop
                                         )
                                     }
-                                    // Nombre
-                                    Text(
-                                        text = usuario!!.nombre,
-                                        style = MaterialTheme.typography.headlineSmall.copy(
-                                            fontWeight = FontWeight.Bold
-                                        ),
-                                        color = Color(0xFF424242)
-                                    )
-                                    Divider()
-                                    // Fila de información: Email
-                                    ProfileInfoRow(
-                                        icon = Icons.Default.Email,
-                                        info = "Email: ${usuario!!.email}",
-                                        themeColor = themePrimary
-                                    )
-                                    // Fila de información: Points
-                                    ProfileInfoRow(
-                                        icon = Icons.Default.Stars,
-                                        info = "Points: ${usuario!!.puntos}",
-                                        themeColor = themePrimary
-                                    )
-                                    // Fila de información: Level
-                                    ProfileInfoRow(
-                                        icon = Icons.Default.Grade,
-                                        info = "Level: ${levelMap[usuario!!.nivel] ?: "A1"}",
-                                        themeColor = themePrimary
-                                    )
+
+                                    // 2) El contenido textual (nombre, info)
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(4.dp)
+                                         ,
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        // Nombre
+                                        Text(
+                                            text = usuario!!.nombre,
+                                            style = MaterialTheme.typography.headlineSmall.copy(
+                                                fontWeight = FontWeight.Bold
+                                            ),
+                                            color = Color.White
+                                        )
+                                        Divider(color = Color.LightGray)
+                                        // Fila: Email
+                                        ProfileInfoRow(
+                                            icon = Icons.Default.Email,
+                                            info = "Email: ${usuario!!.email}",
+                                            themeColor = themePrimary
+                                        )
+                                        // Fila: Puntos
+                                        ProfileInfoRow(
+                                            icon = Icons.Default.Stars,
+                                            info = "Points: ${usuario!!.puntos}",
+                                            themeColor = themePrimary
+                                        )
+                                        // Fila: Nivel
+                                        ProfileInfoRow(
+                                            icon = Icons.Default.Grade,
+                                            info = "Level: ${levelMap[usuario!!.nivel] ?: "A1"}",
+                                            themeColor = themePrimary
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -204,9 +215,11 @@ fun ProfileScreen(navController: NavController) {
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 8.dp),
-                                color = themePrimary
+                                // Color dorado para que resalte más
+                                color = Color(0xFFFFC107)
                             )
                         }
+                        // Tarjetas del historial
                         if (estadisticas.isNotEmpty()) {
                             items(estadisticas) { estadistica ->
                                 StatCard(estadistica = estadistica)
@@ -225,6 +238,7 @@ fun ProfileScreen(navController: NavController) {
                         }
                     }
                 } else {
+                    // Indicador de carga
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = themePrimary
@@ -235,8 +249,9 @@ fun ProfileScreen(navController: NavController) {
     )
 }
 
+// Muestra un icono painter + texto en color blanco
 @Composable
-fun ProfileInfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, info: String, themeColor: Color) {
+fun ProfileInfoRow(icon: ImageVector, info: String, themeColor: Color) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -251,14 +266,14 @@ fun ProfileInfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, info: 
         Text(
             text = info,
             style = MaterialTheme.typography.bodyLarge,
-            color = Color(0xFF424242)
+            color = Color.White
         )
     }
 }
 
+// Cada estadística en una tarjeta oscura
 @Composable
 fun StatCard(estadistica: EntityEstadistica) {
-    // Se formatea la fecha para mostrarla en formato legible.
     val formattedDate = remember(estadistica.fecha) {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         sdf.format(Date(estadistica.fecha))
@@ -266,13 +281,15 @@ fun StatCard(estadistica: EntityEstadistica) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
-        elevation = cardElevation(defaultElevation = 4.dp)
+        elevation = cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF2F3256))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = formattedDate,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row(
@@ -281,18 +298,21 @@ fun StatCard(estadistica: EntityEstadistica) {
             ) {
                 Text(
                     text = "Aciertos: ${estadistica.aciertos}",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = Color.White
                 )
                 Text(
                     text = "Errores: ${estadistica.errores}",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = Color.White
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Puntos: ${estadistica.puntos}",
                 fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFFFFC107)
             )
         }
     }
