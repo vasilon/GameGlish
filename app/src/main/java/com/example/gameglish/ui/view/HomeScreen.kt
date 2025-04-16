@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults.cardElevation
@@ -15,13 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,7 +27,6 @@ import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,15 +35,9 @@ fun HomeScreen(
     navController: NavController,
     loginViewModel: LoginViewModel = viewModel()
 ) {
-    // -------------------------
-    // 1) Mantener Menú y Diálogo de Logout
-    // -------------------------
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
 
-    // -------------------------
-    // 2) Datos de Usuario y Progreso
-    // -------------------------
     val context = LocalContext.current
     val db = GameGlishDatabase.getDatabase(context)
     val repositoryUsuario = remember { RepositoryUsuario(db) }
@@ -59,13 +46,11 @@ fun HomeScreen(
     var userLevel by remember { mutableStateOf("A1") }
     val levels = listOf("A1", "A2", "B1", "B2", "C1", "C2", "NATIVE")
 
-    // Datos ficticios para logros y recomendación
+    // Datos ficticios
     val achievements = listOf("Primer Quiz", "5 Días Consecutivos", "Nivel A2")
     val recommendedLesson = "Gramática: Presente Simple"
 
-    // -------------------------
-    // 3) Cargar Datos de Usuario con estilo “GlobalRanking”
-    // -------------------------
+    // Carga de datos de Usuario
     LaunchedEffect(true) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@LaunchedEffect
         var usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
@@ -88,7 +73,7 @@ fun HomeScreen(
         }
     }
 
-    // Al superar 300 puntos sube de nivel y reinicia a 0
+    // Subir nivel al llegar a 300 puntos
     LaunchedEffect(userPoints) {
         if (userPoints >= 300) {
             val currentIndex = levels.indexOf(userLevel)
@@ -99,29 +84,26 @@ fun HomeScreen(
         }
     }
 
-    // -------------------------
-    // 4) Scaffold con TopBar y Gradiente Oscuro
-    // (No se cambia la funcionalidad del TopBar)
-    // -------------------------
     Scaffold(
         topBar = {
-            // ¡No modificamos el color ni la funcionalidad del TopBar!
             TopAppBar(
                 title = {
                     Text(
                         text = "GameGlish",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF2196F3)),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_account_circle_24),
                             contentDescription = "Ajustes",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     DropdownMenu(
@@ -147,53 +129,39 @@ fun HomeScreen(
             )
         },
         content = { paddingValues ->
-            // -------------------------
-            // Fondo con gradiente oscuro (como GlobalRankingScreen)
-            // -------------------------
-            val darkBackgroundTop = Color(0xFF1D1F3E)
-            val darkBackgroundBottom = Color(0xFF25294E)
-
+            // Gradiente de fondo usando background y surface
+            val gradientColors = listOf(
+                MaterialTheme.colorScheme.background,
+                MaterialTheme.colorScheme.surface
+            )
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
-                        )
-                    )
+                    .background(brush = Brush.verticalGradient(gradientColors))
                     .padding(paddingValues)
             ) {
-                // -------------------------
-                // Contenido principal
-                // -------------------------
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // Header con nivel y progreso
-                    DashboardHeaderDark(userLevel = userLevel, userPoints = userPoints)
+                    DashboardHeader(userLevel = userLevel, userPoints = userPoints)
 
-                    // Card de Recomendación del Día
-                    RecommendationCardDark(
+                    RecommendationCard(
                         lessonTitle = recommendedLesson,
                         onClick = { /* Navegar a la lección recomendada */ }
                     )
 
-                    // Sección de Logros Recientes
-                    AchievementsSectionDark(achievements = achievements)
+                    AchievementsSection(achievements = achievements)
 
-                    // Sección de “Noticias” o “Consejo”
-                    NewsSectionDark()
+                    NewsSection()
                 }
             }
         }
     )
 
-    // -------------------------
     // Diálogo de Logout
-    // -------------------------
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
@@ -222,19 +190,16 @@ fun HomeScreen(
 }
 
 /**
- * DashboardHeader con estilo oscuro y barras en color amarillo,
- * similar a la línea de diseño de GlobalRankingScreen.
+ * DashboardHeader que se adapta a cualquier modo, usando los colores del tema.
  */
 @Composable
-fun DashboardHeaderDark(userLevel: String, userPoints: Int) {
-    // Progreso normalizado (de 0.0 a 1.0)
+fun DashboardHeader(userLevel: String, userPoints: Int) {
     val progress = min(userPoints / 300f, 1f)
-    // Card oscura
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2F3256)),
-        elevation = cardElevation(0.dp),
-        shape = RoundedCornerShape(16.dp)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = RoundedCornerShape(16.dp),
+        elevation = cardElevation(0.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -243,32 +208,31 @@ fun DashboardHeaderDark(userLevel: String, userPoints: Int) {
             Text(
                 text = "Nivel: $userLevel",
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSurface
             )
-            // Barra de progreso, usando un color dorado
             LinearProgressIndicator(
                 progress = progress,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(10.dp)
                     .clip(RoundedCornerShape(5.dp)),
-                color = Color(0xFFFFC107),
-                trackColor = Color(0xFF424769)
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.secondary
             )
             Text(
                 text = "Puntos: $userPoints / 300",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFFE8E8E8)
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
 }
 
 /**
- * Tarjeta de recomendación con fondo oscuro
+ * Tarjeta de recomendación usando el color primario para ícono y botón.
  */
 @Composable
-fun RecommendationCardDark(
+fun RecommendationCard(
     lessonTitle: String,
     onClick: () -> Unit
 ) {
@@ -277,18 +241,17 @@ fun RecommendationCardDark(
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2F3256)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = cardElevation(0.dp)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Ícono de libro
             Icon(
                 painter = painterResource(id = R.drawable.baseline_menu_book_24),
                 contentDescription = null,
-                tint = Color(0xFFFFC107),
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(48.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -296,60 +259,65 @@ fun RecommendationCardDark(
                 Text(
                     text = "Recomendación del Día",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = lessonTitle,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xFFE0E0E0)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(
                 onClick = onClick,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFC107))
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("Comenzar", color = Color.Black)
+                Text("Comenzar", color = MaterialTheme.colorScheme.onPrimary)
             }
         }
     }
 }
 
 /**
- * Logros Recientes con un estilo oscuro y tarjetas más pequeñas
+ * Sección de Logros con contenedor `surfaceVariant` y tarjetas en color primario
+ * para que destaquen.
  */
 @Composable
-fun AchievementsSectionDark(achievements: List<String>) {
+fun AchievementsSection(achievements: List<String>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFF2F3256))
+            // surfaceVariant para que resalte un poco más que el fondo y surface
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(16.dp)
     ) {
         Text(
             text = "Logros Recientes",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = Color(0xFFFFC107)
+            color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(achievements) { achievement ->
-                AchievementCardDark(achievement)
+                AchievementCard(achievement)
             }
         }
     }
 }
 
 /**
- * Tarjetita oscura para cada logro
+ * Tarjeta de logro en color primario para destacar aún más.
  */
 @Composable
-fun AchievementCardDark(achievement: String) {
+fun AchievementCard(achievement: String) {
     Card(
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF3C3F5B)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ),
         elevation = cardElevation(0.dp),
         modifier = Modifier.requiredSize(width = 120.dp, height = 80.dp)
     ) {
@@ -361,7 +329,7 @@ fun AchievementCardDark(achievement: String) {
         ) {
             Text(
                 text = achievement,
-                style = MaterialTheme.typography.bodySmall.copy(color = Color.White),
+                style = MaterialTheme.typography.bodySmall,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
@@ -370,13 +338,13 @@ fun AchievementCardDark(achievement: String) {
 }
 
 /**
- * Sección de Noticias / Consejo con estilo oscuro
+ * Sección de Noticias / Consejo con contenedor `surfaceVariant`.
  */
 @Composable
-fun NewsSectionDark() {
+fun NewsSection() {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2F3256)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = cardElevation(0.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -384,12 +352,14 @@ fun NewsSectionDark() {
             Text(
                 text = "Consejo del Día",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = Color(0xFFFFC107)
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Repasa tus lecciones anteriores para consolidar lo aprendido. La práctica constante es clave para el progreso.",
-                style = MaterialTheme.typography.bodyMedium.copy(color = Color.White)
+                text = "Repasa tus lecciones anteriores para consolidar lo aprendido. " +
+                        "La práctica constante es clave para el progreso.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
