@@ -65,12 +65,12 @@ fun CompetitiveGameScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Host: $hostName", style = MaterialTheme.typography.titleLarge)
+                    Text(text = "Anfitrión: $hostName", style = MaterialTheme.typography.titleLarge)
                     LivesRow(lives = gameState.hostLives)
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Joiner: ${if (joinerName.isNotEmpty()) joinerName else "Waiting..."}",
+                        text = "Invitado: ${if (joinerName.isNotEmpty()) joinerName else "Waiting..."}",
                         style = MaterialTheme.typography.titleLarge
                     )
                     LivesRow(lives = gameState.joinerLives)

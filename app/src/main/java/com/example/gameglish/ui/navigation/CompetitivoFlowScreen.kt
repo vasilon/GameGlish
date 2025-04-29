@@ -2,9 +2,12 @@ package com.example.gameglish.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.gameglish.ui.view.CompetitiveGameScreen
 import com.example.gameglish.ui.view.HostGameScreen
 import com.example.gameglish.ui.view.JoinGameScreen
 import com.example.gameglish.ui.view.GlobalRankingScreen
@@ -32,5 +35,18 @@ fun CompetitivoFlowScreen(modifier: Modifier = Modifier) {
         composable("join_game") {
             JoinGameScreen(navController = competitivoNavController)
         }
+        composable(
+            route = Screen.CompetitiveGame.route, // "competitive_game/{gameId}"
+            arguments = listOf(
+                navArgument("gameId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val gameId = backStackEntry.arguments!!.getString("gameId")!!
+            CompetitiveGameScreen(
+                gameId = gameId,
+                navController = competitivoNavController
+            )
+        }
+
     }
 }

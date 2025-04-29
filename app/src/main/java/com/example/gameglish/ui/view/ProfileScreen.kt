@@ -141,7 +141,7 @@ fun ProfileScreen(navController: NavController) {
                                 elevation = CardDefaults.cardElevation(8.dp),
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surface
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
                                 )
                             ) {
                                 Column(
