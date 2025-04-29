@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -55,30 +56,35 @@ fun ModoIndividualMainScreen(
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
 
-    // Definición de colores temáticos para el modo individual
+    // Verde principal solicitado
     val greenPrimary = Color(0xFF43A047)
-    // Fondo con degradado oscuro similar al GlobalRankingScreen
-    val darkBackgroundTop = Color(0xFF1D1F3E)
-    val darkBackgroundBottom = Color(0xFF25294E)
+
+    // Degradado de fondo tomando colores del tema
+    val gradientColors = listOf(
+        MaterialTheme.colorScheme.background,
+        MaterialTheme.colorScheme.surfaceVariant
+    )
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "GameGlish",
+                        "GameGlish",
                         fontSize = 22.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = greenPrimary),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = greenPrimary
+                ),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
-                            painter = androidx.compose.ui.res.painterResource(id = R.drawable.baseline_account_circle_24),
+                            painter = painterResource(id = R.drawable.baseline_account_circle_24),
                             contentDescription = "Perfil",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     DropdownMenu(
@@ -107,11 +113,7 @@ fun ModoIndividualMainScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
-                        )
-                    )
+                    .background(Brush.verticalGradient(gradientColors))
                     .padding(innerPadding)
             ) {
                 Column(
@@ -121,43 +123,46 @@ fun ModoIndividualMainScreen(
                     verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Encabezado
                     Text(
-                        text = "Modo Individual",
+                        "Modo Individual",
                         style = MaterialTheme.typography.headlineLarge.copy(
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                            color = Color.White
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
-                    // Botones de opción usando iconos nativos
+
                     OptionCard(
                         title = "Vocabulario",
                         description = "Ejercita y amplía tu vocabulario mediante retos interactivos.",
                         icon = Icons.Default.MenuBook,
                         onClick = onVocabularioClick,
-                        backgroundColor = greenPrimary
+                        backgroundColor = greenPrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                     OptionCard(
                         title = "Gramática",
                         description = "Refuerza tus reglas gramaticales con ejercicios dinámicos.",
                         icon = Icons.Default.Description,
                         onClick = onGramaticaClick,
-                        backgroundColor = greenPrimary
+                        backgroundColor = greenPrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                     OptionCard(
                         title = "Reading",
                         description = "Mejora tu comprensión lectora con textos desafiantes.",
                         icon = Icons.Default.MenuBook,
                         onClick = onReadingClick,
-                        backgroundColor = greenPrimary
+                        backgroundColor = greenPrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                     OptionCard(
                         title = "Listening",
                         description = "Ejercita tu oído con audios y preguntas interactivas.",
                         icon = Icons.Default.HeadsetMic,
                         onClick = onListeningClick,
-                        backgroundColor = greenPrimary
+                        backgroundColor = greenPrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -196,7 +201,8 @@ fun OptionCard(
     description: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    backgroundColor: Color
+    backgroundColor: Color,
+    contentColor: Color
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -204,7 +210,7 @@ fun OptionCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = backgroundColor.copy(alpha = 0.95f))
+        colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Row(
             modifier = Modifier
@@ -216,29 +222,31 @@ fun OptionCard(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White.copy(alpha = 0.3f)),
+                    .background(contentColor.copy(alpha = 0.2f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier.size(32.dp),
-                    tint = backgroundColor
+                    tint = contentColor
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = title,
+                    title,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = contentColor
                     )
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = description,
-                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
+                    description,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = contentColor
+                    ),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )

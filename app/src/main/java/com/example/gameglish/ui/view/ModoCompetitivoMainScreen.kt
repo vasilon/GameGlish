@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.gameglish.R
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModoCompetitivoMainScreen(
     onHostGame: () -> Unit,
@@ -55,11 +55,14 @@ fun ModoCompetitivoMainScreen(
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
 
-    // TopBar: color rojo principal para la barra
+    // Fijamos el rojo deseado aquí:
     val topBarColor = Color(0xFFE50D45)
-    // Para el fondo usamos un degradado oscuro que combine con los estilos anteriores:
-    val darkBackgroundTop = Color(0xFF1D1F3E)
-    val darkBackgroundBottom = Color(0xFF25294E)
+
+    // Para el degradado de fondo puedes seguir usando los colores del tema:
+    val gradientColors = listOf(
+        MaterialTheme.colorScheme.background,
+        MaterialTheme.colorScheme.surfaceVariant
+    )
 
     Scaffold(
         topBar = {
@@ -68,17 +71,19 @@ fun ModoCompetitivoMainScreen(
                     Text(
                         text = "GameGlish",
                         fontSize = 22.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = topBarColor   // rojo fijo
+                ),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
-                            painter = androidx.compose.ui.res.painterResource(id = R.drawable.baseline_account_circle_24),
+                            painter = painterResource(id = R.drawable.baseline_account_circle_24),
                             contentDescription = "Perfil",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     DropdownMenu(
@@ -87,9 +92,7 @@ fun ModoCompetitivoMainScreen(
                     ) {
                         DropdownMenuItem(
                             text = { Text("Perfil") },
-                            onClick = {
-                                menuExpanded = false
-                            }
+                            onClick = { menuExpanded = false }
                         )
                         DropdownMenuItem(
                             text = { Text("Cerrar Sesión") },
@@ -106,11 +109,7 @@ fun ModoCompetitivoMainScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
-                        )
-                    )
+                    .background(Brush.verticalGradient(gradientColors))
                     .padding(innerPadding)
             ) {
                 Column(
@@ -123,25 +122,26 @@ fun ModoCompetitivoMainScreen(
                     Text(
                         text = "Modo Competitivo",
                         style = MaterialTheme.typography.headlineMedium.copy(
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Bold,
                             fontSize = 28.sp
                         ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
+                    // Aquí pasamos topBarColor como fondo de las tarjetas:
                     CompetitiveOptionCard(
                         title = "Crear Partida",
                         description = "Inicia una nueva partida competitiva",
                         onClick = onHostGame,
-                        backgroundColor = Color.White,
-                        contentColor = topBarColor
+                        backgroundColor = topBarColor,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                     CompetitiveOptionCard(
                         title = "Unirse a Partida",
                         description = "Encuentra y únete a una partida existente",
                         onClick = onJoinGame,
-                        backgroundColor = Color.White,
-                        contentColor = topBarColor
+                        backgroundColor = topBarColor,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -154,12 +154,7 @@ fun ModoCompetitivoMainScreen(
             title = { Text("Confirmar cierre de sesión") },
             text = { Text("¿Estás seguro que deseas cerrar sesión?") },
             confirmButton = {
-                TextButton(
-                    onClick = {
-                        showLogoutDialog = false
-
-                    }
-                ) {
+                TextButton(onClick = { showLogoutDialog = false }) {
                     Text("Sí")
                 }
             },
@@ -214,3 +209,4 @@ fun CompetitiveOptionCard(
         }
     }
 }
+

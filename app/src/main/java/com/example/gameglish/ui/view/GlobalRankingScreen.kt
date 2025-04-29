@@ -34,10 +34,14 @@ import com.example.gameglish.ui.components.Top3Row
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalRankingScreen(navController: NavController) {
-    // Colores principales
-    val topBarColor = Color(0xFFF39000)        // Naranja principal
-    val darkBackgroundTop = Color(0xFF1D1F3E)  // Gradiente top
-    val darkBackgroundBottom = Color(0xFF25294E) // Gradiente bottom
+    // Naranja fijo para TopBar e indicadores
+    val topBarColor = Color(0xFFF39000)
+
+    // Gradiente de fondo a partir del tema
+    val gradientColors = listOf(
+        MaterialTheme.colorScheme.background,
+        MaterialTheme.colorScheme.surfaceVariant
+    )
 
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -48,11 +52,9 @@ fun GlobalRankingScreen(navController: NavController) {
     var rankingList by remember { mutableStateOf<List<EntityRanking>>(emptyList()) }
     var isLoading by remember { mutableStateOf(true) }
 
-    // Carga de datos
     LaunchedEffect(Unit) {
         try {
             rankingList = repositoryEstadistica.obtenerRankingGlobal()
-            Log.d("GlobalRankingScreen", "Ranking loaded: ${rankingList.size}")
         } catch (e: Exception) {
             Log.e("GlobalRankingScreen", "Error loading ranking", e)
         } finally {
@@ -65,19 +67,19 @@ fun GlobalRankingScreen(navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        text = "GameGlish",
+                        "GameGlish",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_account_circle_24),
+                            painter = painterResource(R.drawable.baseline_account_circle_24),
                             contentDescription = "Perfil",
-                            tint = Color.White
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     DropdownMenu(
@@ -103,76 +105,72 @@ fun GlobalRankingScreen(navController: NavController) {
             )
         },
         content = { paddingValues ->
-            // Fondo con gradiente oscuro
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(darkBackgroundTop, darkBackgroundBottom)
-                        )
-                    )
+                    .background(Brush.verticalGradient(gradientColors))
                     .padding(paddingValues)
             ) {
                 if (isLoading) {
-                    // Indicador de carga
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
+                        // Indicador en naranja principal
                         CircularProgressIndicator(color = topBarColor)
                     }
                 } else {
-                    // Layout principal
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
-                        // Pestañas de Region / National / Global
                         LeaderboardTabs()
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(Modifier.height(16.dp))
 
-                        // Título "Leaderboard" (o “Ranking Global”)
                         Text(
-                            text = "Ranking Global",
+                            "Ranking Global",
                             style = MaterialTheme.typography.headlineLarge.copy(
                                 fontWeight = FontWeight.ExtraBold,
-                                color = Color.White
+                                color = MaterialTheme.colorScheme.onBackground
                             ),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .padding(bottom = 8.dp)
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
 
-                        // Top 3 (si hay al menos 3)
+                        Spacer(Modifier.height(8.dp))
+
                         val podiumList = rankingList.take(3)
                         val restList = rankingList.drop(3)
 
                         if (podiumList.size < 3) {
                             Text(
-                                text = "No hay datos para mostrar el podio",
-                                style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
+                                "No hay datos para mostrar el podio",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                                ),
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
                         } else {
-                            Top3Row(podiumList)
+                            Top3Row(
+                                podiumList
+                            )
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(Modifier.height(16.dp))
 
-                        // Lista del resto
                         if (restList.isEmpty()) {
                             Text(
-                                text = "No hay más usuarios en el ranking.",
-                                style = MaterialTheme.typography.bodyLarge.copy(color = Color.Gray),
+                                "No hay más usuarios en el ranking.",
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                                ),
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
                         } else {
                             LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 itemsIndexed(restList) { index, ranking ->
@@ -189,5 +187,22 @@ fun GlobalRankingScreen(navController: NavController) {
         }
     )
 
-    // Manejo de showLogoutDialog si lo deseas...
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog = false },
+            title = { Text("Confirmar cierre de sesión") },
+            text = { Text("¿Estás seguro que deseas cerrar sesión?") },
+            confirmButton = {
+                TextButton(onClick = { showLogoutDialog = false }) {
+                    Text("Sí")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogoutDialog = false }) {
+                    Text("No")
+                }
+            }
+        )
+    }
 }
+
