@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.example.gameglish.ui.components.CustomBottomNavigationBar
+import com.example.gameglish.ui.theme.GameGlishTheme
+import com.example.gameglish.ui.theme.ScreenColor
 import com.example.gameglish.ui.view.HomeScreen
 import com.example.gameglish.ui.view.ProfileScreen
 import com.example.gameglish.ui.view.GlobalRankingScreen
@@ -24,21 +26,47 @@ fun MainFlowScreen(globalNavController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") {
-                // Usa el globalNavController, que conoce "login"
-                HomeScreen(navController = globalNavController)
+                GameGlishTheme(
+                    screen = ScreenColor.Home,
+                    dynamicColor = false
+                ) {
+                    HomeScreen(navController = globalNavController)
+                }
             }
             composable("competitivo") {
-                CompetitivoFlowScreen()
+                GameGlishTheme(
+                    screen = ScreenColor.Competitivo,
+                    dynamicColor = false
+                ) {
+                    CompetitivoFlowScreen()
+                }
             }
             composable("individual") {
-                IndividualFlowScreen()
+                GameGlishTheme(
+                    screen = ScreenColor.Individual,
+                    dynamicColor = false
+                ) {
+                    IndividualFlowScreen()
+                }
             }
             composable("ranking") {
-                GlobalRankingScreen(navController = bottomNavController)
+
+                GameGlishTheme(
+                    screen = ScreenColor.Ranking,
+                    dynamicColor = false
+                ) {
+                    GlobalRankingScreen(navController = bottomNavController)
+                }
             }
-            composable("profile") {
-                ProfileScreen(navController = bottomNavController)
+                composable("profile") {
+
+                    GameGlishTheme(
+                        screen = ScreenColor.Profile,
+                        dynamicColor = false
+                    ) {
+                        ProfileScreen(navController = bottomNavController)
+                    }
+                }
             }
         }
     }
-}

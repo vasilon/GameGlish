@@ -35,7 +35,7 @@ import com.example.gameglish.ui.components.Top3Row
 @Composable
 fun GlobalRankingScreen(navController: NavController) {
     // Naranja fijo para TopBar e indicadores
-    val topBarColor = Color(0xFFF39000)
+
 
     // Gradiente de fondo a partir del tema
     val gradientColors = listOf(
@@ -73,7 +73,9 @@ fun GlobalRankingScreen(navController: NavController) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = topBarColor),
+                    colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                               ),
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
@@ -117,7 +119,7 @@ fun GlobalRankingScreen(navController: NavController) {
                         contentAlignment = Alignment.Center
                     ) {
                         // Indicador en naranja principal
-                        CircularProgressIndicator(color = topBarColor)
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                     }
                 } else {
                     Column(
