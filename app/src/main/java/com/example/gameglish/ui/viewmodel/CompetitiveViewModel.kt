@@ -36,7 +36,7 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     private var indicePreguntaActual = 0
     private val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
     private val dbRef = FirebaseDatabase.getInstance(firebaseUrl).getReference("competitivo/games")
-
+    private var rondaCerrada = false
     // StateFlow para exponer la lista de juegos disponibles
     private val _availableGames = MutableStateFlow<List<CompetitiveGame>>(emptyList())
     val availableGames: StateFlow<List<CompetitiveGame>> = _availableGames
@@ -199,14 +199,41 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     }
 
     private fun arrancarTimer(gameId: String) {
-        if (currentUserId != _gameState.value.hostId) return      // ← añadido
+        if (currentUserId != _gameState.value.hostId) return   // solo el host
 
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(20_000, 1_000) {
             override fun onTick(ms: Long) {
-                dbRef.child(gameId).child("timeLeft").setValue((ms / 1000).toInt())
+                dbRef.child(gameId)
+                    .child("timeLeft")
+                    .setValue((ms / 1000).toInt())
             }
-            override fun onFinish() { cerrarRonda(gameId) }
+
+            override fun onFinish() {
+                /*  ⬇️ 1) fuerza timeLeft = 0 para ambas apps */
+                dbRef.child(gameId).child("timeLeft").setValue(0)
+
+                /*  ⬇️ 2) Escribe “noAnswer” al que no contestó todavía */
+                dbRef.child(gameId).child("answers")
+                    .runTransaction(object : Transaction.Handler {
+                        override fun doTransaction(m: MutableData): Transaction.Result {
+
+                            /* ⬇️ Si todavía no hay valor para host o joiner → “noAnswer” */
+                            if (m.child("host").getValue(String::class.java) == null)
+                                m.child("host").value = "noAnswer"
+
+                            if (m.child("joiner").getValue(String::class.java) == null)
+                                m.child("joiner").value = "noAnswer"
+
+                            return Transaction.success(m)
+                        }
+                        override fun onComplete(
+                            e: DatabaseError?, committed: Boolean, snap: DataSnapshot?
+                        ) {
+                            cerrarRonda(gameId)
+                        }
+                    })
+            }
         }.start()
     }
 
@@ -274,8 +301,9 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
 
 
     private fun cerrarRonda(gameId: String) {
-        // Evita doble llamada
-        if (_gameState.value.timeLeft <= 0) return
+
+        if (rondaCerrada) return
+        rondaCerrada = true
 
         countDownTimer?.cancel()
         dbRef.child(gameId).runTransaction(object : Transaction.Handler {
@@ -321,8 +349,12 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
                 m.child("answers").value = null        // limpia respuestas
                 return Transaction.success(m)
             }
-            override fun onComplete(e: DatabaseError?, committed: Boolean, s: DataSnapshot?) {
-                if (committed) arrancarTimer(gameId)
+            override fun onComplete(e: DatabaseError?, committed: Boolean, snap: DataSnapshot?) {
+                /* 2. Si sigue la partida, reinicia flag y timer */
+                if (committed && _gameState.value.state == "inProgress") {
+                    rondaCerrada = false
+                    arrancarTimer(gameId)
+                }
             }
         })
     }
