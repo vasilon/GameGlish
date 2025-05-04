@@ -53,10 +53,12 @@ fun GlobalRankingScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
+        isLoading = true
         try {
             rankingList = repositoryEstadistica.obtenerRankingGlobal()
+            Log.d("GlobalRanking", "Loaded ranking: $rankingList")
         } catch (e: Exception) {
-            Log.e("GlobalRankingScreen", "Error loading ranking", e)
+            Log.e("GlobalRanking", "Error loading ranking", e)
         } finally {
             isLoading = false
         }

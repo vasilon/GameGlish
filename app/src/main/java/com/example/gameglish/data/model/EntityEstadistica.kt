@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "estadisticas")
 data class EntityEstadistica(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey val remoteId: String,
     val userId: String = "",
     val fecha: Long = 0L,
     val aciertos: Int = 0,

@@ -13,9 +13,12 @@ interface DaoEstadistica {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEstadistica(est: EntityEstadistica): Long
 
-    @Query("SELECT * FROM estadisticas WHERE userId = :userId")
+    @Query("SELECT * FROM estadisticas WHERE userId = :userId ORDER BY fecha DESC")
     suspend fun getEstadisticasByUser(userId: String): List<EntityEstadistica>
 
     @Query("SELECT * FROM estadisticas")
     suspend fun getAllEstadisticas(): List<EntityEstadistica>
+
+    @Query("DELETE FROM estadisticas WHERE userId = :userId")
+    suspend fun deleteByUser(userId: String)
 }

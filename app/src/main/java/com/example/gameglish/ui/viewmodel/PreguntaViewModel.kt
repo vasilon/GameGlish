@@ -3,6 +3,7 @@ package com.example.gameglish.ui.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.database.GameGlishDatabase
@@ -13,8 +14,10 @@ import com.example.gameglish.data.repository.RepositoryEstadistica
 import com.example.gameglish.data.repository.RepositoryPregunta
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class PreguntaViewModel(application: Application) : AndroidViewModel(application) {
     private val db = GameGlishDatabase.getDatabase(application)
@@ -37,20 +40,44 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
     // Function to submit statistics after test is finished.
     fun submitEstadistica(correctCount: Int, total: Int) {
         viewModelScope.launch {
-            FirebaseAuth.getInstance().currentUser?.uid?.let { userId ->
-                val errores = total - correctCount
-                val puntos = correctCount * 10
-                val estadistica = EntityEstadistica(
-                    userId = userId,
-                    fecha = System.currentTimeMillis(),
-                    aciertos = correctCount,
-                    errores = errores,
-                    puntos = puntos
-                )
-                repositoryEstadistica.insertEstadistica(estadistica)
-            } ?: run {
-                // Log error or alert that the user is not authenticated.
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if (uid == null) {
+                Log.e("PreguntaViewModel", "Usuario no autenticado")
+                return@launch
             }
+
+            // 1) Calculamos datos
+            val errores = total - correctCount
+            val puntos  = correctCount * 10
+            val fecha   = System.currentTimeMillis()
+
+            // 2) Preparamos la referencia remota y generamos la push key
+            val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
+            val remoteRef   = FirebaseDatabase.getInstance(firebaseUrl)
+                .getReference("estadisticas")
+                .child(uid)
+            val newRef      = remoteRef.push()
+            val remoteId    = newRef.key ?: return@launch
+
+            // 3) Construimos la entidad incluyendo ese remoteId
+            val estadistica = EntityEstadistica(
+                remoteId = remoteId,
+                userId   = uid,
+                fecha    = fecha,
+                aciertos = correctCount,
+                errores  = errores,
+                puntos   = puntos
+            )
+
+            // 4) Guardamos en Firebase bajo la misma clave
+            try {
+                newRef.setValue(estadistica).await()
+            } catch (e: Exception) {
+                Log.e("PreguntaViewModel", "Error guardando remoto: ${e.message}", e)
+            }
+
+            // 5) Insertamos localmente (REPLACE evitará duplicados si existiera)
+            repositoryEstadistica.insertEstadisticaLocalOnly(estadistica)
         }
     }
 

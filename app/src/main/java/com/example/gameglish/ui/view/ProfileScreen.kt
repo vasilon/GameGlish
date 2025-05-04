@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.gameglish.R
 import com.example.gameglish.data.database.GameGlishDatabase
@@ -71,7 +72,7 @@ fun ProfileScreen(navController: NavController) {
 
     // Historial de estadísticas
     val repositoryEstadistica = RepositoryEstadistica(db)
-    val statsViewModel = remember { StatsViewModel(repositoryUsuario, repositoryEstadistica) }
+    val statsViewModel: StatsViewModel = viewModel()
     val estadisticas by statsViewModel.estadisticas
 
     Scaffold(
@@ -274,7 +275,8 @@ fun ProfileInfoRow(icon: ImageVector, info: String, iconTint: Color) {
 @Composable
 fun StatCard(estadistica: EntityEstadistica, scoreColor: Color) {
     val formattedDate = remember(estadistica.fecha) {
-        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(estadistica.fecha))
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        sdf.format(Date(estadistica.fecha))
     }
     Card(
         shape = MaterialTheme.shapes.medium,
