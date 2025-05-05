@@ -1,4 +1,4 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

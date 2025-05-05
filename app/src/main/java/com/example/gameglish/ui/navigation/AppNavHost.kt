@@ -3,21 +3,16 @@ package com.example.gameglish.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.gameglish.data.database.GameGlishDatabase
-import com.example.gameglish.data.repository.RepositoryUsuario
-import com.example.gameglish.ui.view.FirstTimeLoginScreen
-import com.example.gameglish.ui.view.LoginScreen
-import com.example.gameglish.ui.view.RegisterScreen
+import com.example.gameglish.ui.view.auth.FirstTimeLoginScreen
+import com.example.gameglish.ui.view.auth.LoginScreen
+import com.example.gameglish.ui.view.auth.RegisterScreen
 import com.example.gameglish.ui.view.SettingsScreen
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 sealed class Screen(val route: String) {
     // Auth Flow

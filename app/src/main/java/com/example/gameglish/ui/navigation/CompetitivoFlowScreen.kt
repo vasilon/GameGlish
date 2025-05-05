@@ -7,11 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.gameglish.ui.view.CompetitiveGameScreen
-import com.example.gameglish.ui.view.HostGameScreen
-import com.example.gameglish.ui.view.JoinGameScreen
-import com.example.gameglish.ui.view.GlobalRankingScreen
-import com.example.gameglish.ui.view.ModoCompetitivoMainScreen
+import com.example.gameglish.ui.view.modocompetitivo.CompetitiveGameScreen
+import com.example.gameglish.ui.view.modocompetitivo.HostGameScreen
+import com.example.gameglish.ui.view.modocompetitivo.JoinGameScreen
+import com.example.gameglish.ui.view.modocompetitivo.ModoCompetitivoMainScreen
 
 @Composable
 fun CompetitivoFlowScreen(modifier: Modifier = Modifier) {

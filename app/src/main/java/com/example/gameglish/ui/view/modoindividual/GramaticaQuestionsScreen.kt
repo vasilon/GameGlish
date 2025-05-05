@@ -1,5 +1,5 @@
 // Kotlin
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -13,7 +13,6 @@ import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.example.gameglish.ui.viewmodel.PreguntaViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 @Composable
 fun GramaticaQuestionsScreen(

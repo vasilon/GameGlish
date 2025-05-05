@@ -1,46 +1,48 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.gameglish.ui.components.BackTopAppBar
+import com.example.gameglish.ui.navigation.Screen
 
 @Composable
-fun VocabularioScreen(
+fun GramaticaScreen(
     navController: NavController,
-    onStartExercise: () -> Unit
+    onStartExercise: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Center
     ) {
-        BackTopAppBar(navController = navController, title = "Vocabulario")
+        Text(
+            text = "Gramática",
+            style = MaterialTheme.typography.headlineMedium
+        )
         Spacer(modifier = Modifier.height(24.dp))
-
         OutlinedCard(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Mejora tu vocabulario con ejercicios de palabras clave, sinónimos, antónimos y más. ¡Desafía tu memoria y aprende nuevas expresiones!",
+                    text = "Perfecciona tus habilidades gramaticales con ejercicios de tiempos verbales, uso de preposiciones, formación de oraciones y mucho más.",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
-
         Button(
-            onClick = onStartExercise,
+            onClick = {
+                // Navigate directly, the questions will be loaded in the destination screen.
+                navController.navigate(Screen.GramaticaQuestions.route)
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Iniciar Ejercicio")

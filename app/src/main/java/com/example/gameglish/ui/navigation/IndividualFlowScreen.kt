@@ -5,12 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.gameglish.ui.view.ModoIndividualMainScreen
-import com.example.gameglish.ui.view.GramaticaScreen
-import com.example.gameglish.ui.view.GramaticaQuestionsScreen
-import com.example.gameglish.ui.view.ListeningScreen
-import com.example.gameglish.ui.view.ReadingScreen
-import com.example.gameglish.ui.view.VocabularioScreen
+import com.example.gameglish.ui.view.modoindividual.ModoIndividualMainScreen
+import com.example.gameglish.ui.view.modoindividual.GramaticaScreen
+import com.example.gameglish.ui.view.modoindividual.GramaticaQuestionsScreen
+import com.example.gameglish.ui.view.modoindividual.ListeningScreen
+import com.example.gameglish.ui.view.modoindividual.ReadingScreen
+import com.example.gameglish.ui.view.modoindividual.VocabularioScreen
 
 @Composable
 fun IndividualFlowScreen(modifier: Modifier = Modifier) {

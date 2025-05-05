@@ -1,20 +1,16 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.modocompetitivo
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gameglish.ui.viewmodel.CompetitiveGameViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.gameglish.ui.components.BackTopAppBar
 import com.example.gameglish.ui.components.LivesRow
 
 @Composable

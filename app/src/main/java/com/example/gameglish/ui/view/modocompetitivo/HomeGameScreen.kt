@@ -1,4 +1,4 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.modocompetitivo
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
