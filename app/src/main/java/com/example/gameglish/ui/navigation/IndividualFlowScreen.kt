@@ -30,7 +30,7 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
             )
         }
         composable("vocabulario") {
-            VocabularioScreen(navController = individualNavController, onStartExercise = { /* Código */ })
+            VocabularioScreen(navController = individualNavController,   onStartExercise = { individualNavController.navigate("gramatica_questions") })
         }
         composable("gramatica") {
             GramaticaScreen(
@@ -42,10 +42,12 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
             GramaticaQuestionsScreen(navController = individualNavController)
         }
         composable("reading") {
-            ReadingScreen(navController = individualNavController)
+            ReadingScreen(navController = individualNavController,
+                onStartExercise = { individualNavController.navigate("gramatica_questions") })
         }
         composable("listening") {
-            ListeningScreen(navController = individualNavController)
+            ListeningScreen(navController = individualNavController,
+                onStartExercise = { individualNavController.navigate("gramatica_questions") })
         }
     }
 }
