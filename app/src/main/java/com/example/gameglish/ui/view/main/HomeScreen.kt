@@ -1,6 +1,5 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.main
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -211,13 +210,13 @@ fun DashboardHeader(userLevel: String, userPoints: Int) {
                 color = MaterialTheme.colorScheme.onSurface
             )
             LinearProgressIndicator(
-                progress = progress,
+                progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(10.dp)
                     .clip(RoundedCornerShape(5.dp)),
                 color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.secondary
+                trackColor = MaterialTheme.colorScheme.secondary,
             )
             Text(
                 text = "Puntos: $userPoints / 300",

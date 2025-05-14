@@ -1,4 +1,4 @@
-package com.example.gameglish.ui.view
+package com.example.gameglish.ui.view.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Grade
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.*
-import androidx.compose.material3.CardDefaults.cardElevation
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier

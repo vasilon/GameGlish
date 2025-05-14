@@ -360,19 +360,6 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     }
 
 
-    suspend fun tryStartAsHost(gameId: String) {
-        val g = _gameState.value
-        if (currentUserId == g.hostId && g.state == "waiting") {
-            dbRef.child(gameId).child("state").setValue("inProgress")
-            cargarYEnviarPreguntas(gameId)      // <── solo gameId
-        }
-    }
-
-
-
-    fun correctIdForCurrent(): String =
-        _preguntas.getOrNull(indicePreguntaActual)?.correctId ?: ""
-
 }
 
 

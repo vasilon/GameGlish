@@ -11,9 +11,9 @@ import androidx.navigation.compose.composable
 import com.example.gameglish.ui.components.CustomBottomNavigationBar
 import com.example.gameglish.ui.theme.GameGlishTheme
 import com.example.gameglish.ui.theme.ScreenColor
-import com.example.gameglish.ui.view.HomeScreen
-import com.example.gameglish.ui.view.ProfileScreen
-import com.example.gameglish.ui.view.GlobalRankingScreen
+import com.example.gameglish.ui.view.main.HomeScreen
+import com.example.gameglish.ui.view.main.ProfileScreen
+import com.example.gameglish.ui.view.main.GlobalRankingScreen
 @Composable
 fun MainFlowScreen(globalNavController: NavHostController) {
     val bottomNavController = rememberNavController()
@@ -70,3 +70,21 @@ fun MainFlowScreen(globalNavController: NavHostController) {
             }
         }
     }
+
+@Composable
+fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Home.route,
+        modifier = modifier
+    ) {
+        composable(Screen.Home.route) {
+            HomeScreen(navController = navController)
+        }
+        composable(Screen.Profile.route) {
+            ProfileScreen(navController = navController)
+        }
+
+    }
+}
+

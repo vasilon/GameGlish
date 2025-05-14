@@ -10,7 +10,7 @@ import androidx.navigation.compose.navigation
 import com.example.gameglish.ui.view.auth.FirstTimeLoginScreen
 import com.example.gameglish.ui.view.auth.LoginScreen
 import com.example.gameglish.ui.view.auth.RegisterScreen
-import com.example.gameglish.ui.view.SettingsScreen
+import com.example.gameglish.ui.view.main.SettingsScreen
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -21,19 +21,10 @@ sealed class Screen(val route: String) {
     object FirstTimeLogin: Screen("first_time_login")
     // Main Flow
     object Home : Screen("home")
-    object ModoCompetitivo : Screen("modo_competitivo")
-    object HostGame : Screen("host_game")
-    object JoinGame : Screen("join_game")
     object CompetitiveGame : Screen("competitive_game/{gameId}") {
         fun createRoute(gameId: String) = "competitive_game/$gameId"
     }
     object Settings : Screen("settings")
-    object Statistics : Screen("stats")
-    object Ranking : Screen("ranking")
-    object Vocabulario : Screen("vocabulario")
-    object Gramatica : Screen("gramatica")
-    object GramaticaQuestions : Screen("gramatica_questions")
-    object ModoIndividual : Screen("modo_individual")
     object Profile : Screen("profile")
 }
 
