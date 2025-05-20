@@ -25,10 +25,6 @@ class RepositoryUsuario(
     }
 
 
-    fun obtenerUidUsuarioActual(): String? {
-        return auth.currentUser?.uid
-    }
-
     suspend fun registrarUsuarioCorreo(
         email: String,
         password: String,
@@ -89,7 +85,7 @@ class RepositoryUsuario(
             )
         } else {
             // Otherwise, update the existing record.
-            usuario = usuario.copy(nombre = nombre, nivel = nivelInt , firstLogin = false)
+            usuario = usuario.copy(nombre = nombre, nivel = nivelInt, firstLogin = false)
         }
 
         // Save the updated (or new) user data locally and remotely.
@@ -121,6 +117,7 @@ class RepositoryUsuario(
             null
         }
     }
+
     suspend fun marcarPrimerLoginCompleto(uid: String) {
         try {
             // Primero actualizamos la base de datos remota

@@ -10,7 +10,7 @@ data class EntityPregunta(
     val opcionA: String,
     val opcionB: String,
     val opcionC: String,
-    val opcionD: String, // new option D
+    val opcionD: String,
     val opcionCorrecta: String,
     val tema: String,
     val nivel: Int

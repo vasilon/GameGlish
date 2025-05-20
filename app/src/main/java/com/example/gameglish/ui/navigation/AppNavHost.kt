@@ -95,7 +95,7 @@ fun AppNavHost(
             MainFlowScreen(globalNavController = navController)
         }
         composable(Screen.Settings.route) {
-            SettingsScreen(navController)  // Asegúrate de que exista tu SettingsScreen
+            SettingsScreen(navController)
         }
     }
 
