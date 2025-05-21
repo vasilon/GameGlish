@@ -72,7 +72,7 @@ fun QuestionsScreen(
         Text(text = "Score: $correctCount / ${if (questionsForUser.isEmpty()) 0 else questionsForUser.size}",
             style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Ejercicios de Gramática", style = MaterialTheme.typography.headlineMedium)
+        Text("Ejercicios de $tema", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
 
         if (questionsForUser.isEmpty()) {
@@ -171,9 +171,7 @@ fun QuestionsScreen(
             } else {
                 if (!statsSubmitted) {
                     LaunchedEffect(Unit) {
-                        val puntos = correctCount * 10
                         viewModel.submitEstadistica(correctCount, questionsForUser.size)
-                        viewModel.addPuntosToUsuario(puntos)
                         statsSubmitted = true
                     }
                 }

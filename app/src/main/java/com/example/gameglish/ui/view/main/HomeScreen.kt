@@ -48,6 +48,7 @@ fun HomeScreen(
     // Datos ficticios
     val achievements = listOf("Primer Quiz", "5 Días Consecutivos", "Nivel A2")
     val recommendedLesson = "Gramática: Presente Simple"
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
     // Carga de datos de Usuario
     LaunchedEffect(true) {
@@ -72,16 +73,38 @@ fun HomeScreen(
         }
     }
 
-    // Subir nivel al llegar a 300 puntos
+    // Dentro de HomeScreen…
+
     LaunchedEffect(userPoints) {
-        if (userPoints >= 300) {
-            val currentIndex = levels.indexOf(userLevel)
-            if (currentIndex < levels.lastIndex) {
-                userLevel = levels[currentIndex + 1]
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@LaunchedEffect
+
+        var cambioDeNivel = false
+        val currentIndex = levels.indexOf(userLevel)
+
+        when {
+            userPoints >= 300 && currentIndex < levels.lastIndex -> {
+                userLevel  = levels[currentIndex + 1]
+                cambioDeNivel = true
             }
+            userPoints < 0 && currentIndex > 0 -> {
+                userLevel  = levels[currentIndex - 1]
+                cambioDeNivel = true
+            }
+        }
+
+        if (cambioDeNivel) {
+            // Reinicias puntos en la UI
             userPoints = 0
+
+            // Llamas al repo para propagar el cambio
+            repositoryUsuario.actualizarUsuarioNivelYPuntos(
+                uid,
+                userLevel,
+                 0
+            )
         }
     }
+
 
     Scaffold(
         topBar = {

@@ -8,7 +8,7 @@ data class EntityUsuario(
     @PrimaryKey val uidFirebase: String = "",  // Se utiliza uidFirebase como clave principal
     val email: String = "",
     val nombre: String = "",
-    val puntos: Int = 0,
-    val nivel: Int = 0,
+    var puntos: Int = 0,
+    var nivel: Int = 0,
     var firstLogin: Boolean = true  // Nuevo campo para indicar el primer login
 )

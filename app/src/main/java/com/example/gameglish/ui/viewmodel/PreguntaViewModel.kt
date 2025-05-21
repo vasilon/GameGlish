@@ -57,9 +57,9 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
                 return@launch
             }
 
-            // 1) Calculamos datos
             val errores = total - correctCount
-            val puntos  = correctCount * 10
+            // Aciertos menos fallos, luego * 10 (puede quedar negativo)
+            val puntos  = (correctCount - errores) * 10
             val fecha   = System.currentTimeMillis()
 
             // 2) Preparamos la referencia remota y generamos la push key
@@ -89,6 +89,8 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
 
             // 5) Insertamos localmente (REPLACE evitará duplicados si existiera)
             repositoryEstadistica.insertEstadisticaLocalOnly(estadistica)
+
+            addPuntosToUsuario(puntos)
         }
     }
 

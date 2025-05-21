@@ -118,6 +118,36 @@ class RepositoryUsuario(
         }
     }
 
+    suspend fun actualizarUsuarioNivelYPuntos(
+        uid: String,
+        nivelSeleccionado: String,
+        nuevosPuntos: Int
+    ) {
+        // Mapea el nivel textual a entero
+        val nivelMap = mapOf(
+            "A1" to 1, "A2" to 2, "B1" to 3,
+            "B2" to 4, "C1" to 5, "C2" to 6,
+            "NATIVE" to 7
+        )
+        val nivelInt = nivelMap[nivelSeleccionado] ?: 1
+
+        // Recupera entidad local
+        var usuario = obtenerUsuarioLocal(uid)
+            ?: return  // o lanza excepción, según tu lógica
+
+        // Crea copia con puntos y nivel actualizados
+        usuario = usuario.copy(
+            puntos = nuevosPuntos,
+            nivel  = nivelInt
+        )
+
+        // 1) guarda en Room
+        guardarUsuarioLocal(usuario)
+
+        // 2) guarda en Firebase (o donde vaya guardarUsuarioRemoto)
+        guardarUsuarioRemoto(usuario)
+    }
+
     suspend fun marcarPrimerLoginCompleto(uid: String) {
         try {
             // Primero actualizamos la base de datos remota
