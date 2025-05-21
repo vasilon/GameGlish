@@ -178,6 +178,16 @@ fun QuestionsScreen(
                     }
                 }
                 Text("Test completado. Estadísticas guardadas y puntos añadidos.", style = MaterialTheme.typography.bodyLarge)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        navController.navigate("individual_main")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) { Text("Volver al menú principal") }
+
             }
         }
     }
