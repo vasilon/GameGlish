@@ -253,7 +253,10 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     private suspend fun cargarYEnviarPreguntas(gameId: String) {
         val ctx = getApplication<Application>().applicationContext
 
-        val tema = "Gramatica"
+        val temas = listOf("Gramatica", "Vocabulario")
+        val rnd = Random(gameId.hashCode())
+        val tema = temas[rnd.nextInt(temas.size)]
+
         var preguntasDb = withContext(Dispatchers.IO) {
             repositoryPregunta.getPreguntasPorTema(tema)
         }
