@@ -216,7 +216,7 @@ fun DashboardHeader(userLevel: String, userPoints: Int) {
                     .height(10.dp)
                     .clip(RoundedCornerShape(5.dp)),
                 color = MaterialTheme.colorScheme.primary,
-                trackColor = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.primaryContainer,
             )
             Text(
                 text = "Puntos: $userPoints / 300",

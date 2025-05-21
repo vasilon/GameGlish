@@ -20,7 +20,6 @@ import com.example.gameglish.R
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityRanking
 import com.example.gameglish.data.repository.RepositoryEstadistica
-import com.example.gameglish.ui.components.LeaderboardTabs
 import com.example.gameglish.ui.components.RankingListItem
 import com.example.gameglish.ui.components.Top3Row
 
@@ -122,7 +121,7 @@ fun GlobalRankingScreen(navController: NavController) {
                             .fillMaxSize()
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                     ) {
-                        LeaderboardTabs()
+//                        LeaderboardTabs()
 
                         Spacer(Modifier.height(16.dp))
 

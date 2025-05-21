@@ -22,34 +22,34 @@ import com.example.gameglish.data.model.EntityRanking
 /** -------------------------------------------------------------------
  *  LeaderboardTabs – ahora con colores del nuevo Theme
  * -------------------------------------------------------------------- */
-@Composable
-fun LeaderboardTabs() {
-    var selectedIndex by remember { mutableStateOf(0) }
-    val tabs = listOf("Region", "National", "Global")
-    TabRow(
-        selectedTabIndex = selectedIndex,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        indicator = {}
-    ) {
-        tabs.forEachIndexed { index, text ->
-            Tab(
-                selected = selectedIndex == index,
-                onClick = { selectedIndex = index },
-                text = {
-                    Text(
-                        text = text,
-                        color = if (selectedIndex == index)
-                            MaterialTheme.colorScheme.onSurfaceVariant
-                        else
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                        fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal
-                    )
-                }
-            )
-        }
-    }
-}
+//@Composable
+//fun LeaderboardTabs() {
+//    var selectedIndex by remember { mutableStateOf(0) }
+//    val tabs = listOf("Region", "National", "Global")
+//    TabRow(
+//        selectedTabIndex = selectedIndex,
+//        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+//        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+//        indicator = {}
+//    ) {
+//        tabs.forEachIndexed { index, text ->
+//            Tab(
+//                selected = selectedIndex == index,
+//                onClick = { selectedIndex = index },
+//                text = {
+//                    Text(
+//                        text = text,
+//                        color = if (selectedIndex == index)
+//                            MaterialTheme.colorScheme.onSurfaceVariant
+//                        else
+//                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+//                        fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal
+//                    )
+//                }
+//            )
+//        }
+//    }
+//}
 
 /** -------------------------------------------------------------------
  *  Top-3 podio – usa primaryContainer vs. surfaceVariant
