@@ -1,0 +1,54 @@
+{
+  "questions": [
+    {
+      "question": "My name ___ Ana.",
+      "answers": [
+        { "id": "a", "text": "is" },
+        { "id": "b", "text": "are" },
+        { "id": "c", "text": "am" },
+        { "id": "d", "text": "be" }
+      ],
+      "correctAnswerId": "a"
+    },
+    {
+      "question": "They ___ to school every day.",
+      "answers": [
+        { "id": "a", "text": "go" },
+        { "id": "b", "text": "goes" },
+        { "id": "c", "text": "going" },
+        { "id": "d", "text": "gone" }
+      ],
+      "correctAnswerId": "a"
+    },
+    {
+      "question": "I have ___ apples.",
+      "answers": [
+        { "id": "a", "text": "some" },
+        { "id": "b", "text": "any" },
+        { "id": "c", "text": "much" },
+        { "id": "d", "text": "little" }
+      ],
+      "correctAnswerId": "a"
+    },
+    {
+      "question": "Choose the synonym of 'happy':",
+      "answers": [
+        { "id": "a", "text": "sad" },
+        { "id": "b", "text": "joyful" },
+        { "id": "c", "text": "angry" },
+        { "id": "d", "text": "tired" }
+      ],
+      "correctAnswerId": "b"
+    },
+    {
+      "question": "'Break the ice' means...",
+      "answers": [
+        { "id": "a", "text": "shatter cold" },
+        { "id": "b", "text": "start a conversation" },
+        { "id": "c", "text": "end a meeting" },
+        { "id": "d", "text": "freeze water" }
+      ],
+      "correctAnswerId": "b"
+    }
+  ]
+}
