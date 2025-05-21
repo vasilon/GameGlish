@@ -253,15 +253,16 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
     private suspend fun cargarYEnviarPreguntas(gameId: String) {
         val ctx = getApplication<Application>().applicationContext
 
+        val tema = "Gramatica"
         var preguntasDb = withContext(Dispatchers.IO) {
-            repositoryPregunta.getPreguntasPorTema("Gramatica")
+            repositoryPregunta.getPreguntasPorTema(tema)
         }
 
         // ⬇️  Si está vacía, importamos el JSON una sola vez
         if (preguntasDb.isEmpty()) {
             withContext(Dispatchers.IO) {
-                repositoryPregunta.insertarPreguntasGramaticaDesdeJson(ctx)
-                preguntasDb = repositoryPregunta.getPreguntasPorTema("Gramatica")
+                repositoryPregunta.insertarPreguntasDesdeJson(ctx, tema)
+                preguntasDb = repositoryPregunta.getPreguntasPorTema(tema)
             }
         }
 

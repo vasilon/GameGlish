@@ -15,15 +15,16 @@ import com.example.gameglish.ui.viewmodel.PreguntaViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun GramaticaQuestionsScreen(
+fun QuestionsScreen(
     navController: NavController,
+    tema : String,
     viewModel: PreguntaViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
     // Load grammar questions.
-    LaunchedEffect(Unit) {
-        viewModel.cargarPreguntasGramatica(context)
+    LaunchedEffect(tema) {
+        viewModel.cargarPreguntasPorTema(context, tema)
     }
     val listaPreguntas by viewModel.preguntas.collectAsState()
 

@@ -48,7 +48,6 @@ fun ModoIndividualMainScreen(
     onVocabularioClick: () -> Unit,
     onGramaticaClick: () -> Unit,
     onReadingClick: () -> Unit,
-    onListeningClick: () -> Unit
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
     var showLogoutDialog by remember { mutableStateOf(false) }
@@ -150,14 +149,6 @@ fun ModoIndividualMainScreen(
                         description = "Mejora tu comprensión lectora con textos desafiantes.",
                         icon = Icons.Default.MenuBook,
                         onClick = onReadingClick,
-                        backgroundColor = greenPrimary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                    OptionCard(
-                        title = "Listening",
-                        description = "Ejercita tu oído con audios y preguntas interactivas.",
-                        icon = Icons.Default.HeadsetMic,
-                        onClick = onListeningClick,
                         backgroundColor = greenPrimary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     )

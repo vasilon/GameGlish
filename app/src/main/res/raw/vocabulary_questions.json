@@ -1,0 +1,158 @@
+{
+  "questions": [
+    {
+      "question": "She ate an ____.",
+      "answers": [
+        { "id": "a", "text": "apple" },
+        { "id": "b", "text": "ball" },
+        { "id": "c", "text": "car" },
+        { "id": "d", "text": "dog" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "The grass is ____.",
+      "answers": [
+        { "id": "a", "text": "green" },
+        { "id": "b", "text": "small" },
+        { "id": "c", "text": "big" },
+        { "id": "d", "text": "tall" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "What does 'hungry' mean?",
+      "answers": [
+        { "id": "a", "text": "wanting food" },
+        { "id": "b", "text": "wanting sleep" },
+        { "id": "c", "text": "feeling cold" },
+        { "id": "d", "text": "feeling happy" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "He puts on his ____ before he goes outside.",
+      "answers": [
+        { "id": "a", "text": "hat" },
+        { "id": "b", "text": "glove" },
+        { "id": "c", "text": "window" },
+        { "id": "d", "text": "water" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "What is a synonym of 'happy'?",
+      "answers": [
+        { "id": "a", "text": "sad" },
+        { "id": "b", "text": "joyful" },
+        { "id": "c", "text": "angry" },
+        { "id": "d", "text": "worried" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "She has a ____ of books on her desk.",
+      "answers": [
+        { "id": "a", "text": "bunch" },
+        { "id": "b", "text": "pile" },
+        { "id": "c", "text": "herd" },
+        { "id": "d", "text": "pack" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "What is the antonym of 'increase'?",
+      "answers": [
+        { "id": "a", "text": "raise" },
+        { "id": "b", "text": "decrease" },
+        { "id": "c", "text": "boost" },
+        { "id": "d", "text": "amplify" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "The meeting will ____ at 3 pm.",
+      "answers": [
+        { "id": "a", "text": "break up" },
+        { "id": "b", "text": "start off" },
+        { "id": "c", "text": "set out" },
+        { "id": "d", "text": "take on" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "What does the idiom 'break the ice' mean?",
+      "answers": [
+        { "id": "a", "text": "shatter ice" },
+        { "id": "b", "text": "start a conversation" },
+        { "id": "c", "text": "end a meeting" },
+        { "id": "d", "text": "freeze water" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Her performance was ____; everyone was in awe.",
+      "answers": [
+        { "id": "a", "text": "mediocre" },
+        { "id": "b", "text": "lackluster" },
+        { "id": "c", "text": "outstanding" },
+        { "id": "d", "text": "ordinary" }
+      ],
+      "correctAnswerId": "c",
+      "level": "C1"
+    },
+    {
+      "question": "What is the meaning of 'serendipity'?",
+      "answers": [
+        { "id": "a", "text": "bad luck" },
+        { "id": "b", "text": "lucky discovery" },
+        { "id": "c", "text": "careful planning" },
+        { "id": "d", "text": "silent suffering" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Which word is closest in meaning to 'ubiquitous'?",
+      "answers": [
+        { "id": "a", "text": "rare" },
+        { "id": "b", "text": "everywhere" },
+        { "id": "c", "text": "unique" },
+        { "id": "d", "text": "hidden" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "What does 'to bite the bullet' mean?",
+      "answers": [
+        { "id": "a", "text": "to endure hardship" },
+        { "id": "b", "text": "to eat a bullet" },
+        { "id": "c", "text": "to complain" },
+        { "id": "d", "text": "to avoid pain" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Choose the word that best describes something difficult to understand.",
+      "answers": [
+        { "id": "a", "text": "abstruse" },
+        { "id": "b", "text": "lucid" },
+        { "id": "c", "text": "concise" },
+        { "id": "d", "text": "explicit" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    }
+  ]
+}

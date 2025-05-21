@@ -16,6 +16,7 @@ import com.example.gameglish.data.repository.RepositoryUsuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -25,19 +26,29 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
     private val repositoryEstadistica = RepositoryEstadistica(db)
     private val repositoryUsuario = RepositoryUsuario(db)
 
-    // StateFlow for questions
-    val preguntas = MutableStateFlow<List<EntityPregunta>>(emptyList())
+    private val _preguntas = MutableStateFlow<List<EntityPregunta>>(emptyList())
+    val preguntas: StateFlow<List<EntityPregunta>> = _preguntas
 
-    fun cargarPreguntasGramatica(context: Context) {
+    /**
+     * Carga las preguntas del tema indicado:
+     * - Si no hay preguntas en la BD para ese tema,
+     *   las importa desde el JSON correspondiente.
+     */
+
+    fun cargarPreguntasPorTema(context: Context, tema: String) {
         viewModelScope.launch {
-            if (repository.getPreguntasPorTema("Gramatica").isEmpty()) {
-                repository.insertarPreguntasGramaticaDesdeJson(context)
+            // 1) Si no hay preguntas en BD para este tema, las importamos
+            if (repository.getPreguntasPorTema(tema).isEmpty()) {
+                repository.insertarPreguntasDesdeJson(context, tema)
             }
-            preguntas.value = repository.getPreguntasPorTema("Gramatica")
+            // 2) Las recuperamos y actualizamos el Flow
+            val lista = repository.getPreguntasPorTema(tema)
+            _preguntas.value = lista
         }
     }
 
-    // Function to submit statistics after test is finished.
+
+
     fun submitEstadistica(correctCount: Int, total: Int) {
         viewModelScope.launch {
             val uid = FirebaseAuth.getInstance().currentUser?.uid

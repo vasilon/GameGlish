@@ -1,0 +1,158 @@
+{
+  "questions": [
+    {
+      "question": "Read the text: \"My name is Anna. I live in Paris.\" What city does Anna live in?",
+      "answers": [
+        { "id": "a", "text": "London" },
+        { "id": "b", "text": "Paris" },
+        { "id": "c", "text": "Rome" },
+        { "id": "d", "text": "Berlin" }
+      ],
+      "correctAnswerId": "b",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"This is a cat. The cat is black.\" What color is the cat?",
+      "answers": [
+        { "id": "a", "text": "white" },
+        { "id": "b", "text": "brown" },
+        { "id": "c", "text": "black" },
+        { "id": "d", "text": "gray" }
+      ],
+      "correctAnswerId": "c",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"Tom and Lucy go to school every day. They study math and English.\" What subjects do they study?",
+      "answers": [
+        { "id": "a", "text": "Science and History" },
+        { "id": "b", "text": "Math and English" },
+        { "id": "c", "text": "Art and Music" },
+        { "id": "d", "text": "PE and Music" }
+      ],
+      "correctAnswerId": "b",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"I have two brothers and one sister. We live in a big house.\" How many siblings does the writer have?",
+      "answers": [
+        { "id": "a", "text": "One" },
+        { "id": "b", "text": "Two" },
+        { "id": "c", "text": "Three" },
+        { "id": "d", "text": "Four" }
+      ],
+      "correctAnswerId": "c",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"Every Saturday, Maria goes shopping and then meets friends for coffee.\" What does Maria do first on Saturdays?",
+      "answers": [
+        { "id": "a", "text": "Meets friends" },
+        { "id": "b", "text": "Goes shopping" },
+        { "id": "c", "text": "Drinks tea" },
+        { "id": "d", "text": "Watches TV" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"The museum opens at 10 AM. Tickets cost €5 for adults and €3 for children.\" How much does a child ticket cost?",
+      "answers": [
+        { "id": "a", "text": "€5" },
+        { "id": "b", "text": "€3" },
+        { "id": "c", "text": "€8" },
+        { "id": "d", "text": "Free" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"Global warming is causing sea levels to rise. Coastal cities may face flooding more often.\" What is likely to happen to coastal cities?",
+      "answers": [
+        { "id": "a", "text": "They will have less rain." },
+        { "id": "b", "text": "They will flood more often." },
+        { "id": "c", "text": "They will get colder." },
+        { "id": "d", "text": "They will shrink in size." }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"Despite heavy traffic, the bus arrived on time. Commuters were relieved.\" What does 'relieved' mean here?",
+      "answers": [
+        { "id": "a", "text": "Disappointed" },
+        { "id": "b", "text": "Unhappy" },
+        { "id": "c", "text": "Comforted" },
+        { "id": "d", "text": "Indifferent" }
+      ],
+      "correctAnswerId": "c",
+      "level": "B2"
+    },
+    {
+      "question": "Read the paragraph: \"Volunteering can improve mental health, build skills, and expand social networks. Many people say it's a rewarding experience.\" What is the main idea?",
+      "answers": [
+        { "id": "a", "text": "Volunteering is time-consuming." },
+        { "id": "b", "text": "Volunteering offers personal benefits." },
+        { "id": "c", "text": "Volunteering is expensive." },
+        { "id": "d", "text": "Volunteering is only for young people." }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Read the paragraph: \"While technology advances rapidly, ethical considerations often lag behind. Regulations struggle to keep pace with innovation.\" What does the author suggest?",
+      "answers": [
+        { "id": "a", "text": "Ethics lead technological change." },
+        { "id": "b", "text": "Technology and ethics advance equally." },
+        { "id": "c", "text": "Regulations struggle to match innovation." },
+        { "id": "d", "text": "Innovation slows down ethics." }
+      ],
+      "correctAnswerId": "c",
+      "level": "C1"
+    },
+    {
+      "question": "Read the text: “The philosopher argued that consciousness arises from neural complexity. Critics, however, point to unanswered questions about subjective experience.” What is a potential critique?",
+      "answers": [
+        { "id": "a", "text": "Consciousness is unrelated to the brain." },
+        { "id": "b", "text": "Neural complexity fully explains feeling." },
+        { "id": "c", "text": "Subjective experience remains unexplained." },
+        { "id": "d", "text": "Philosophers ignore science." }
+      ],
+      "correctAnswerId": "c",
+      "level": "C2"
+    },
+    {
+      "question": "Read the excerpt: “In the midst of chaos, one finds opportunity.” What is the best interpretation?",
+      "answers": [
+        { "id": "a", "text": "Chaos is always harmful." },
+        { "id": "b", "text": "Disorder creates chances for success." },
+        { "id": "c", "text": "Opportunity avoids chaos." },
+        { "id": "d", "text": "Chaos and opportunity never meet." }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Read the literary sentence: “She walked the labyrinth of her mind, each thought echoing in silence.” What does 'labyrinth' imply?",
+      "answers": [
+        { "id": "a", "text": "A simple path" },
+        { "id": "b", "text": "A complex maze" },
+        { "id": "c", "text": "A loud noise" },
+        { "id": "d", "text": "A straight line" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the sentence: “Time is the wisest counselor of all.” Who is being described?",
+      "answers": [
+        { "id": "a", "text": "A person" },
+        { "id": "b", "text": "Time" },
+        { "id": "c", "text": "A counselor" },
+        { "id": "d", "text": "Wisdom" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    }
+  ]
+}
