@@ -37,13 +37,14 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
 
     fun cargarPreguntasPorTema(context: Context, tema: String) {
         viewModelScope.launch {
-            // 1) Si no hay preguntas en BD para este tema, las importamos
+            // 1) Importar desde JSON si no hay en BD
             if (repository.getPreguntasPorTema(tema).isEmpty()) {
                 repository.insertarPreguntasDesdeJson(context, tema)
             }
-            // 2) Las recuperamos y actualizamos el Flow
-            val lista = repository.getPreguntasPorTema(tema)
-            _preguntas.value = lista
+            // 2) Recuperar y barajar
+            val listaOriginal = repository.getPreguntasPorTema(tema)
+            val listaBarajada = listaOriginal.shuffled()
+            _preguntas.value = listaBarajada
         }
     }
 

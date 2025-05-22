@@ -1,4 +1,3 @@
-// Kotlin - app/src/main/java/com/example/gameglish/data/model/EntityRanking.kt
 package com.example.gameglish.data.model
 
 
