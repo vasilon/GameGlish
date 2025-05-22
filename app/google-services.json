@@ -13,7 +13,20 @@
           "package_name": "com.example.gameglish"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "67159819302-92qjur4lq1frohc3g15q6kiv2n9veur9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gameglish",
+            "certificate_hash": "8d712305c5ab5ae7bced2e2d84ff8de679ed181a"
+          }
+        },
+        {
+          "client_id": "67159819302-vshl9chtfmuo5129euhjflagngaiipqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAl2diNIdyuct69XrzKFF5lUXF2VjastVw"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67159819302-vshl9chtfmuo5129euhjflagngaiipqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

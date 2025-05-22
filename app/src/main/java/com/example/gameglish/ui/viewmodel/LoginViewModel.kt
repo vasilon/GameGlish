@@ -6,13 +6,24 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gameglish.data.database.GameGlishDatabase
+import com.example.gameglish.data.model.EntityUsuario
 import com.example.gameglish.data.repository.RepositoryUsuario
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
-enum class LoginState { Idle, Loading, Success, Error }
+enum class LoginState {
+    Idle,
+    Loading,
+    Success,
+    Error,
+    PasswordResetSent          // ← NUEVO
+}
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -35,7 +46,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         checkUserState()
     }
 
-
+    fun enviarCorreoReset(email: String) = viewModelScope.launch {
+        _loginState.value = LoginState.Loading
+        try {
+            auth.sendPasswordResetEmail(email).await()
+            _loginState.value = LoginState.PasswordResetSent
+        } catch (e: FirebaseAuthException) {
+            Log.e("LoginViewModel", "Error envío reset", e)
+            _loginState.value = LoginState.Error
+        }
+    }
 
 
     private fun checkUserState() {
@@ -121,4 +141,46 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         auth.signOut()
         _isUserLoggedIn.value = false
     }
+
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _loginState.value = LoginState.Loading
+            try {
+                // 1) Autenticar en Firebase
+                val authResult = usuarioRepository.signInWithGoogle(idToken)
+
+                // 2) Si es usuario nuevo: créalo en Room y en la base remota
+                if (authResult.additionalUserInfo?.isNewUser == true) {
+                    val user = authResult.user!!          // ahora sí existe
+                    val newUsuario = EntityUsuario(
+                        uidFirebase = user.uid,
+                        email       = user.email.orEmpty(),
+                        nombre      = "",
+                        puntos      = 0,
+                        nivel       = 0,                  // <-- ponlo si tu data-class lo exige
+                        firstLogin  = true
+                    )
+                    usuarioRepository.guardarUsuarioLocal(newUsuario)
+                    usuarioRepository.guardarUsuarioRemoto(newUsuario)
+                }
+
+
+
+
+                // 4) Ahora sí obtén el flag firstLogin de forma secuencial
+                val uid = auth.currentUser?.uid
+                val local = uid?.let { usuarioRepository.obtenerUsuarioLocal(it) }
+                val firstLogin = local?.firstLogin ?: false
+                _isFirstLogin.value = firstLogin
+
+                // 5) Finalmente, notificamos Success (la UI ya navegará correctamente)
+                _loginState.value = LoginState.Success
+
+            } catch (e: Exception) {
+                Log.e("LoginVM", "Google sign-in error", e)
+                _loginState.value = LoginState.Error
+            }
+        }
+    }
+
 }

@@ -4,7 +4,9 @@ package com.example.gameglish.data.repository
 import android.util.Log
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityUsuario
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
@@ -22,6 +24,13 @@ class RepositoryUsuario(
         } catch (e: Exception) {
             false
         }
+    }
+
+    suspend fun signInWithGoogle(idToken: String): AuthResult {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        // ▸ Si el usuario ya existe en Auth, hace login.
+        // ▸ Si no existe, lo crea y marca additionalUserInfo.isNewUser = true
+        return auth.signInWithCredential(credential).await()
     }
 
 

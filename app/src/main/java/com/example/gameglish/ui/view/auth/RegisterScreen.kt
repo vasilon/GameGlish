@@ -33,7 +33,7 @@ import com.example.gameglish.ui.viewmodel.LoginState
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit,

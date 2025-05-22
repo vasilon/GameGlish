@@ -55,6 +55,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     // Room / SQLite
+
+
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation(libs.androidx.espresso.core)

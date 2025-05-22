@@ -2,6 +2,8 @@
 package com.example.gameglish.ui.view.auth
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -18,16 +21,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.contentcapture.ContentCaptureManager.Companion.isEnabled
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -35,6 +42,10 @@ import com.example.gameglish.R
 import com.example.gameglish.ui.navigation.Screen
 import com.example.gameglish.ui.viewmodel.LoginState
 import com.example.gameglish.ui.viewmodel.LoginViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
 
 /**
  * Login screen siguiendo las últimas tendencias de Material 3.
@@ -59,7 +70,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val loginState by loginViewModel.loginState.collectAsStateWithLifecycle()
     val isFirstLogin by loginViewModel.isFirstLogin.collectAsStateWithLifecycle()
-
+    var showForgotDialog by remember { mutableStateOf(false) }
     // ----------- UI -----------
     val gradient = Brush.verticalGradient(
         listOf(
@@ -68,6 +79,34 @@ fun LoginScreen(
             MaterialTheme.colorScheme.surface
         )
     )
+
+    val token = stringResource(R.string.default_web_client_id)  // ID de cliente OAuth2 (web) de Firebase
+    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(token)
+        .requestEmail()
+        .build()
+    val googleSignInClient = GoogleSignIn.getClient(context, gso)
+
+    // Launcher para la actividad de Sign-In de Google
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            if (account != null) {
+                val idToken = account.idToken
+                if (idToken != null) {
+                    // Pasar el token a ViewModel para autenticación Firebase
+                    loginViewModel.signInWithGoogle(idToken)
+                }
+            }
+        } catch (e: ApiException) {
+
+            Toast.makeText(context, "Error de autenticación: ${e.message}", Toast.LENGTH_LONG).show()
+
+        }
+    }
 
     Box(
         modifier
@@ -156,6 +195,15 @@ fun LoginScreen(
                     )
                     Spacer(Modifier.height(24.dp))
 
+                    GoogleSignInButton(
+                        onClick = { launcher.launch(googleSignInClient.signInIntent) },
+                        enabled = loginState != LoginState.Loading  // lo desactivamos mientras carga
+                    )
+
+
+
+                    Spacer(Modifier.height(12.dp))
+
                     // ---- Login Button ----
                     Button(
                         onClick = { loginViewModel.iniciarSesion(email, password) },
@@ -172,7 +220,7 @@ fun LoginScreen(
                             .fillMaxWidth()
                             .padding(top = 12.dp)
                     ) {
-                        TextButton(onClick = { /* TODO: forgot pass */ }) {
+                        TextButton(onClick = { showForgotDialog = true }) {
                             Text("¿Olvidaste tu contraseña?", fontSize = 14.sp)
                         }
                         TextButton(onClick = onNavigateToRegister) {
@@ -200,6 +248,42 @@ fun LoginScreen(
         }
     }
 
+    if (showForgotDialog) {
+        ForgotDialog(
+            emailDefault = email,                // usa el campo ya escrito
+            onDismiss = { showForgotDialog = false },
+            onSend = { correo ->
+                showForgotDialog = false
+                loginViewModel.enviarCorreoReset(correo)
+            }
+        )
+    }
+
+    LaunchedEffect(loginState) {
+        when (loginState) {
+            LoginState.PasswordResetSent -> {
+                Toast.makeText(
+                    context,
+                    "Te hemos enviado un enlace para restablecer la contraseña.\n" +
+                            "Si no lo ves, revisa la carpeta Spam.",
+                    Toast.LENGTH_LONG
+                ).show()
+                loginViewModel.resetState()
+            }
+            LoginState.Error -> {
+                Toast.makeText(context,
+                    "Ha ocurrido un error. Inténtalo de nuevo.",
+                    Toast.LENGTH_LONG).show()
+                loginViewModel.resetState()
+            }
+            else -> Unit
+        }
+    }
+
+
+
+
+
     // -------- HANDLE LOGIN STATE --------
     LaunchedEffect(loginState) {
         when (loginState) {
@@ -223,3 +307,60 @@ fun LoginScreen(
         }
     }
 }
+
+@Composable
+private fun ForgotDialog(
+    emailDefault: String,
+    onDismiss: () -> Unit,
+    onSend: (String) -> Unit
+) {
+    var email by remember { mutableStateOf(emailDefault) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Restablecer contraseña") },
+        text = {
+            Column {
+                Text("Introduce tu correo y te enviaremos un enlace de restablecimiento.")
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Correo") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onSend(email) }) { Text("Enviar") }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancelar") }
+        }
+    )
+}
+
+@Composable
+fun GoogleSignInButton(
+    onClick: () -> Unit,
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier
+) {
+    AndroidView(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(48.dp),
+        factory = { context ->
+            SignInButton(context).apply {
+                setSize(SignInButton.SIZE_WIDE)
+                setColorScheme(SignInButton.COLOR_AUTO)
+                setOnClickListener { if (isEnabled) onClick() }
+            }
+        },
+        update = { view ->
+            view.isEnabled = enabled
+        }
+    )
+}
+
