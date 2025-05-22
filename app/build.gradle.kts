@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.animation.core.lint)
+    implementation(libs.androidx.runtime.livedata)
     ksp("androidx.room:room-compiler:2.6.1")
 
     // Other necessary libraries (ViewModel, LiveData, etc.)

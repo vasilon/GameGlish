@@ -2,6 +2,7 @@
 package com.example.gameglish.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.gameglish.data.database.GameGlishDatabase
 import com.example.gameglish.data.model.EntityUsuario
 import com.google.firebase.auth.AuthResult
@@ -16,6 +17,19 @@ class RepositoryUsuario(
 ) {
     private val auth = FirebaseAuth.getInstance()
     private val remoteDb = FirebaseDatabase.getInstance().reference
+
+
+    private val dao = db.usuarioDao()
+
+    fun observeUsuario(uid: String): LiveData<EntityUsuario?> =
+        dao.observeUsuarioPorUid(uid)
+
+    suspend fun refreshUsuarioDesdeRemoto(uid: String) {
+        remoteDb.child("usuarios").child(uid)
+            .get().await()
+            .getValue(EntityUsuario::class.java)
+            ?.let { dao.insertarUsuario(it) }
+    }
 
     suspend fun iniciarSesionCorreo(email: String, password: String): Boolean {
         return try {
@@ -128,11 +142,8 @@ class RepositoryUsuario(
     }
 
     suspend fun actualizarUsuarioNivelYPuntos(
-        uid: String,
-        nivelSeleccionado: String,
-        nuevosPuntos: Int
+        uid: String, nivelSeleccionado: String, nuevosPuntos: Int
     ) {
-        // Mapea el nivel textual a entero
         val nivelMap = mapOf(
             "A1" to 1, "A2" to 2, "B1" to 3,
             "B2" to 4, "C1" to 5, "C2" to 6,
@@ -140,22 +151,25 @@ class RepositoryUsuario(
         )
         val nivelInt = nivelMap[nivelSeleccionado] ?: 1
 
-        // Recupera entidad local
-        var usuario = obtenerUsuarioLocal(uid)
-            ?: return  // o lanza excepción, según tu lógica
+        // obtén localmente, o crea uno nuevo si no existe
+        val local = dao.getUsuarioPorUid(uid)
+            ?: EntityUsuario(uidFirebase = uid,
+                nombre = "", email = "",
+                puntos = 0, nivel = nivelInt,
+                firstLogin = false)
 
-        // Crea copia con puntos y nivel actualizados
-        usuario = usuario.copy(
+        val actualizado = local.copy(
             puntos = nuevosPuntos,
             nivel  = nivelInt
         )
 
-        // 1) guarda en Room
-        guardarUsuarioLocal(usuario)
+        // 1) guarda en Room (dispara el LiveData)
+        dao.insertarUsuario(actualizado)
 
-        // 2) guarda en Firebase (o donde vaya guardarUsuarioRemoto)
-        guardarUsuarioRemoto(usuario)
+        // 2) guarda en remoto
+        remoteDb.child("usuarios").child(uid).setValue(actualizado).await()
     }
+
 
     suspend fun marcarPrimerLoginCompleto(uid: String) {
         try {

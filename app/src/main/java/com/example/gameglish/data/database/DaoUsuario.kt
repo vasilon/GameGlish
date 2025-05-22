@@ -1,6 +1,7 @@
 // DaoUsuario.kt
 package com.example.gameglish.data.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,6 +16,9 @@ interface DaoUsuario {
 
     @Query("SELECT * FROM usuarios WHERE uidFirebase = :uid")
     suspend fun getUsuarioPorUid(uid: String): EntityUsuario?
+
+    @Query("SELECT * FROM usuarios WHERE uidFirebase = :uid")
+    fun observeUsuarioPorUid(uid: String): LiveData<EntityUsuario?>
 
     @Query("UPDATE usuarios SET firstLogin = :firstLogin WHERE uidFirebase = :uid")
     suspend fun actualizarIsFirstLogin(uid: String, firstLogin: Boolean)

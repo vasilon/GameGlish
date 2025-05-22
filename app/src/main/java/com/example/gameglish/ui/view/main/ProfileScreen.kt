@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Grade
 import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,7 +56,11 @@ fun ProfileScreen(navController: NavController) {
     val context = LocalContext.current
     val db = GameGlishDatabase.getDatabase(context)
     val repositoryUsuario = remember { RepositoryUsuario(db) }
-    var usuario by remember { mutableStateOf<EntityUsuario?>(null) }
+    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+    val usuario by repositoryUsuario
+        .observeUsuario(uid)
+        .observeAsState(initial = null)
 
     // Niveles
     val levelMap = mapOf(
@@ -63,14 +68,18 @@ fun ProfileScreen(navController: NavController) {
         4 to "B2", 5 to "C1", 6 to "C2", 7 to "NATIVE"
     )
 
-    // Carga de datos de usuario
-    LaunchedEffect(true) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@LaunchedEffect
-        usuario = repositoryUsuario.obtenerUsuarioLocal(uid)
+    if (usuario == null) {
+        CircularProgressIndicator()
+    } else {
+        Text("Nivel: ${levelMap[usuario!!.nivel]}")
+        Text("Puntos: ${usuario!!.puntos}")
     }
 
+
+
+
+
     // Historial de estadísticas
-    val repositoryEstadistica = RepositoryEstadistica(db)
     val statsViewModel: StatsViewModel = viewModel()
     val estadisticas by statsViewModel.estadisticas
 
