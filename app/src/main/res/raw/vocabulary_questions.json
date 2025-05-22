@@ -23,6 +23,61 @@
       "level": "A1"
     },
     {
+      "question": "She has a red ____. ",
+      "answers": [
+        { "id": "a", "text": "ball" },
+        { "id": "b", "text": "car" },
+        { "id": "c", "text": "dog" },
+        { "id": "d", "text": "house" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "The sun is ____. ",
+      "answers": [
+        { "id": "a", "text": "bright" },
+        { "id": "b", "text": "cold" },
+        { "id": "c", "text": "wet" },
+        { "id": "d", "text": "quiet" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "He drinks ____. ",
+      "answers": [
+        { "id": "a", "text": "milk" },
+        { "id": "b", "text": "book" },
+        { "id": "c", "text": "shoe" },
+        { "id": "d", "text": "window" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "I see a ____. ",
+      "answers": [
+        { "id": "a", "text": "cat" },
+        { "id": "b", "text": "bike" },
+        { "id": "c", "text": "phone" },
+        { "id": "d", "text": "bread" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "This apple is ____. ",
+      "answers": [
+        { "id": "a", "text": "red" },
+        { "id": "b", "text": "fast" },
+        { "id": "c", "text": "big" },
+        { "id": "d", "text": "tall" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
       "question": "What does 'hungry' mean?",
       "answers": [
         { "id": "a", "text": "wanting food" },
@@ -40,6 +95,61 @@
         { "id": "b", "text": "glove" },
         { "id": "c", "text": "window" },
         { "id": "d", "text": "water" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "She wore a warm ____. ",
+      "answers": [
+        { "id": "a", "text": "jacket" },
+        { "id": "b", "text": "table" },
+        { "id": "c", "text": "apple" },
+        { "id": "d", "text": "flower" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "He always carries an ____. ",
+      "answers": [
+        { "id": "a", "text": "umbrella" },
+        { "id": "b", "text": "onion" },
+        { "id": "c", "text": "oven" },
+        { "id": "d", "text": "upstairs" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "What does 'tired' mean?",
+      "answers": [
+        { "id": "a", "text": "needing rest" },
+        { "id": "b", "text": "feeling hungry" },
+        { "id": "c", "text": "being happy" },
+        { "id": "d", "text": "being loud" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "They rented a ____ for the weekend. ",
+      "answers": [
+        { "id": "a", "text": "cabin" },
+        { "id": "b", "text": "keyboard" },
+        { "id": "c", "text": "camera" },
+        { "id": "d", "text": "circle" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "The soup tastes ____. ",
+      "answers": [
+        { "id": "a", "text": "delicious" },
+        { "id": "b", "text": "loud" },
+        { "id": "c", "text": "slow" },
+        { "id": "d", "text": "sticky" }
       ],
       "correctAnswerId": "a",
       "level": "A2"
@@ -67,6 +177,61 @@
       "level": "B1"
     },
     {
+      "question": "Choose the synonym of 'happy':",
+      "answers": [
+        { "id": "a", "text": "joyful" },
+        { "id": "b", "text": "angry" },
+        { "id": "c", "text": "bored" },
+        { "id": "d", "text": "tired" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "The word 'ancient' means ____. ",
+      "answers": [
+        { "id": "a", "text": "very old" },
+        { "id": "b", "text": "very new" },
+        { "id": "c", "text": "very small" },
+        { "id": "d", "text": "very tall" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "She made a ____ of flowers. ",
+      "answers": [
+        { "id": "a", "text": "bouquet" },
+        { "id": "b", "text": "bucket" },
+        { "id": "c", "text": "blanket" },
+        { "id": "d", "text": "boulder" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "What is the antonym of 'easy'?",
+      "answers": [
+        { "id": "a", "text": "difficult" },
+        { "id": "b", "text": "simple" },
+        { "id": "c", "text": "quick" },
+        { "id": "d", "text": "clear" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
+      "question": "She felt a sense of ____. (feeling of worry)",
+      "answers": [
+        { "id": "a", "text": "anxiety" },
+        { "id": "b", "text": "luxury" },
+        { "id": "c", "text": "clarity" },
+        { "id": "d", "text": "ecstasy" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B1"
+    },
+    {
       "question": "What is the antonym of 'increase'?",
       "answers": [
         { "id": "a", "text": "raise" },
@@ -86,6 +251,61 @@
         { "id": "d", "text": "take on" }
       ],
       "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "They agreed to ____ the project next week. (start)",
+      "answers": [
+        { "id": "a", "text": "kick off" },
+        { "id": "b", "text": "knock off" },
+        { "id": "c", "text": "peek off" },
+        { "id": "d", "text": "pick off" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B2"
+    },
+    {
+      "question": "The plan was ____. (able to be done)",
+      "answers": [
+        { "id": "a", "text": "feasible" },
+        { "id": "b", "text": "fragile" },
+        { "id": "c", "text": "fallible" },
+        { "id": "d", "text": "futile" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B2"
+    },
+    {
+      "question": "She ____ the meeting due to illness. (cancel)",
+      "answers": [
+        { "id": "a", "text": "called off" },
+        { "id": "b", "text": "called on" },
+        { "id": "c", "text": "called in" },
+        { "id": "d", "text": "called up" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B2"
+    },
+    {
+      "question": "Choose the synonym of 'complicated':",
+      "answers": [
+        { "id": "a", "text": "intricate" },
+        { "id": "b", "text": "intimate" },
+        { "id": "c", "text": "immense" },
+        { "id": "d", "text": "imminent" }
+      ],
+      "correctAnswerId": "a",
+      "level": "B2"
+    },
+    {
+      "question": "He spoke with great ____. (skillful speaking)",
+      "answers": [
+        { "id": "a", "text": "eloquence" },
+        { "id": "b", "text": "eloquent" },
+        { "id": "c", "text": "eloquently" },
+        { "id": "d", "text": "eloquacious" }
+      ],
+      "correctAnswerId": "a",
       "level": "B2"
     },
     {
@@ -111,6 +331,61 @@
       "level": "C1"
     },
     {
+      "question": "The politician’s speech was full of ____. (insincere praise)",
+      "answers": [
+        { "id": "a", "text": "flattery" },
+        { "id": "b", "text": "futility" },
+        { "id": "c", "text": "falsetto" },
+        { "id": "d", "text": "fidelity" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C1"
+    },
+    {
+      "question": "She showed great ____. (courage in adversity)",
+      "answers": [
+        { "id": "a", "text": "fortitude" },
+        { "id": "b", "text": "fragility" },
+        { "id": "c", "text": "futility" },
+        { "id": "d", "text": "formality" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C1"
+    },
+    {
+      "question": "Choose the antonym of 'superficial':",
+      "answers": [
+        { "id": "a", "text": "profound" },
+        { "id": "b", "text": "perfunctory" },
+        { "id": "c", "text": "peripheral" },
+        { "id": "d", "text": "premature" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C1"
+    },
+    {
+      "question": "Her analysis was ____. (thorough and detailed)",
+      "answers": [
+        { "id": "a", "text": "comprehensive" },
+        { "id": "b", "text": "compendious" },
+        { "id": "c", "text": "complicit" },
+        { "id": "d", "text": "compassionate" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C1"
+    },
+    {
+      "question": "He demonstrated great ____. (keen insight)",
+      "answers": [
+        { "id": "a", "text": "perspicacity" },
+        { "id": "b", "text": "perspicuity" },
+        { "id": "c", "text": "perspective" },
+        { "id": "d", "text": "perspective" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C1"
+    },
+    {
       "question": "What is the meaning of 'serendipity'?",
       "answers": [
         { "id": "a", "text": "bad luck" },
@@ -133,6 +408,72 @@
       "level": "C2"
     },
     {
+      "question": "Her discovery was a true ____. (fortunate accident)",
+      "answers": [
+        { "id": "a", "text": "serendipity" },
+        { "id": "b", "text": "stagnation" },
+        { "id": "c", "text": "soliloquy" },
+        { "id": "d", "text": "syllogism" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "He spoke with ____ that few could match. (eloquent fluency)",
+      "answers": [
+        { "id": "a", "text": "eloquence" },
+        { "id": "b", "text": "obloquy" },
+        { "id": "c", "text": "loquaciousness" },
+        { "id": "d", "text": "equivocation" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "Choose the meaning of 'antithesis':",
+      "answers": [
+        { "id": "a", "text": "direct opposite" },
+        { "id": "b", "text": "partial agreement" },
+        { "id": "c", "text": "clarification" },
+        { "id": "d", "text": "introduction" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "His argument was full of ____. (subtle distinctions)",
+      "answers": [
+        { "id": "a", "text": "nuances" },
+        { "id": "b", "text": "nuisance" },
+        { "id": "c", "text": "numbers" },
+        { "id": "d", "text": "notions" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "The concept remains ____. (not fully explained)",
+      "answers": [
+        { "id": "a", "text": "opaque" },
+        { "id": "b", "text": "obvious" },
+        { "id": "c", "text": "open" },
+        { "id": "d", "text": "obsolete" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
+      "question": "She negotiated with ____. (extreme skill)",
+      "answers": [
+        { "id": "a", "text": "finesse" },
+        { "id": "b", "text": "force" },
+        { "id": "c", "text": "friction" },
+        { "id": "d", "text": "fragile" }
+      ],
+      "correctAnswerId": "a",
+      "level": "C2"
+    },
+    {
       "question": "What does 'to bite the bullet' mean?",
       "answers": [
         { "id": "a", "text": "to endure hardship" },
@@ -150,6 +491,72 @@
         { "id": "b", "text": "lucid" },
         { "id": "c", "text": "concise" },
         { "id": "d", "text": "explicit" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "He was accused of ____. (excessive praise or flattery)",
+      "answers": [
+        { "id": "a", "text": "adulation" },
+        { "id": "b", "text": "amination" },
+        { "id": "c", "text": "ridicule" },
+        { "id": "d", "text": "amalgamation" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Choose the word that best describes someone who can speak many languages:",
+      "answers": [
+        { "id": "a", "text": "polyglot" },
+        { "id": "b", "text": "pedant" },
+        { "id": "c", "text": "philistine" },
+        { "id": "d", "text": "prodigy" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "What does 'ephemeral' mean?",
+      "answers": [
+        { "id": "a", "text": "short-lived" },
+        { "id": "b", "text": "eternal" },
+        { "id": "c", "text": "painful" },
+        { "id": "d", "text": "loud" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Select the best meaning of 'quintessential':",
+      "answers": [
+        { "id": "a", "text": "the perfect example" },
+        { "id": "b", "text": "the worst example" },
+        { "id": "c", "text": "questionable example" },
+        { "id": "d", "text": "quick example" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Her critique was noted for its ____. (sharpness and biting quality)",
+      "answers": [
+        { "id": "a", "text": "acrimony" },
+        { "id": "b", "text": "accolade" },
+        { "id": "c", "text": "acumen" },
+        { "id": "d", "text": "acquittal" }
+      ],
+      "correctAnswerId": "a",
+      "level": "NATIVE"
+    },
+    {
+      "question": "He spoke in a ____ manner. (extremely brief)",
+      "answers": [
+        { "id": "a", "text": "laconic" },
+        { "id": "b", "text": "loquacious" },
+        { "id": "c", "text": "lucid" },
+        { "id": "d", "text": "languid" }
       ],
       "correctAnswerId": "a",
       "level": "NATIVE"

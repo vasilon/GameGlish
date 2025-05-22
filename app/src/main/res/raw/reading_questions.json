@@ -23,6 +23,61 @@
       "level": "A1"
     },
     {
+      "question": "Read the text: \"My name is John. I work in a bank.\" Where does John work?",
+      "answers": [
+        { "id": "a", "text": "In a bank" },
+        { "id": "b", "text": "In a school" },
+        { "id": "c", "text": "In a shop" },
+        { "id": "d", "text": "In a hospital" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"Sarah has three apples and two bananas.\" How many bananas does Sarah have?",
+      "answers": [
+        { "id": "a", "text": "Three" },
+        { "id": "b", "text": "Two" },
+        { "id": "c", "text": "One" },
+        { "id": "d", "text": "Four" }
+      ],
+      "correctAnswerId": "b",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"The cat is on the roof. It is white.\" What color is the cat?",
+      "answers": [
+        { "id": "a", "text": "White" },
+        { "id": "b", "text": "Black" },
+        { "id": "c", "text": "Brown" },
+        { "id": "d", "text": "Gray" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"I live in a small house. It has two bedrooms.\" How many bedrooms does the house have?",
+      "answers": [
+        { "id": "a", "text": "One" },
+        { "id": "b", "text": "Two" },
+        { "id": "c", "text": "Three" },
+        { "id": "d", "text": "Four" }
+      ],
+      "correctAnswerId": "b",
+      "level": "A1"
+    },
+    {
+      "question": "Read the text: \"Tom is eight years old. His sister is ten.\" Who is older?",
+      "answers": [
+        { "id": "a", "text": "Tom" },
+        { "id": "b", "text": "His sister" },
+        { "id": "c", "text": "They are the same age" },
+        { "id": "d", "text": "Not sure" }
+      ],
+      "correctAnswerId": "b",
+      "level": "A1"
+    },
+    {
       "question": "Read the text: \"Tom and Lucy go to school every day. They study math and English.\" What subjects do they study?",
       "answers": [
         { "id": "a", "text": "Science and History" },
@@ -42,6 +97,61 @@
         { "id": "d", "text": "Four" }
       ],
       "correctAnswerId": "c",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"Yesterday I went to the cinema with my friends.\" Where did I go yesterday?",
+      "answers": [
+        { "id": "a", "text": "Cinema" },
+        { "id": "b", "text": "Park" },
+        { "id": "c", "text": "Museum" },
+        { "id": "d", "text": "Library" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"She cooked pasta for dinner last night.\" What did she cook for dinner?",
+      "answers": [
+        { "id": "a", "text": "Pasta" },
+        { "id": "b", "text": "Rice" },
+        { "id": "c", "text": "Salad" },
+        { "id": "d", "text": "Soup" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"We traveled to Madrid last summer.\" When did they travel?",
+      "answers": [
+        { "id": "a", "text": "Last summer" },
+        { "id": "b", "text": "Last winter" },
+        { "id": "c", "text": "Last month" },
+        { "id": "d", "text": "Next summer" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"He doesn’t like spicy food, so he ordered a mild curry.\" Why did he order a mild curry?",
+      "answers": [
+        { "id": "a", "text": "Because he doesn’t like spicy food" },
+        { "id": "b", "text": "Because he likes spicy food" },
+        { "id": "c", "text": "Because it was expensive" },
+        { "id": "d", "text": "Because it was popular" }
+      ],
+      "correctAnswerId": "a",
+      "level": "A2"
+    },
+    {
+      "question": "Read the text: \"My parents bought a new car last week.\" When did they buy the car?",
+      "answers": [
+        { "id": "a", "text": "Last week" },
+        { "id": "b", "text": "Last year" },
+        { "id": "c", "text": "Yesterday" },
+        { "id": "d", "text": "Tomorrow" }
+      ],
+      "correctAnswerId": "a",
       "level": "A2"
     },
     {
@@ -67,6 +177,61 @@
       "level": "B1"
     },
     {
+      "question": "Read the text: \"Anna goes to work by train. The journey takes 45 minutes.\" How long is Anna’s train journey?",
+      "answers": [
+        { "id": "a", "text": "30 minutes" },
+        { "id": "b", "text": "45 minutes" },
+        { "id": "c", "text": "60 minutes" },
+        { "id": "d", "text": "90 minutes" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"The shop closes at 6 PM and reopens at 9 AM.\" What time does the shop reopen?",
+      "answers": [
+        { "id": "a", "text": "6 AM" },
+        { "id": "b", "text": "9 AM" },
+        { "id": "c", "text": "12 PM" },
+        { "id": "d", "text": "6 PM" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"John prefers tea to coffee and drinks it every morning.\" What does John prefer?",
+      "answers": [
+        { "id": "a", "text": "Coffee" },
+        { "id": "b", "text": "Tea" },
+        { "id": "c", "text": "Juice" },
+        { "id": "d", "text": "Water" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"Tickets for the concert cost €20 for students and €30 for adults.\" How much does an adult ticket cost?",
+      "answers": [
+        { "id": "a", "text": "€20" },
+        { "id": "b", "text": "€25" },
+        { "id": "c", "text": "€30" },
+        { "id": "d", "text": "€35" }
+      ],
+      "correctAnswerId": "c",
+      "level": "B1"
+    },
+    {
+      "question": "Read the text: \"They have been learning English for two years.\" How long have they been learning English?",
+      "answers": [
+        { "id": "a", "text": "One year" },
+        { "id": "b", "text": "Two months" },
+        { "id": "c", "text": "Two years" },
+        { "id": "d", "text": "Three years" }
+      ],
+      "correctAnswerId": "c",
+      "level": "B1"
+    },
+    {
       "question": "Read the text: \"Global warming is causing sea levels to rise. Coastal cities may face flooding more often.\" What is likely to happen to coastal cities?",
       "answers": [
         { "id": "a", "text": "They will have less rain." },
@@ -86,6 +251,61 @@
         { "id": "d", "text": "Indifferent" }
       ],
       "correctAnswerId": "c",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"Although it rained heavily, the game continued without interruption.\" What happened despite the heavy rain?",
+      "answers": [
+        { "id": "a", "text": "The game was canceled" },
+        { "id": "b", "text": "The game continued" },
+        { "id": "c", "text": "The audience left" },
+        { "id": "d", "text": "The players protested" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"She hardly ever eats out, preferring home-cooked meals.\" What does she prefer?",
+      "answers": [
+        { "id": "a", "text": "Eating out" },
+        { "id": "b", "text": "Home-cooked meals" },
+        { "id": "c", "text": "Fast food" },
+        { "id": "d", "text": "New restaurants" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"The report was submitted late, which frustrated the manager.\" Who was frustrated?",
+      "answers": [
+        { "id": "a", "text": "The employee" },
+        { "id": "b", "text": "The manager" },
+        { "id": "c", "text": "The client" },
+        { "id": "d", "text": "The team" }
+      ],
+      "correctAnswerId": "b",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"Undoubtedly, technological innovation drives economic growth.\" What does the text claim drives economic growth?",
+      "answers": [
+        { "id": "a", "text": "Policy changes" },
+        { "id": "b", "text": "Taxation" },
+        { "id": "c", "text": "Technological innovation" },
+        { "id": "d", "text": "Population growth" }
+      ],
+      "correctAnswerId": "c",
+      "level": "B2"
+    },
+    {
+      "question": "Read the text: \"Several participants expressed concerns over the budget cuts.\" Who expressed concerns?",
+      "answers": [
+        { "id": "a", "text": "Participants" },
+        { "id": "b", "text": "Organizers" },
+        { "id": "c", "text": "Sponsors" },
+        { "id": "d", "text": "Media" }
+      ],
+      "correctAnswerId": "a",
       "level": "B2"
     },
     {
@@ -111,6 +331,61 @@
       "level": "C1"
     },
     {
+      "question": "Read the text: \"Sustainable practices, while initially costly, yield long-term benefits for the environment.\" What is true about sustainable practices?",
+      "answers": [
+        { "id": "a", "text": "They are cheap" },
+        { "id": "b", "text": "They harm the environment" },
+        { "id": "c", "text": "They eventually benefit the environment" },
+        { "id": "d", "text": "They have no impact" }
+      ],
+      "correctAnswerId": "c",
+      "level": "C1"
+    },
+    {
+      "question": "Read the text: \"The committee’s decision, controversial as it was, aimed to balance diverse stakeholder interests.\" How was the decision described?",
+      "answers": [
+        { "id": "a", "text": "Unanimous" },
+        { "id": "b", "text": "Delayed" },
+        { "id": "c", "text": "Controversial" },
+        { "id": "d", "text": "Straightforward" }
+      ],
+      "correctAnswerId": "c",
+      "level": "C1"
+    },
+    {
+      "question": "Read the text: \"By integrating cross-disciplinary approaches, researchers hope to solve complex problems more effectively.\" What do researchers hope to solve?",
+      "answers": [
+        { "id": "a", "text": "Simple tasks" },
+        { "id": "b", "text": "Complex problems" },
+        { "id": "c", "text": "Marketing issues" },
+        { "id": "d", "text": "Budget deficits" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
+      "question": "Read the text: \"Despite the stringent regulations, companies found innovative ways to remain compliant.\" What did companies find?",
+      "answers": [
+        { "id": "a", "text": "Strict rules" },
+        { "id": "b", "text": "Loopholes" },
+        { "id": "c", "text": "Innovative ways to remain compliant" },
+        { "id": "d", "text": "Excuses" }
+      ],
+      "correctAnswerId": "c",
+      "level": "C1"
+    },
+    {
+      "question": "Read the text: \"The author postulates that cultural context significantly influences interpretation of art.\" What does the author postulate?",
+      "answers": [
+        { "id": "a", "text": "Context is irrelevant" },
+        { "id": "b", "text": "Culture influences art interpretation" },
+        { "id": "c", "text": "Art influences culture" },
+        { "id": "d", "text": "Interpretation is objective" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C1"
+    },
+    {
       "question": "Read the text: “The philosopher argued that consciousness arises from neural complexity. Critics, however, point to unanswered questions about subjective experience.” What is a potential critique?",
       "answers": [
         { "id": "a", "text": "Consciousness is unrelated to the brain." },
@@ -133,6 +408,61 @@
       "level": "C2"
     },
     {
+      "question": "Read the text: \"Her allegorical narrative, laden with symbolism, offered a profound critique of societal norms.\" What did the narrative offer?",
+      "answers": [
+        { "id": "a", "text": "A simple story" },
+        { "id": "b", "text": "A profound critique of societal norms" },
+        { "id": "c", "text": "A summary of history" },
+        { "id": "d", "text": "A comedic view" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Read the text: \"The juxtaposition of themes in the novel underscores the paradox inherent in human ambition.\" What does the juxtaposition underscore?",
+      "answers": [
+        { "id": "a", "text": "Harmony" },
+        { "id": "b", "text": "Paradox in human ambition" },
+        { "id": "c", "text": "Sci-fi element" },
+        { "id": "d", "text": "Moral decay" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Read the text: \"Although ostensibly harmless, the policy revealed latent biases upon closer examination.\" What did the policy reveal?",
+      "answers": [
+        { "id": "a", "text": "No issues" },
+        { "id": "b", "text": "Latent biases" },
+        { "id": "c", "text": "Clear benefits" },
+        { "id": "d", "text": "Obvious errors" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
+      "question": "Read the text: \"The philosopher’s thesis, while erudite, necessitates further empirical validation.\" What does the thesis necessitate?",
+      "answers": [
+        { "id": "a", "text": "Nothing" },
+        { "id": "b", "text": "Immediate action" },
+        { "id": "c", "text": "Further empirical validation" },
+        { "id": "d", "text": "Popular consensus" }
+      ],
+      "correctAnswerId": "c",
+      "level": "C2"
+    },
+    {
+      "question": "Read the text: \"Her soliloquy epitomized the existential angst of the protagonist.\" What did the soliloquy epitomize?",
+      "answers": [
+        { "id": "a", "text": "Happiness" },
+        { "id": "b", "text": "Existential angst" },
+        { "id": "c", "text": "Confusion" },
+        { "id": "d", "text": "Excitement" }
+      ],
+      "correctAnswerId": "b",
+      "level": "C2"
+    },
+    {
       "question": "Read the literary sentence: “She walked the labyrinth of her mind, each thought echoing in silence.” What does 'labyrinth' imply?",
       "answers": [
         { "id": "a", "text": "A simple path" },
@@ -150,6 +480,61 @@
         { "id": "b", "text": "Time" },
         { "id": "c", "text": "A counselor" },
         { "id": "d", "text": "Wisdom" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the text: \"In the labyrinth of bureaucracy, one must navigate with both patience and cunning.\" What does the labyrinth metaphor imply?",
+      "answers": [
+        { "id": "a", "text": "Clarity and simplicity" },
+        { "id": "b", "text": "Complexity and winding paths" },
+        { "id": "c", "text": "Straightforward rules" },
+        { "id": "d", "text": "Rapid progress" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the text: \"Time, the relentless sculptor, carves our memories into legacy.\" How is time described?",
+      "answers": [
+        { "id": "a", "text": "A gentle guide" },
+        { "id": "b", "text": "A relentless sculptor" },
+        { "id": "c", "text": "A silent observer" },
+        { "id": "d", "text": "A distant judge" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the text: \"Beneath the veneer of civility lay a cauldron of unspoken tensions.\" What lies beneath the veneer?",
+      "answers": [
+        { "id": "a", "text": "Honesty" },
+        { "id": "b", "text": "A cauldron of unspoken tensions" },
+        { "id": "c", "text": "Joy" },
+        { "id": "d", "text": "Calm" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the text: \"One must drink deeply from the well of knowledge to quench intellectual thirst.\" What does the well metaphor represent?",
+      "answers": [
+        { "id": "a", "text": "Water" },
+        { "id": "b", "text": "Knowledge" },
+        { "id": "c", "text": "Thirst" },
+        { "id": "d", "text": "Effort" }
+      ],
+      "correctAnswerId": "b",
+      "level": "NATIVE"
+    },
+    {
+      "question": "Read the text: \"The summit convened luminaries from disparate fields, fostering interdisciplinary dialogue.\" Who did the summit convene?",
+      "answers": [
+        { "id": "a", "text": "Politicians" },
+        { "id": "b", "text": "Luminaries from disparate fields" },
+        { "id": "c", "text": "Students" },
+        { "id": "d", "text": "Businesses" }
       ],
       "correctAnswerId": "b",
       "level": "NATIVE"

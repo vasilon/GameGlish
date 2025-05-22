@@ -69,6 +69,63 @@
       "correctAnswerId": "a",
       "level": "A1"
     },
+        {
+          "question": "He ____ to music every evening.",
+          "answers": [
+            { "id": "a", "text": "listen" },
+            { "id": "b", "text": "listens" },
+            { "id": "c", "text": "listening" },
+            { "id": "d", "text": "listened" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A1"
+        },
+        {
+          "question": "We ____ in the pool during summer.",
+          "answers": [
+            { "id": "a", "text": "swim" },
+            { "id": "b", "text": "swims" },
+            { "id": "c", "text": "swimming" },
+            { "id": "d", "text": "swam" }
+          ],
+          "correctAnswerId": "a",
+          "level": "A1"
+        },
+        {
+          "question": "The baby ____ when she is tired.",
+          "answers": [
+            { "id": "a", "text": "cry" },
+            { "id": "b", "text": "cries" },
+            { "id": "c", "text": "crying" },
+            { "id": "d", "text": "cried" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A1"
+        },
+        {
+          "question": "They ____ English at school.",
+          "answers": [
+            { "id": "a", "text": "study" },
+            { "id": "b", "text": "studies" },
+            { "id": "c", "text": "studying" },
+            { "id": "d", "text": "studied" }
+          ],
+          "correctAnswerId": "a",
+          "level": "A1"
+        },
+        {
+          "question": "My brother ____ TV after dinner.",
+          "answers": [
+            { "id": "a", "text": "watch" },
+            { "id": "b", "text": "watches" },
+            { "id": "c", "text": "watching" },
+            { "id": "d", "text": "watched" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A1"
+        },
+
+
     {
       "question": "Choose the correct option: 'He ____ his homework before dinner.'",
       "answers": [
@@ -138,6 +195,63 @@
       "correctAnswerId": "b",
       "level": "A2"
     },
+
+        {
+          "question": "Choose the correct option: 'She ____ never been to France.'",
+          "answers": [
+            { "id": "a", "text": "have" },
+            { "id": "b", "text": "has" },
+            { "id": "c", "text": "did" },
+            { "id": "d", "text": "do" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A2"
+        },
+        {
+          "question": "Fill in the blank: 'They ____ the movie last night.'",
+          "answers": [
+            { "id": "a", "text": "watch" },
+            { "id": "b", "text": "watched" },
+            { "id": "c", "text": "watching" },
+            { "id": "d", "text": "watches" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A2"
+        },
+        {
+          "question": "Select the right comparative: 'My car is ____ than yours.'",
+          "answers": [
+            { "id": "a", "text": "fast" },
+            { "id": "b", "text": "faster" },
+            { "id": "c", "text": "fastest" },
+            { "id": "d", "text": "more fast" }
+          ],
+          "correctAnswerId": "b",
+          "level": "A2"
+        },
+        {
+          "question": "Choose the correct modal verb: 'You ____ study harder to pass the exam.'",
+          "answers": [
+            { "id": "a", "text": "must" },
+            { "id": "b", "text": "can" },
+            { "id": "c", "text": "should" },
+            { "id": "d", "text": "might" }
+          ],
+          "correctAnswerId": "c",
+          "level": "A2"
+        },
+        {
+          "question": "Complete the sentence: 'He ____ TV when I called him.'",
+          "answers": [
+            { "id": "a", "text": "was watching" },
+            { "id": "b", "text": "were watching" },
+            { "id": "c", "text": "watched" },
+            { "id": "d", "text": "is watching" }
+          ],
+          "correctAnswerId": "a",
+          "level": "A2"
+        },
+
     {
       "question": "Select the correct sentence: 'I ____ my keys yesterday.'",
       "answers": [
@@ -230,6 +344,64 @@
       "correctAnswerId": "a",
       "level": "B1"
     },
+        {
+          "question": "I ____ to Paris twice so far.",
+          "answers": [
+            { "id": "a", "text": "was" },
+            { "id": "b", "text": "have been" },
+            { "id": "c", "text": "went" },
+            { "id": "d", "text": "have gone" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B1"
+        },
+        {
+          "question": "The cake ____ by my mom yesterday.",
+          "answers": [
+            { "id": "a", "text": "baked" },
+            { "id": "b", "text": "was baked" },
+            { "id": "c", "text": "is baked" },
+            { "id": "d", "text": "has baked" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B1"
+        },
+        {
+          "question": "He said that he ____ the report before the meeting.",
+          "answers": [
+            { "id": "a", "text": "has finished" },
+            { "id": "b", "text": "finished" },
+            { "id": "c", "text": "had finished" },
+            { "id": "d", "text": "was finishing" }
+          ],
+          "correctAnswerId": "c",
+          "level": "B1"
+        },
+        {
+          "question": "She suggested ____ earlier to avoid the traffic.",
+          "answers": [
+            { "id": "a", "text": "to leave" },
+            { "id": "b", "text": "leaving" },
+            { "id": "c", "text": "leave" },
+            { "id": "d", "text": "left" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B1"
+        },
+        {
+          "question": "The woman ____ car was stolen reported it to the police.",
+          "answers": [
+            { "id": "a", "text": "who’s" },
+            { "id": "b", "text": "whom" },
+            { "id": "c", "text": "whose" },
+            { "id": "d", "text": "which" }
+          ],
+          "correctAnswerId": "c",
+          "level": "B1"
+
+
+    },
+
     {
       "question": "Fill in the blank: 'By the time we arrived, the film ____ already started.'",
       "answers": [
@@ -299,6 +471,65 @@
       "correctAnswerId": "a",
       "level": "B2"
     },
+
+        {
+          "question": "If I had known about the traffic, I ____ earlier.",
+          "answers": [
+            { "id": "a", "text": "would leave" },
+            { "id": "b", "text": "would have left" },
+            { "id": "c", "text": "had left" },
+            { "id": "d", "text": "will leave" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B2"
+        },
+        {
+          "question": "They say that a new law ____ next month.",
+          "answers": [
+            { "id": "a", "text": "will introduce" },
+            { "id": "b", "text": "will be introduced" },
+            { "id": "c", "text": "is introduced" },
+            { "id": "d", "text": "introduces" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B2"
+        },
+        {
+          "question": "She asked me if I ____ the document.",
+          "answers": [
+            { "id": "a", "text": "had signed" },
+            { "id": "b", "text": "have signed" },
+            { "id": "c", "text": "signed" },
+            { "id": "d", "text": "would sign" }
+          ],
+          "correctAnswerId": "a",
+          "level": "B2"
+        },
+        {
+          "question": "I'm going to ____ my car serviced next week.",
+          "answers": [
+            { "id": "a", "text": "make" },
+            { "id": "b", "text": "have" },
+            { "id": "c", "text": "get" },
+            { "id": "d", "text": "arrange" }
+          ],
+          "correctAnswerId": "b",
+          "level": "B2"
+        },
+        {
+          "question": "You ____ saved more if you'd invested earlier.",
+          "answers": [
+            { "id": "a", "text": "could have" },
+            { "id": "b", "text": "should have" },
+            { "id": "c", "text": "would have" },
+            { "id": "d", "text": "might have" }
+          ],
+          "correctAnswerId": "a",
+          "level": "B2"
+        },
+
+
+
     {
       "question": "Select the correct form: 'It is essential that every student ____ the guidelines carefully.'",
       "answers": [
@@ -368,6 +599,62 @@
       "correctAnswerId": "b",
       "level": "C1"
     },
+        {
+          "question": "Hardly had we arrived ____ it started raining heavily.",
+          "answers": [
+            { "id": "a", "text": "when" },
+            { "id": "b", "text": "than" },
+            { "id": "c", "text": "so" },
+            { "id": "d", "text": "that" }
+          ],
+          "correctAnswerId": "a",
+          "level": "C1"
+        },
+        {
+          "question": "No sooner ____ the meeting started than the fire alarm went off.",
+          "answers": [
+            { "id": "a", "text": "had" },
+            { "id": "b", "text": "did" },
+            { "id": "c", "text": "was" },
+            { "id": "d", "text": "does" }
+          ],
+          "correctAnswerId": "a",
+          "level": "C1"
+        },
+        {
+          "question": "Despite ____ for hours, they failed to reach a conclusion.",
+          "answers": [
+            { "id": "a", "text": "deliberating" },
+            { "id": "b", "text": "to have deliberated" },
+            { "id": "c", "text": "having deliberated" },
+            { "id": "d", "text": "deliberate" }
+          ],
+          "correctAnswerId": "c",
+          "level": "C1"
+        },
+        {
+          "question": "She insisted on ____ the report herself.",
+          "answers": [
+            { "id": "a", "text": "to review" },
+            { "id": "b", "text": "reviewing" },
+            { "id": "c", "text": "have reviewed" },
+            { "id": "d", "text": "having reviewed" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C1"
+        },
+        {
+          "question": "They would rather you ____ earlier.",
+          "answers": [
+            { "id": "a", "text": "arrived" },
+            { "id": "b", "text": "had arrived" },
+            { "id": "c", "text": "arrive" },
+            { "id": "d", "text": "arriving" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C1"
+        },
+
     {
       "question": "Fill in the blank: 'Had I ____ the instructions, I would not have made that mistake.'",
       "answers": [
@@ -414,6 +701,74 @@
       "correctAnswerId": "b",
       "level": "C2"
     },
+        {
+          "question": "Not only ____ the speaker engage the audience, but he also motivated them.",
+          "answers": [
+            { "id": "a", "text": "had" },
+            { "id": "b", "text": "has" },
+            { "id": "c", "text": "have" },
+            { "id": "d", "text": "having" }
+          ],
+          "correctAnswerId": "a",
+          "level": "C2"
+        },
+        {
+          "question": "The CEO demanded that the report ____ by Friday.",
+          "answers": [
+            { "id": "a", "text": "submitted" },
+            { "id": "b", "text": "be submitted" },
+            { "id": "c", "text": "submits" },
+            { "id": "d", "text": "to submit" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C2"
+        },
+        {
+          "question": "If she ____ the training earlier, she wouldn’t be struggling now.",
+          "answers": [
+            { "id": "a", "text": "took" },
+            { "id": "b", "text": "had taken" },
+            { "id": "c", "text": "has taken" },
+            { "id": "d", "text": "would have taken" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C2"
+        },
+        {
+          "question": "You ____ have informed me of the changes before the meeting.",
+          "answers": [
+            { "id": "a", "text": "should" },
+            { "id": "b", "text": "should have" },
+            { "id": "c", "text": "should had" },
+            { "id": "d", "text": "should of" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C2"
+        },
+        {
+          "question": "Shocked ____ the unexpected outcome, the jury requested a recess.",
+          "answers": [
+            { "id": "a", "text": "by" },
+            { "id": "b", "text": "at" },
+            { "id": "c", "text": "with" },
+            { "id": "d", "text": "from" }
+          ],
+          "correctAnswerId": "a",
+          "level": "C2"
+        },
+        {
+          "question": "Hardly ____ her presentation when the fire alarm went off.",
+          "answers": [
+            { "id": "a", "text": "she had finished" },
+            { "id": "b", "text": "had she finished" },
+            { "id": "c", "text": "did she finish" },
+            { "id": "d", "text": "she did finish" }
+          ],
+          "correctAnswerId": "b",
+          "level": "C2"
+
+    },
+
     {
       "question": "Fill in the blank: 'No sooner ____ the meeting than the alarm rang.'",
       "answers": [
@@ -482,6 +837,62 @@
       ],
       "correctAnswerId": "a",
       "level": "NATIVE"
-    }
+    },
+
+        {
+          "question": "Never ____ such a breathtaking view.",
+          "answers": [
+            { "id": "a", "text": "I have seen" },
+            { "id": "b", "text": "have I seen" },
+            { "id": "c", "text": "I saw" },
+            { "id": "d", "text": "saw I" }
+          ],
+          "correctAnswerId": "b",
+          "level": "NATIVE"
+        },
+        {
+          "question": "Seldom ____ such dedication in a team.",
+          "answers": [
+            { "id": "a", "text": "one sees" },
+            { "id": "b", "text": "sees one" },
+            { "id": "c", "text": "one see" },
+            { "id": "d", "text": "does one see" }
+          ],
+          "correctAnswerId": "d",
+          "level": "NATIVE"
+        },
+        {
+          "question": "Had you been informed earlier, you ____ offered your assistance.",
+          "answers": [
+            { "id": "a", "text": "wouldn’t have" },
+            { "id": "b", "text": "wouldn’t" },
+            { "id": "c", "text": "wouldn’t have been" },
+            { "id": "d", "text": "won’t have" }
+          ],
+          "correctAnswerId": "a",
+          "level": "NATIVE"
+        },
+        {
+          "question": "She decided to ____ the bull by the horns and address the issue head-on.",
+          "answers": [
+            { "id": "a", "text": "take" },
+            { "id": "b", "text": "grab" },
+            { "id": "c", "text": "get" },
+            { "id": "d", "text": "seize" }
+          ],
+          "correctAnswerId": "a",
+          "level": "NATIVE"
+        },
+        {
+          "question": "It’s high time they ____ their commitments seriously.",
+          "answers": [
+            { "id": "a", "text": "start" },
+            { "id": "b", "text": "started" },
+            { "id": "c", "text": "had started" },
+            { "id": "d", "text": "will start" }
+          ],
+          "correctAnswerId": "b",
+          "level": "NATIVE"
+        }
   ]
 }
