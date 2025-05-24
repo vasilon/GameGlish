@@ -3,23 +3,23 @@
     {
       "question": "She ate an ____.",
       "answers": [
-        { "id": "a", "text": "apple" },
+        { "id": "a", "text": "dog" },
         { "id": "b", "text": "ball" },
         { "id": "c", "text": "car" },
-        { "id": "d", "text": "dog" }
+        { "id": "d", "text": "apple" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "A1"
     },
     {
       "question": "The grass is ____.",
       "answers": [
-        { "id": "a", "text": "green" },
+        { "id": "a", "text": "big" },
         { "id": "b", "text": "small" },
-        { "id": "c", "text": "big" },
+        { "id": "c", "text": "green" },
         { "id": "d", "text": "tall" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "A1"
     },
     {
@@ -47,12 +47,12 @@
     {
       "question": "He drinks ____. ",
       "answers": [
-        { "id": "a", "text": "milk" },
-        { "id": "b", "text": "book" },
+        { "id": "a", "text": "book" },
+        { "id": "b", "text": "milk" },
         { "id": "c", "text": "shoe" },
         { "id": "d", "text": "window" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "b",
       "level": "A1"
     },
     {
@@ -69,34 +69,34 @@
     {
       "question": "This apple is ____. ",
       "answers": [
-        { "id": "a", "text": "red" },
+        { "id": "a", "text": "big" },
         { "id": "b", "text": "fast" },
-        { "id": "c", "text": "big" },
+        { "id": "c", "text": "red" },
         { "id": "d", "text": "tall" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "A1"
     },
     {
       "question": "What does 'hungry' mean?",
       "answers": [
-        { "id": "a", "text": "wanting food" },
+        { "id": "a", "text": "feeling happy" },
         { "id": "b", "text": "wanting sleep" },
         { "id": "c", "text": "feeling cold" },
-        { "id": "d", "text": "feeling happy" }
+        { "id": "d", "text": "wanting food" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "A2"
     },
     {
       "question": "He puts on his ____ before he goes outside.",
       "answers": [
-        { "id": "a", "text": "hat" },
+        { "id": "a", "text": "window" },
         { "id": "b", "text": "glove" },
-        { "id": "c", "text": "window" },
+        { "id": "c", "text": "hat" },
         { "id": "d", "text": "water" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "A2"
     },
     {
@@ -124,23 +124,23 @@
     {
       "question": "What does 'tired' mean?",
       "answers": [
-        { "id": "a", "text": "needing rest" },
-        { "id": "b", "text": "feeling hungry" },
+        { "id": "a", "text": "feeling hungry" },
+        { "id": "b", "text": "needing rest" },
         { "id": "c", "text": "being happy" },
         { "id": "d", "text": "being loud" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "b",
       "level": "A2"
     },
     {
       "question": "They rented a ____ for the weekend. ",
       "answers": [
-        { "id": "a", "text": "cabin" },
+        { "id": "a", "text": "circle" },
         { "id": "b", "text": "keyboard" },
         { "id": "c", "text": "camera" },
-        { "id": "d", "text": "circle" }
+        { "id": "d", "text": "cabin" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "A2"
     },
     {
@@ -201,12 +201,12 @@
     {
       "question": "She made a ____ of flowers. ",
       "answers": [
-        { "id": "a", "text": "bouquet" },
+        { "id": "a", "text": "boulder" },
         { "id": "b", "text": "bucket" },
         { "id": "c", "text": "blanket" },
-        { "id": "d", "text": "boulder" }
+        { "id": "d", "text": "bouquet" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "B1"
     },
     {
@@ -223,12 +223,12 @@
     {
       "question": "She felt a sense of ____. (feeling of worry)",
       "answers": [
-        { "id": "a", "text": "anxiety" },
+        { "id": "a", "text": "clarity" },
         { "id": "b", "text": "luxury" },
-        { "id": "c", "text": "clarity" },
+        { "id": "c", "text": "anxiety" },
         { "id": "d", "text": "ecstasy" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "B1"
     },
     {
@@ -410,34 +410,34 @@
     {
       "question": "Her discovery was a true ____. (fortunate accident)",
       "answers": [
-        { "id": "a", "text": "serendipity" },
+        { "id": "a", "text": "syllogism" },
         { "id": "b", "text": "stagnation" },
         { "id": "c", "text": "soliloquy" },
-        { "id": "d", "text": "syllogism" }
+        { "id": "d", "text": "serendipity" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "C2"
     },
     {
       "question": "He spoke with ____ that few could match. (eloquent fluency)",
       "answers": [
-        { "id": "a", "text": "eloquence" },
-        { "id": "b", "text": "obloquy" },
+        { "id": "a", "text": "obloquy" },
+        { "id": "b", "text": "eloquence" },
         { "id": "c", "text": "loquaciousness" },
         { "id": "d", "text": "equivocation" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "b",
       "level": "C2"
     },
     {
       "question": "Choose the meaning of 'antithesis':",
       "answers": [
-        { "id": "a", "text": "direct opposite" },
+        { "id": "a", "text": "introduction" },
         { "id": "b", "text": "partial agreement" },
         { "id": "c", "text": "clarification" },
-        { "id": "d", "text": "introduction" }
+        { "id": "d", "text": "direct opposite" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "C2"
     },
     {
@@ -487,78 +487,78 @@
     {
       "question": "Choose the word that best describes something difficult to understand.",
       "answers": [
-        { "id": "a", "text": "abstruse" },
+        { "id": "a", "text": "concise" },
         { "id": "b", "text": "lucid" },
-        { "id": "c", "text": "concise" },
+        { "id": "c", "text": "adulation" },
         { "id": "d", "text": "explicit" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "NATIVE"
     },
     {
       "question": "He was accused of ____. (excessive praise or flattery)",
       "answers": [
-        { "id": "a", "text": "adulation" },
+        { "id": "a", "text": "ridicule" },
         { "id": "b", "text": "amination" },
-        { "id": "c", "text": "ridicule" },
+        { "id": "c", "text": "adulation" },
         { "id": "d", "text": "amalgamation" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "NATIVE"
     },
     {
       "question": "Choose the word that best describes someone who can speak many languages:",
       "answers": [
-        { "id": "a", "text": "polyglot" },
+        { "id": "a", "text": "prodigy" },
         { "id": "b", "text": "pedant" },
         { "id": "c", "text": "philistine" },
-        { "id": "d", "text": "prodigy" }
+        { "id": "d", "text": "polyglot" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "NATIVE"
     },
     {
       "question": "What does 'ephemeral' mean?",
       "answers": [
-        { "id": "a", "text": "short-lived" },
+        { "id": "a", "text": "loud" },
         { "id": "b", "text": "eternal" },
         { "id": "c", "text": "painful" },
-        { "id": "d", "text": "loud" }
+        { "id": "d", "text": "short-lived" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "NATIVE"
     },
     {
       "question": "Select the best meaning of 'quintessential':",
       "answers": [
-        { "id": "a", "text": "the perfect example" },
+        { "id": "a", "text": "quick exmple" },
         { "id": "b", "text": "the worst example" },
         { "id": "c", "text": "questionable example" },
-        { "id": "d", "text": "quick example" }
+        { "id": "d", "text": "the perfect example" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "d",
       "level": "NATIVE"
     },
     {
       "question": "Her critique was noted for its ____. (sharpness and biting quality)",
       "answers": [
-        { "id": "a", "text": "acrimony" },
-        { "id": "b", "text": "accolade" },
+        { "id": "a", "text": "accolade" },
+        { "id": "b", "text": "acrimony" },
         { "id": "c", "text": "acumen" },
         { "id": "d", "text": "acquittal" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "b",
       "level": "NATIVE"
     },
     {
       "question": "He spoke in a ____ manner. (extremely brief)",
       "answers": [
-        { "id": "a", "text": "laconic" },
+        { "id": "a", "text": "lucid" },
         { "id": "b", "text": "loquacious" },
-        { "id": "c", "text": "lucid" },
+        { "id": "c", "text": "laconic" },
         { "id": "d", "text": "languid" }
       ],
-      "correctAnswerId": "a",
+      "correctAnswerId": "c",
       "level": "NATIVE"
     }
   ]

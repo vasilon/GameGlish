@@ -74,7 +74,6 @@ fun QuestionsScreen(
     var selectedAnswer by remember { mutableStateOf<String?>(null) }
     var correctCount by remember { mutableStateOf(0) }
     var statsSubmitted by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(text = "Score: $correctCount / ${if (questionsForUser.isEmpty()) 0 else questionsForUser.size}",
