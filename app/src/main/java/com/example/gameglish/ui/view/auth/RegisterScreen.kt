@@ -1,3 +1,17 @@
+// -----------------------------------------------------------------------------
+// RegisterScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla de registro de usuario.
+// Permite al visitante crear una cuenta mediante e‑mail y contraseña.
+// Incluye validación mínima de campos y muestra un overlay de carga mientras
+// el ViewModel procesa la petición.
+// Se divide en:
+//   1) Captura de email y contraseña.
+//   2) Botón para crear la cuenta.
+//   3) Enlace para volver a Login.
+//   4) Observación del estado `loginState` para mostrar progreso y toast.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.auth
 
 import android.widget.Toast

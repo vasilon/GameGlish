@@ -1,4 +1,11 @@
+// -----------------------------------------------------------------------------
 // DaoPregunta.kt
+// -----------------------------------------------------------------------------
+// Data‑Access‑Object (DAO) para la entidad `EntityPregunta` utilizada en GameGlish.
+// Proporciona métodos suspend que Room implementa en tiempo de compilación para
+// interactuar con la tabla `preguntas`.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.data.database
 
 import androidx.room.Dao
@@ -15,7 +22,5 @@ interface DaoPregunta {
     suspend fun insertPreguntas(preguntas: List<EntityPregunta>)
     @Query("SELECT * FROM preguntas WHERE tema = :tema")
     suspend fun getPreguntasByTema(tema: String): List<EntityPregunta>
-    @Query("SELECT * FROM preguntas WHERE nivel = :nivel")
-    suspend fun getPreguntasByNivel(nivel: Int): List<EntityPregunta>
 }
 

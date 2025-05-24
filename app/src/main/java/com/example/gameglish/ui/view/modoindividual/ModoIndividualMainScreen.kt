@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+// ModoIndividualMainScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla de entrada al Modo Individual, ofrece tres categorías: Vocabulario,
+// Gramática y Reading.
+// Usa un TopAppBar verde para consistencia y un fondo en degradado.
+// Cada categoría es una OptionCard con icono y descripción.
+// Permite navegar a pantallas específicas para cada categoría.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.background

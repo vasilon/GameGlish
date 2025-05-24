@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// VocabularioScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla de presentación para los ejercicios de vocabulario dentro del Modo
+// Individual. Incluye una descripción motivacional del tipo de prácticas y un
+// botón para comenzar.
+// Mantiene el diseño consistente con Gramática y Reading.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.layout.*

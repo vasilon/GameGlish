@@ -1,4 +1,13 @@
-// Kotlin
+// -----------------------------------------------------------------------------
+// RepositoryEstadistica_comentado.kt
+// -----------------------------------------------------------------------------
+// Repositorio encargado de:
+//   • Persistir localmente las estadísticas de preguntas (Room).
+//   • Sincronizar y consultar estadísticas en Firebase Realtime Database.
+//   • Construir el ranking global de usuarios.
+//
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.data.repository
 
 import android.util.Log
@@ -16,43 +25,38 @@ class RepositoryEstadistica(val db: GameGlishDatabase) {
 
 
     private val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
-    private val remoteRef = FirebaseDatabase.getInstance(firebaseUrl)
-        .getReference("estadisticas")
 
-    suspend fun insertEstadistica(estadistica: EntityEstadistica) {
-        // 1) Inserta local
-        db.estadisticaDao().insertEstadistica(estadistica)
-        // 2) Sincroniza a remoto
-        guardarEstadisticaRemota(estadistica)
-    }
+    // -------------------------------------------------------------------------
+    // Operaciones LOCAL ↔️ REMOTO
+    // -------------------------------------------------------------------------
 
-    private suspend fun guardarEstadisticaRemota(estadistica: EntityEstadistica) {
-        try {
-            withContext(NonCancellable) {
-
-                val key = estadistica.remoteId   // debe venir ya asignado
-                remoteRef
-                    .child(estadistica.userId)
-                    .child(key)                    // ← uso la misma clave
-                    .setValue(estadistica)
-                    .await()
-            }
-        } catch (e: Exception) {
-            Log.e("RepoEstadistica", "Error guardando remoto: ${e.message}", e)
-        }
-    }
+    /**
+     * Borra todas las estadísticas locales del usuario indicado.
+     * Se emplea antes de una importación completa desde Firebase para evitar
+     * duplicados.
+     */
 
     suspend fun clearLocalStatsForUser(userId: String) {
         db.estadisticaDao().deleteByUser(userId)
     }
 
-    /** Inserta *solo* local, sin tocar Firebase */
+
+    /**
+     * Inserta una estadística únicamente en la base de datos local.
+     * Útil cuando la estadística ya existe en remoto y solo necesitamos
+     * almacenarla en caché.
+     */
     suspend fun insertEstadisticaLocalOnly(e: EntityEstadistica) {
         db.estadisticaDao().insertEstadistica(e)
     }
 
+    // -------------------------------------------------------------------------
+    // Lecturas REMOTAS
+    // -------------------------------------------------------------------------
+
     /**
-     * Lee siempre del remoto. Si no hay, devuelve lista vacía.
+     * Descarga todas las estadísticas de un usuario desde Firebase RTDB.
+     * Devuelve lista vacía si el usuario no tiene registros.
      */
     suspend fun getEstadisticasUsuarioRemoto(userId: String): List<EntityEstadistica> {
         val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
@@ -80,16 +84,19 @@ class RepositoryEstadistica(val db: GameGlishDatabase) {
             )
         }
     }
-
+    // -------------------------------------------------------------------------
+    // Ranking global
+    // -------------------------------------------------------------------------
     /**
-     * Lectura local (por si quieres fallback o cache).
+     * Devuelve el ranking global ordenado por puntos.
+     * Algoritmo:
+     * 1. Lee todas las estadísticas de Firebase.
+     *   2. Construye un mapa de userId → puntos totales.
+     *   3. Lee todos los usuarios de Firebase.
+     *   4. Crea una lista de EntityRanking con userId, nombre, nivel y puntos.
+     *   5. Ordena la lista por puntos descendentes.
+     *   6. Devuelve la lista ordenada.
      */
-    suspend fun getEstadisticasUsuarioLocal(userId: String): List<EntityEstadistica> {
-        return db.estadisticaDao()
-            .getEstadisticasByUser(userId)
-            .sortedByDescending { it.fecha }
-    }
-
 
     suspend fun obtenerRankingGlobal(): List<EntityRanking> {
         // 1) Leemos todas las estadísticas

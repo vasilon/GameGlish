@@ -1,4 +1,14 @@
-// Kotlin
+// -----------------------------------------------------------------------------
+// FirstTimeLoginScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla que se muestra únicamente al primer inicio de sesión para que el
+// usuario complete su nombre y realice una breve prueba de nivel.
+// Se divide en tres pasos principales:
+//   1) Captura del nombre.
+//   2) Cuestionario de 6 ...
+//   3) Resultado y asignación de nivel.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.auth
 
 import android.content.Context
@@ -9,10 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -24,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import com.example.gameglish.R
 import org.json.JSONObject
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FirstTimeLoginScreen(
     onRegisterSuccess: () -> Unit,
@@ -34,8 +39,8 @@ fun FirstTimeLoginScreen(
     // —— Estado ——
     var nombre by remember { mutableStateOf("") }
     var quizStarted by remember { mutableStateOf(false) }
-    var currentIndex by remember { mutableStateOf(0) }
-    var correctCount by remember { mutableStateOf(0) }
+    var currentIndex by remember { mutableIntStateOf(0) }
+    var correctCount by remember { mutableIntStateOf(0) }
     var selectedAnswer by remember { mutableStateOf<String?>(null) }
     var nivelAsignado by remember { mutableStateOf<String?>(null) }
 

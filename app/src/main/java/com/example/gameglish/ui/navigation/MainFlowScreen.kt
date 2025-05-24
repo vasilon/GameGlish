@@ -58,18 +58,18 @@ fun MainFlowScreen(globalNavController: NavHostController) {
                     GlobalRankingScreen(navController = bottomNavController)
                 }
             }
-                composable("profile") {
+            composable("profile") {
 
-                    GameGlishTheme(
-                        screen = ScreenColor.Profile,
-                        dynamicColor = false
-                    ) {
-                        ProfileScreen(navController = bottomNavController)
-                    }
+                GameGlishTheme(
+                    screen = ScreenColor.Profile,
+                    dynamicColor = false
+                ) {
+                    ProfileScreen(navController = bottomNavController)
                 }
             }
         }
     }
+}
 
 @Composable
 fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -87,4 +87,3 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier)
 
     }
 }
-

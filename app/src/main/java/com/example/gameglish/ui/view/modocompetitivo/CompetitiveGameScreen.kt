@@ -1,3 +1,11 @@
+// -----------------------------------------------------------------------------
+// CompetitiveGameScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla que muestra una partida *on‑going* del modo competitivo 1vs1.
+// Usa el GameState emitido por CompetitiveGameViewModel para renderizar las
+// vidas, la pregunta y las respuestas en tiempo real.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.modocompetitivo
 
 import androidx.compose.foundation.layout.*

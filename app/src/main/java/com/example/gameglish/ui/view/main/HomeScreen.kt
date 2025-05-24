@@ -100,7 +100,7 @@ fun HomeScreen(
             repositoryUsuario.actualizarUsuarioNivelYPuntos(
                 uid,
                 userLevel,
-                 0
+                0
             )
         }
     }

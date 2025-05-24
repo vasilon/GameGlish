@@ -1,4 +1,14 @@
-// Kotlin
+// LoginScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla de inicio de sesión con Material3 y Google Sign-In
+// -----------------------------------------------------------------------------
+// Pantalla de inicio de sesión que incluye autenticación con Google y un diseño moderno
+// siguiendo las últimas tendencias de Material3.
+// Utiliza un fondo con gradiente dinámico, tarjeta con efecto "glass" y campos de entrada
+// con iconos. También incluye un botón para restablecer la contraseña.
+// -----------------------------------------------------------------------------
+//
+
 package com.example.gameglish.ui.view.auth
 
 import android.widget.Toast
@@ -21,7 +31,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.contentcapture.ContentCaptureManager.Companion.isEnabled
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -57,10 +66,10 @@ import com.google.android.gms.common.api.ApiException
  */
 @Composable
 fun LoginScreen(
+    modifier: Modifier = Modifier,
     navController: NavHostController,
     onNavigateToRegister: () -> Unit,
     loginViewModel: LoginViewModel = viewModel(),
-    modifier: Modifier = Modifier
 ) {
     // ----------- STATE -----------
     var email by remember { mutableStateOf("") }

@@ -1,3 +1,14 @@
+// -----------------------------------------------------------------------------
+// MainActivity.kt
+// -----------------------------------------------------------------------------
+// Punto de entrada de la aplicación GameGlish.
+// • Inicializa Firebase.
+// • Monta el árbol Compose.
+//
+// La función composable `GameGlishApp()` aplica el tema y configura el
+// NavController junto al AppNavHost.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish
 
 import android.app.Application
@@ -13,7 +24,6 @@ import com.example.gameglish.ui.navigation.AppNavHost
 import com.example.gameglish.ui.theme.GameGlishTheme
 import com.example.gameglish.ui.viewmodel.LoginViewModel
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +39,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GameGlishApp() {
     val navController = rememberNavController()
-    val auth = FirebaseAuth.getInstance()
-    // You can determine if the user is logged in and if it's their first login.
-    // For now, we pass false for isFirstLogin. Adjust this logic as needed.
     GameGlishTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             AppNavHost(

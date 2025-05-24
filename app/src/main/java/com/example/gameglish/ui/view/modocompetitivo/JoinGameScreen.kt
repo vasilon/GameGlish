@@ -1,3 +1,14 @@
+// -----------------------------------------------------------------------------
+// JoinGameScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla donde el usuario puede unirse a partidas competitivas existentes.
+// Proporciona dos vías:
+//   1) Unirse introduciendo un *gameId* manual.
+//   2) Seleccionar de un listado de partidas "waiting" en tiempo real.
+// Incluye diálogo de confirmación antes de unirse a una partida seleccionada.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modocompetitivo
 
 import android.widget.Toast

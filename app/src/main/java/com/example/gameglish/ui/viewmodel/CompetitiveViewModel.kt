@@ -1,7 +1,15 @@
+// -----------------------------------------------------------------------------
+// CompetitiveGameViewModel_comentado.kt
+// -----------------------------------------------------------------------------
+// ViewModel responsable de la lógica de juego competitivo 1vs1.
+// Versionado con comentación detallada en español para facilitar la lectura
+// y el mantenimiento por parte del equipo de GameGlish.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -21,27 +29,53 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
+// -----------------------------------------------------------------------------
+// CompetitiveGameViewModel
+// -----------------------------------------------------------------------------
+/**
+ * Orquesta la creación, unión y gestión en tiempo real de partidas competitivas.
+ * Mantiene un *StateFlow* reactivo para que la UI observe el estado del juego
+ *  –preguntas, respuestas, vidas, temporizador, ganador, etc. –
+ * Además maneja la sincronización con FirebaseRealtimeDatabase y la persistencia
+ * local de preguntas a través de Room.
+ */
+
 class CompetitiveGameViewModel(application: Application) : AndroidViewModel(application) {
+
+    // --------------------- DEPENDENCIAS ---------------------------------------
+    /**
+     * Repositorio que interactúa con la tabla `competitivo/games` en Firebase.
+     */
     private val repository = RepositoryCompetitivo()
-    // UID del usuario actual
+    /** UID del usuario autenticado; `unknown` sólo en modo anónimo/dev. */
     val currentUserId: String = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
+    /** Flag para evitar registrar múltiples *listeners* de respuestas. */
     private var answersListenerAdded = false
+    // --- Persistencia local (Room) para cachear preguntas  ---------------
     private val dbLocal = GameGlishDatabase.getDatabase(getApplication())
     private val repositoryPregunta = RepositoryPregunta(dbLocal)
+    // --------------------- ESTADO REACTIVO -----------------------------------
     private var countDownTimer: CountDownTimer? = null
-    // StateFlow para exponer el estado del juego
+    /**
+     * *StateFlow* observable por la UI con el snapshot del juego actual.
+     */
     private val _gameState = MutableStateFlow(CompetitiveGame())
     val gameState: StateFlow<CompetitiveGame> = _gameState
+    /** Preguntas que compondrán la partida (en memoria). */
     private val _preguntas = mutableListOf<CompetitiveQuestion>()
+    /** Índice de la pregunta actualmente mostrada. */
     private var indicePreguntaActual = 0
+    // --- Realtime Database ----------------------------------------------------
     private val firebaseUrl = "https://gameglish-default-rtdb.europe-west1.firebasedatabase.app"
     private val dbRef = FirebaseDatabase.getInstance(firebaseUrl).getReference("competitivo/games")
+    /** Flag que evita procesar la misma ronda dos veces desde *onFinish()* y
+     * desde *cerrarRonda()*–concurrencia defensiva. */
     private var rondaCerrada = false
     // StateFlow para exponer la lista de juegos disponibles
     private val _availableGames = MutableStateFlow<List<CompetitiveGame>>(emptyList())
     val availableGames: StateFlow<List<CompetitiveGame>> = _availableGames
 
-    // Mapa de niveles de idioma
+    // --------------------- UTILIDADES DE NIVEL --------------------------------
     private val levelMap = mapOf(
         1 to "A1",
         2 to "A2",
@@ -51,6 +85,12 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
         6 to "C2",
         7 to "NATIVE"
     )
+
+    // -------------------------------------------------------------------------
+    // 1.GESTIÓNDEPARTIDAS (crear, unirse, observar) -------------------------
+    // -------------------------------------------------------------------------
+
+    /** Crea una nueva partida y devuelve el *gameId* por callback. */
 
     fun createGame(onResult: (String) -> Unit) {
         viewModelScope.launch {
@@ -63,7 +103,7 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         }
     }
-
+    /** Se une a una partida existente usando su *gameId*. */
     fun joinGame(gameId: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             try {
@@ -75,6 +115,12 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         }
     }
+
+    /**
+     * Observa en tiempo real la partida. Este listener actualiza [_gameState]
+     * y además: si soy host y detecto que ya hay *joiner*, avanzo a *inProgress*
+     * y lanzo las preguntas.
+     */
 
     fun observeGame(gameId: String) {
         dbRef.child(gameId).addValueEventListener(object : ValueEventListener {
@@ -105,6 +151,8 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         })
     }
+
+    /** Lanza un callback tan pronto como la partida cambie a *inProgress*. */
     fun observeGameStatus(gameId: String, onGameStarted: () -> Unit) {
         val gameRef = dbRef.child(gameId)
         gameRef.addValueEventListener(object : ValueEventListener {
@@ -120,6 +168,12 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         })
     }
+
+    // -------------------------------------------------------------------------
+    // 2.UTILIDADESFIREBASE(RealtimeDatabase) --------------------------------
+    // -------------------------------------------------------------------------
+
+    /** Obtiene el *display name* de un usuario concreto. */
 
 
     fun getUserName(uid: String, onResult: (String) -> Unit) {
@@ -139,25 +193,19 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
         })
     }
 
+
+    /** Envía la respuesta del jugador actual a Firebase. */
+
     fun sendAnswer(gameId: String, letter: String) {
         val role = if (currentUserId == _gameState.value.hostId) "host" else "joiner"
         dbRef.child(gameId).child("answers").child(role).setValue(letter)
     }
 
-    fun handleTimeUp(gameId: String) {
-        viewModelScope.launch {
-            val currentGame = _gameState.value
-            val isHost = (currentUserId == currentGame.hostId)
-            val newLives = if (isHost) currentGame.hostLives - 1 else currentGame.joinerLives - 1
+    // -------------------------------------------------------------------------
+    // 3.LISTADEPARTIDASDISPONIBLES ----------------------------------------
+    // -------------------------------------------------------------------------
 
-            if (isHost) {
-                dbRef.child(gameId).child("hostLives").setValue(newLives)
-            } else {
-                dbRef.child(gameId).child("joinerLives").setValue(newLives)
-            }
-        }
-    }
-
+    /** Consulta en tiempo real las partidas en estado "waiting". */
     fun fetchAvailableGames() {
         val query = FirebaseDatabase.getInstance(firebaseUrl)
             .getReference("competitivo/games")
@@ -177,6 +225,8 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         })
     }
+
+    /** Descarga *nombre* y *nivel* de un usuario para la UI. */
     fun getUserProfile(uid: String, onResult: (UserProfile) -> Unit) {
         val userRef = FirebaseDatabase.getInstance(firebaseUrl)
             .getReference("usuarios")
@@ -194,9 +244,16 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
             }
         })
     }
+    /** Convierte un nivel *Int* a su representación CEFR (A1/NATIVE). */
     fun intToLevelString(nivel: Int): String {
         return levelMap[nivel] ?: "A1"
     }
+
+    // -------------------------------------------------------------------------
+    // 4.TIMERPORRONDA --------------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    /** Inicializa un temporizador de 20 s (host‑side only) y publica *timeLeft*. */
 
     private fun arrancarTimer(gameId: String) {
         if (currentUserId != _gameState.value.hostId) return   // solo el host
@@ -237,7 +294,13 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
         }.start()
     }
 
-    fun pushPreguntaActual(gameId: String) {
+    // -------------------------------------------------------------------------
+    // 5.PREGUNTASYRONDAS ----------------------------------------------------
+    // -------------------------------------------------------------------------
+
+    /** Publica la pregunta actual en Firebase y reinicia temporizador. */
+
+    private fun pushPreguntaActual(gameId: String) {
          if (_preguntas.isEmpty() || indicePreguntaActual !in _preguntas.indices) return
          val pregunta = _preguntas[indicePreguntaActual]
         dbRef.child(gameId).apply {
@@ -249,6 +312,11 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
         }
         arrancarTimer(gameId)                                 // si ya la creaste
     }
+
+    /**
+     * Carga las preguntas (desde Room o JSON de assets) y lanza la primera.
+     * Se escoge un tema pseudo‑aleatorio basado en *gameId* para consistencia.
+     */
 
     private suspend fun cargarYEnviarPreguntas(gameId: String) {
         val ctx = getApplication<Application>().applicationContext
@@ -365,7 +433,9 @@ class CompetitiveGameViewModel(application: Application) : AndroidViewModel(appl
 
 
 }
-
+// -----------------------------------------------------------------------------
+// Modelo auxiliar para exponer perfil en UI ------------------------------------
+// -----------------------------------------------------------------------------
 
 data class UserProfile(
     val nombre: String = "Unknown",

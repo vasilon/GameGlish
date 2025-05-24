@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// IndividualFlowScreen.kt
+// -----------------------------------------------------------------------------
+// Sub‑gráfico de navegación para el *Modo Individual* de GameGlish.
+// Este flujo agrupa ejercicios de Vocabulario, Gramática y Reading bajo un
+// NavController independiente para mantener las rutas contenidas.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.navigation
 
 import androidx.compose.runtime.Composable
@@ -10,12 +19,20 @@ import androidx.navigation.navArgument
 import com.example.gameglish.ui.view.modoindividual.ModoIndividualMainScreen
 import com.example.gameglish.ui.view.modoindividual.GramaticaScreen
 import com.example.gameglish.ui.view.modoindividual.QuestionsScreen
-import com.example.gameglish.ui.view.modoindividual.ListeningScreen
 import com.example.gameglish.ui.view.modoindividual.ReadingScreen
 import com.example.gameglish.ui.view.modoindividual.VocabularioScreen
 
+/**
+ * Sub‑NavHost que orquesta las pantallas del modo de práctica individual.
+ * @param modifier Se propaga para permitir ajustes de layout desde el padre.
+ */
+
 @Composable
 fun IndividualFlowScreen(modifier: Modifier = Modifier) {
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // 1) NavController propio para evitar colisiones con el grafo global.
+    // ──────────────────────────────────────────────────────────────────────────
     val navController = rememberNavController()
 
     NavHost(
@@ -23,6 +40,9 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
         startDestination = "individual_main",
         modifier = modifier
     ) {
+        // ------------------------------------------------------------------
+        // Pantalla principal con tarjetas de acceso a cada tipo de ejercicio
+        // ------------------------------------------------------------------
         composable("individual_main") {
             ModoIndividualMainScreen(
                 navController = navController,
@@ -31,6 +51,9 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
                 onReadingClick    = { navController.navigate("reading") }
             )
         }
+        // ------------------------------------------------------------------
+        // Detalle: Vocabulario
+        // ------------------------------------------------------------------
 
         composable("vocabulario") {
             VocabularioScreen(
@@ -42,6 +65,11 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
             )
         }
 
+
+        // ------------------------------------------------------------------
+        // Detalle: Gramática
+        // ------------------------------------------------------------------
+
         composable("gramatica") {
             GramaticaScreen(
                 navController = navController,
@@ -51,6 +79,11 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
                 }
             )
         }
+
+
+        // ------------------------------------------------------------------
+        // Detalle: Reading
+        // ------------------------------------------------------------------
 
         composable("reading") {
             ReadingScreen(
@@ -62,7 +95,10 @@ fun IndividualFlowScreen(modifier: Modifier = Modifier) {
             )
         }
 
-        // Ruta única para mostrar preguntas de cualquier tema
+        // ------------------------------------------------------------------
+        // Pantalla genérica que muestra preguntas basada en el parámetro {tema}
+        // Aprovechamos una única ruta para todos los ejercicios.
+        // ------------------------------------------------------------------
         composable(
             route = "questions/{tema}",
             arguments = listOf(navArgument("tema") {

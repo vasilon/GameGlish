@@ -1,4 +1,11 @@
+// -----------------------------------------------------------------------------
 // GameGlishDatabase.kt
+// -----------------------------------------------------------------------------
+// Configuración de la base de datos local (Room) para GameGlish.
+// Contiene tres entidades principales y expone sus DAOs.
+// Se añaden comentarios detallados para aclarar la lógica de singleton y la
+// construcción de la BD.\...
+
 package com.example.gameglish.data.database
 
 import android.content.Context

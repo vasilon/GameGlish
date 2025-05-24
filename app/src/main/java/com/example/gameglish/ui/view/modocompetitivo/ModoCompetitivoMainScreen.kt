@@ -1,3 +1,11 @@
+// -----------------------------------------------------------------------------
+// ModoCompetitivoMainScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla principal del modo competitivo. Permite al usuario crear una partida
+// (Host) o unirse a una existente (Join).
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modocompetitivo
 
 import androidx.compose.foundation.background

@@ -1,4 +1,12 @@
-// Kotlin
+// -----------------------------------------------------------------------------
+// PreguntaViewModel_comentado.kt
+// -----------------------------------------------------------------------------
+// ViewModel encargado de gestionar la lógica relacionada con preguntas, temas y
+// estadísticas del modo de práctica individual en GameGlish.
+// Se añaden comentarios detallados en español explicando la intención de cada
+// sección y las decisiones de diseño.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.viewmodel
 
 import android.app.Application
@@ -20,19 +28,46 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+/**
+ * ViewModel de preguntas.
+ *  - Carga y baraja preguntas por tema.
+ *  - Envía a Firebase y guarda localmente las estadísticas de la sesión.
+ *  - Actualiza los puntos acumulados del usuario.
+ */
+
 class PreguntaViewModel(application: Application) : AndroidViewModel(application) {
+
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // Repositorios y base de datos
+    // ──────────────────────────────────────────────────────────────────────────
+
     private val db = GameGlishDatabase.getDatabase(application)
     private val repository = RepositoryPregunta(db)
     private val repositoryEstadistica = RepositoryEstadistica(db)
     private val repositoryUsuario = RepositoryUsuario(db)
 
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // StateFlows
+    // ──────────────────────────────────────────────────────────────────────────
+
+    // Flujo que expone la lista barajada de preguntas a la UI.
+
     private val _preguntas = MutableStateFlow<List<EntityPregunta>>(emptyList())
     val preguntas: StateFlow<List<EntityPregunta>> = _preguntas
 
+    // ──────────────────────────────────────────────────────────────────────────
+    // Carga de preguntas
+    // ──────────────────────────────────────────────────────────────────────────
+
     /**
      * Carga las preguntas del tema indicado:
-     * - Si no hay preguntas en la BD para ese tema,
-     *   las importa desde el JSON correspondiente.
+     * 1. Si la tabla local aún no tiene preguntas para ese tema, importa el JSON.
+     * 2. Recupera las preguntas, las baraja y actualiza el StateFlow.
+     *
+     * @param context Contexto para acceder a los assets.
+     * @param tema    Nombre del tema (debe coincidir con el JSON y el campo en BD).
      */
 
     fun cargarPreguntasPorTema(context: Context, tema: String) {
@@ -48,7 +83,19 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    // ──────────────────────────────────────────────────────────────────────────
+    // Envío de estadísticas y suma de puntos
+    // ──────────────────────────────────────────────────────────────────────────
 
+    /**
+     * Construye la entidad de estadística y la guarda:
+     *  - Remotamente en Firebase, bajo /estadisticas/{uid}/{pushId}
+     *  - Localmente en Room, evitando duplicados con REPLACE.
+     *  - Añade los puntos calculados al usuario tanto local como remotamente.
+     *
+     * @param correctCount Número de respuestas correctas.
+     * @param total        Total de preguntas respondidas.
+     */
 
     fun submitEstadistica(correctCount: Int, total: Int) {
         viewModelScope.launch {
@@ -95,8 +142,14 @@ class PreguntaViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    // New function to update the user's points.
-    fun addPuntosToUsuario(nuevosPuntos: Int) {
+
+    /**
+     * Incrementa los puntos del usuario actual en Room y Firebase.
+     *
+     * @param nuevosPuntos Puntos a añadir (pueden ser negativos en caso de más fallos que aciertos).
+     */
+
+    private fun addPuntosToUsuario(nuevosPuntos: Int) {
         viewModelScope.launch {
             val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             val usuario: EntityUsuario? = repositoryUsuario.obtenerUsuarioLocal(uid)

@@ -1,3 +1,16 @@
+// -----------------------------------------------------------------------------
+// HostGameScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla donde el usuario crea una partida competitiva y espera a que se una
+// un oponente.
+//   • Al pulsar «Crear Partida» se llama a RepositoryCompetitivo para generar un
+//     nodo en Firebase y devolver el *gameId*.
+//   • Mostrar "esperando..."
+//   • Cuando se une un oponente, el ViewModel actualiza el estado y navega a la
+//     pantalla de juego competitiva con el *gameId*.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modocompetitivo
 
 import android.widget.Toast

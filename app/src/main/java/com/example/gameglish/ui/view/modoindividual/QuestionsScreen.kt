@@ -1,4 +1,12 @@
-// Kotlin
+// -----------------------------------------------------------------------------
+// QuestionsScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla que presenta una serie de preguntas de opción múltiple basadas en un
+// tema (Gramática, Vocabulario, Reading, etc.) y adaptadas al nivel del usuario.
+// Al finalizar, envía las estadísticas al ViewModel para puntuar.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.layout.*

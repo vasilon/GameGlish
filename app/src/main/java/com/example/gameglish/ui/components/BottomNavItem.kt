@@ -1,3 +1,12 @@
+
+// -----------------------------------------------------------------------------
+// BottomNavItem.kt
+// -----------------------------------------------------------------------------
+// Composable de barra de navegación inferior personalizada para GameGlish.
+// Está diseñada a mano en lugar de usar NavigationBar de M3 para permitir
+// aplicar un color de fondo diferente cuando un ítem está seleccion...
+
+
 package com.example.gameglish.ui.components
 
 import androidx.compose.foundation.background

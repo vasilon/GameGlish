@@ -5,18 +5,13 @@ import com.example.gameglish.data.model.EntityPregunta
 import android.content.Context
 import androidx.annotation.RawRes
 import com.example.gameglish.R
-import com.example.gameglish.data.database.DaoPregunta
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.InputStreamReader
+
 
 class RepositoryPregunta(private val db: GameGlishDatabase) {
 
-    suspend fun insertPregunta(pregunta: EntityPregunta) {
-        db.preguntaDao().insertPregunta(pregunta)
-    }
 
     suspend fun getPreguntasPorTema(tema: String): List<EntityPregunta> {
         return db.preguntaDao().getPreguntasByTema(tema)

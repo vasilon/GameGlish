@@ -1,3 +1,11 @@
+// File: ProfileScreen.kt
+// -----------------------------------------------------------------------------
+// Composable que muestra el perfil del usuario, incluyendo su información
+// personal, estadísticas y un historial de puntuaciones.
+// También permite cerrar sesión y navegar a otras pantallas.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.main
 
 import androidx.compose.foundation.Image

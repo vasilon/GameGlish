@@ -15,12 +15,12 @@
           <targets>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="PhysicalDevice" identifier="serial=63c755de0013" />
+                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\javif\.android\avd\Medium_Phone_2.avd" />
               </handle>
             </Target>
             <Target type="DEFAULT_BOOT">
               <handle>
-                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\javif\.android\avd\Medium_Phone_2.avd" />
+                <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\javif\.android\avd\Medium_Phone.avd" />
               </handle>
             </Target>
           </targets>

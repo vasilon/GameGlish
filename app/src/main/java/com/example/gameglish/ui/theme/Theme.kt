@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+// GameGlishTheme.kt
+// -----------------------------------------------------------------------------
+// Tema de diseño unificado para la aplicación GameGlish usando Material3.
+// El esquema de color se personaliza dinámicamente según la pantalla (seed‑color)
+// y el modo claro/oscuro.
+// También se aplica un esquema de formas global y se tintan las barras de estado.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.theme
 
 import android.app.Activity
@@ -13,7 +23,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
-// -------------- seed-colors que usarás desde el NavHost ----------------
+// -------------- seed-colors que se usan desde el NavHost ----------------
 enum class ScreenColor(val seed: Color) {
     Home        (Color(0xFF2196F3)),   // azul
     Competitivo (Color(0xFFE50D45)),   // rojo
@@ -22,7 +32,7 @@ enum class ScreenColor(val seed: Color) {
     Profile     (Color(0xFF6A1B9A))    // morado
 }
 
-// -------------- helpers de esquema (ya los tenías) ---------------------
+// -------------- helpers de esquema  ---------------------
 private fun lightScheme(seed: Color): ColorScheme = lightColorScheme(
     primary            = seed,
     onPrimary          = Color.White,

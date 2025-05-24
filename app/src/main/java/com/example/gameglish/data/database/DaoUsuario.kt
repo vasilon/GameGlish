@@ -1,4 +1,10 @@
+// -----------------------------------------------------------------------------
 // DaoUsuario.kt
+// -----------------------------------------------------------------------------
+// Data‑Access‑Object (DAO) para la entidad `EntityUsuario`.
+// Expone operaciones CRUD y de observación usadas por los repositorios y
+// ViewModels de GameGlish. Los métodos son `suspend` para ejecutarse en
+// corrutinas de Kotlin y evitar bloqueos del hilo...
 package com.example.gameglish.data.database
 
 import androidx.lifecycle.LiveData

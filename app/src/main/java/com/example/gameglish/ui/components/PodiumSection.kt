@@ -1,3 +1,16 @@
+// -----------------------------------------------------------------------------
+// RankingComponents.kt
+// -----------------------------------------------------------------------------
+// Conjunto de composables reutilizables para renderizar el podio Top‑3 y la
+// lista de posiciones a partir del 4º en la pantalla de Ranking de GameGlish.
+// Incluye:
+//   • Top3Row()                → maqueta las cajas y la dispos...
+//   • Top3CardWithCrown()      → muestra un usuario del podio con corona
+//   • RankingListItem()        → muestra un usuario a partir del 4º puesto
+// -----------------------------------------------------------------------------
+
+
+
 package com.example.gameglish.ui.components
 
 import androidx.compose.foundation.Image
@@ -19,37 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.gameglish.R
 import com.example.gameglish.data.model.EntityRanking
 
-/** -------------------------------------------------------------------
- *  LeaderboardTabs – ahora con colores del nuevo Theme
- * -------------------------------------------------------------------- */
-//@Composable
-//fun LeaderboardTabs() {
-//    var selectedIndex by remember { mutableStateOf(0) }
-//    val tabs = listOf("Region", "National", "Global")
-//    TabRow(
-//        selectedTabIndex = selectedIndex,
-//        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-//        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-//        indicator = {}
-//    ) {
-//        tabs.forEachIndexed { index, text ->
-//            Tab(
-//                selected = selectedIndex == index,
-//                onClick = { selectedIndex = index },
-//                text = {
-//                    Text(
-//                        text = text,
-//                        color = if (selectedIndex == index)
-//                            MaterialTheme.colorScheme.onSurfaceVariant
-//                        else
-//                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-//                        fontWeight = if (selectedIndex == index) FontWeight.Bold else FontWeight.Normal
-//                    )
-//                }
-//            )
-//        }
-//    }
-//}
+
 
 /** -------------------------------------------------------------------
  *  Top-3 podio – usa primaryContainer vs. surfaceVariant

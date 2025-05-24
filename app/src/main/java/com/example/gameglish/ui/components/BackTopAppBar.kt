@@ -1,7 +1,15 @@
+// -----------------------------------------------------------------------------
+// BackTopAppBar.kt
+// -----------------------------------------------------------------------------
+// Composable reutilizable que muestra una barra de aplicación (TopAppBar) con
+// un botón de navegación «Atrás». Se emplea en aquellas pantallas donde se
+// necesita volver a la vista anterior utilizando NavController.
+// -----------...
+
+
 package com.example.gameglish.ui.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

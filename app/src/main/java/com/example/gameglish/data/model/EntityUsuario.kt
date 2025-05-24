@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// EntityUsuario.kt
+// -----------------------------------------------------------------------------
+// Entidad Room que representa el perfil de un usuario en la base de datos
+// local de GameGlish.
+// Cada registro se sincroniza también con Firebase Realtime Database mediante
+// el repositorio correspondiente.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.data.model
 
 import androidx.room.Entity

@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+// ReadingScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla introductoria a los ejercicios de Reading dentro del Modo Individual.
+// Presenta una breve descripción y un botón para comenzar la práctica.
+// Mantiene coherencia de estilo con Listening y Gramática: barra superior verde
+// y fondo en degradado vertical.
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.background

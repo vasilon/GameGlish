@@ -1,4 +1,10 @@
+// -----------------------------------------------------------------------------
 // EntityEstadistica.kt
+// -----------------------------------------------------------------------------
+// Entidad Room que representa una partida de práctica finalizada o un resultado
+// de test en GameGlish. Cada registro almacena la puntuación de un usuario en
+// un momento concreto para permitir mostrar estadísticas y rankings.
+//
 package com.example.gameglish.data.model
 
 import androidx.room.Entity

@@ -1,4 +1,21 @@
-// Kotlin
+// -----------------------------------------------------------------------------
+// RepositoryUsuario_comentado.kt
+// -----------------------------------------------------------------------------
+// Repositorio responsable de todas las operaciones relacionadas con el usuario
+// en GameGlish.
+//
+//   • Autenticación (email/contraseña y Google Sign‑In) usando FirebaseAuth.
+//   • Persistencia y sincronización del perfil de usuario entre Room y
+//     Firebase Realtime Database.
+//   • Exposición reactiva (LiveData) de cambios locales sobre la entidad
+//     EntityUsuario.
+//
+// Estructura de comentado:
+//   • Encabezados de bloque explican el propósito global de cada sección.
+//   • Comentarios inline detallan pasos críticos, validaciones y decisiones de
+//     diseño para facilitar el mantenimiento.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.data.repository
 
 import android.util.Log
@@ -11,25 +28,42 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
-
+/**
+ * Repositorio de usuario.
+ * @property db Instancia de Room para operaciones locales.
+ */
 class RepositoryUsuario(
     private val db: GameGlishDatabase
 ) {
+    // -------------------------------------------------------------------------
+    // FirebaseAuth+RTDB
+    // -------------------------------------------------------------------------
     private val auth = FirebaseAuth.getInstance()
     private val remoteDb = FirebaseDatabase.getInstance().reference
-
+    // -------------------------------------------------------------------------
+    // DAO de Room para acceso local.
 
     private val dao = db.usuarioDao()
 
+    // -------------------------------------------------------------------------
+    // Observación reactiva
+    // -------------------------------------------------------------------------
+
+    /**
+     * Devuelve un LiveData que emite cada vez que cambia el EntityUsuario local.
+     * Útil para vincular la UI y reaccionar a actualizaciones sincrónicas.
+     */
+
     fun observeUsuario(uid: String): LiveData<EntityUsuario?> =
         dao.observeUsuarioPorUid(uid)
+    // -------------------------------------------------------------------------
+    // Autenticación (email / contraseña)
+    // -------------------------------------------------------------------------
 
-    suspend fun refreshUsuarioDesdeRemoto(uid: String) {
-        remoteDb.child("usuarios").child(uid)
-            .get().await()
-            .getValue(EntityUsuario::class.java)
-            ?.let { dao.insertarUsuario(it) }
-    }
+    /**
+     * Inicia sesión con email y contraseña.
+     * @return true si el login fue exitoso, false en caso contrario.
+     */
 
     suspend fun iniciarSesionCorreo(email: String, password: String): Boolean {
         return try {
@@ -40,6 +74,17 @@ class RepositoryUsuario(
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Autenticación (Google)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Procesa el token de Google y realiza login/registro en FirebaseAuth.
+     *  - Si el usuario existía → login.
+     *  - Si es nuevo → se crea el usuario y additionalUserInfo.isNewUser == true.
+     * @return AuthResult para poder inspeccionar isNewUser desde el ViewModel.
+     */
+
     suspend fun signInWithGoogle(idToken: String): AuthResult {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         // ▸ Si el usuario ya existe en Auth, hace login.
@@ -47,6 +92,18 @@ class RepositoryUsuario(
         return auth.signInWithCredential(credential).await()
     }
 
+    // -------------------------------------------------------------------------
+    // Registro por email
+    // -------------------------------------------------------------------------
+
+    /**
+     * Registra un nuevo usuario con email y contraseña.
+     * 1. Valida que las contraseñas coincidan.
+     * 2. Crea la cuenta en FirebaseAuth.
+     * 3. Inserta el perfil vacío en Room y (con timeout) en RTDB.
+     *
+     * @return true si el registro fue exitoso, false en caso de fallo.
+     */
 
     suspend fun registrarUsuarioCorreo(
         email: String,
@@ -80,6 +137,15 @@ class RepositoryUsuario(
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Actualización de perfil (nombre, nivel)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Actualiza nombre y nivel del usuario tanto en local como en remoto.
+     * Si el usuario no existía localmente, se crea un nuevo EntityUsuario.
+     */
+
     suspend fun actualizarUsuarioProfile(uid: String, nombre: String, nivelSeleccionado: String) {
         // Try to retrieve the user locally.
         var usuario = obtenerUsuarioLocal(uid)
@@ -97,41 +163,43 @@ class RepositoryUsuario(
         val nivelInt = nivelMap[nivelSeleccionado] ?: 1
 
         // If the user doesn't exist locally, create a new instance.
-        if (usuario == null) {
-            usuario = EntityUsuario(
-                uidFirebase = uid,
-                email = "",  // If you have the email available, pass it here.
-                nombre = nombre,
-                puntos = 0,
-                nivel = nivelInt,
-                firstLogin = false  // Set firstLogin to false since this is not the first login.
-            )
-        } else {
-            // Otherwise, update the existing record.
-            usuario = usuario.copy(nombre = nombre, nivel = nivelInt, firstLogin = false)
-        }
+        usuario = usuario?.copy(nombre = nombre, nivel = nivelInt, firstLogin = false)
+                ?: EntityUsuario(
+                    uidFirebase = uid,
+                    email = "",  // If you have the email available, pass it here.
+                    nombre = nombre,
+                    puntos = 0,
+                    nivel = nivelInt,
+                    firstLogin = false  // Set firstLogin to false since this is not the first login.
+                )
 
         // Save the updated (or new) user data locally and remotely.
         guardarUsuarioLocal(usuario)
         guardarUsuarioRemoto(usuario)
     }
+    // -------------------------------------------------------------------------
+    // Persistencia local / remota (helpers)
+    // -------------------------------------------------------------------------
 
+    /** Inserta o actualiza el usuario en Room (REPLACE). */
 
     suspend fun guardarUsuarioLocal(usuario: EntityUsuario) {
         db.usuarioDao().insertarUsuario(usuario)
         Log.e("RepositoryUsuario", "guardarUsuarioLocal: $usuario")
     }
 
+    /** Recupera un usuario almacenado localmente, o null si no existe. */
+
     suspend fun obtenerUsuarioLocal(uid: String): EntityUsuario? {
         return db.usuarioDao().getUsuarioPorUid(uid)
     }
-
+    /** Sube/actualiza el perfil del usuario a Firebase RTDB. */
     suspend fun guardarUsuarioRemoto(usuario: EntityUsuario) {
         val uid = auth.currentUser?.uid ?: return
         remoteDb.child("usuarios").child(uid).setValue(usuario).await()
         Log.e("RepositoryUsuario", "guardarUsuarioRemoto: $uid")
     }
-
+    /** Descarga el perfil del usuario desde RTDB (o null si no existe). */
     suspend fun obtenerUsuarioRemoto(uid: String): EntityUsuario? {
         return try {
             val snapshot = remoteDb.child("usuarios").child(uid).get().await()
@@ -140,6 +208,16 @@ class RepositoryUsuario(
             null
         }
     }
+
+    // -------------------------------------------------------------------------
+    // Sincronización de nivel + puntos
+    // -------------------------------------------------------------------------
+
+    /**
+     * Sincroniza simultáneamente nivel y puntos del usuario.
+     *   • Actualiza Room para reflejar los nuevos valores y disparar LiveData.
+     *   • Sube los datos a RTDB.
+     */
 
     suspend fun actualizarUsuarioNivelYPuntos(
         uid: String, nivelSeleccionado: String, nuevosPuntos: Int
@@ -170,6 +248,14 @@ class RepositoryUsuario(
         remoteDb.child("usuarios").child(uid).setValue(actualizado).await()
     }
 
+    // -------------------------------------------------------------------------
+    // Flag firstLogin
+    // -------------------------------------------------------------------------
+
+    /**
+     * Marca el primer login como completado tanto en remoto como en local.
+     * Se usa para mostrar un flujo onboarding solo la primera vez.
+     */
 
     suspend fun marcarPrimerLoginCompleto(uid: String) {
         try {

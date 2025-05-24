@@ -1,3 +1,11 @@
+// -----------------------------------------------------------------------------
+// LivesRow.kt
+// -----------------------------------------------------------------------------
+// Composable que muestra un contenedor horizontal con iconos de corazón para
+// representar las vidas restantes de un jugador.
+// Es útil tanto en el modo individual como en el competitivo.
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.components
 
 import androidx.compose.foundation.layout.Row

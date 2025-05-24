@@ -1,4 +1,13 @@
+// -----------------------------------------------------------------------------
 // DaoEstadistica.kt
+// -----------------------------------------------------------------------------
+// Data‑Access‑Object (DAO) para la entidad EntityEstadistica.
+// Define las operaciones CRUD que Room implementará en tiempo de compilación.
+// Estas operaciones son usadas por los repositorios y ViewModels de GameGlish.
+// Los métodos son `suspend` para ejecutarse en corrutinas de Kotlin y evitar
+// bloqueos del hilo principal. Los comentarios explican el propósito de cada
+// principales de la sentencia SQL.
+// --------...
 package com.example.gameglish.data.database
 
 import androidx.room.Dao
@@ -12,12 +21,6 @@ interface DaoEstadistica {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEstadistica(est: EntityEstadistica): Long
-
-    @Query("SELECT * FROM estadisticas WHERE userId = :userId ORDER BY fecha DESC")
-    suspend fun getEstadisticasByUser(userId: String): List<EntityEstadistica>
-
-    @Query("SELECT * FROM estadisticas")
-    suspend fun getAllEstadisticas(): List<EntityEstadistica>
 
     @Query("DELETE FROM estadisticas WHERE userId = :userId")
     suspend fun deleteByUser(userId: String)

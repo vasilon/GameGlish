@@ -1,3 +1,13 @@
+// -----------------------------------------------------------------------------
+// GlobalRankingScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla que muestra el ranking global de usuarios.
+// Obtiene los datos desde RepositoryEstadistica y presenta:
+//   • Indicador de carga mientras se recupera la información.
+//   • Podio Top‑3 (componente Top3Row).
+//   • Lista de usuarios restantes (componente RankingListItem).
+// -----------------------------------------------------------------------------
+
 package com.example.gameglish.ui.view.main
 
 import android.util.Log

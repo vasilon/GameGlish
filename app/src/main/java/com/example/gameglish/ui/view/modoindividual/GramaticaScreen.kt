@@ -1,3 +1,15 @@
+// -----------------------------------------------------------------------------
+// GramaticaScreen.kt
+// -----------------------------------------------------------------------------
+// Pantalla que introduce los ejercicios de gramática en el modo individual.
+// Usa un TopAppBar verde para mantener coherencia con el seed‑color del modo y
+// un degradado de fondo suave.
+// Incluye:
+//   • Descripción de la sección en una tarjeta con fondo semitransparente
+//   • Botón para iniciar el ejercicio que navega a la pantalla de preguntas
+// -----------------------------------------------------------------------------
+
+
 package com.example.gameglish.ui.view.modoindividual
 
 import androidx.compose.foundation.background
