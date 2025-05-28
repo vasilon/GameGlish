@@ -30,6 +30,8 @@ Si sólo quieres probar la app sin compilarla tú mismo, descarga la última ver
 ### 📦 Descarga la APK
 Descarga la última versión estable desde [GitHub Releases](https://github.com/vasilon/GameGlish/releases).
 
+---
+
 ### 🛠️ Compilar e instalar localmente
 
 ---
