@@ -1,6 +1,6 @@
 # 🎮 GameGlish
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/vasilon/GameGlish/android-ci.yml)  
+![Build Status](https://github.com/vasilon/GameGlish/actions/workflows/android-ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/vasilon/GameGlish)
 
 ## 📋 Tabla de contenidos
